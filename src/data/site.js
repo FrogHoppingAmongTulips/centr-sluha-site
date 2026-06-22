@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'Вектор',
-  tagline: 'Центр слуха и реабилитации',
+  tagline: 'Поликлиника слуха',
   phone: '+7 (495) 120-45-67',
   phoneHref: 'tel:+74951204567',
   email: 'welcome@vektor-sluh.ru',
