@@ -1,4 +1,5 @@
-const P = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' }
+const P = { fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }
+const PB = { ...P, strokeWidth: 2.4 } // потолще: стрелки и галочки
 
 const PATHS = {
   brain: <path {...P} d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-1 5 3 3 0 0 0 1 5 3 3 0 0 0 3 3c1 0 2-.5 2-1.5V5.5C11 4.5 10 4 9 4Zm6 0a3 3 0 0 1 3 3 3 3 0 0 1 1 5 3 3 0 0 1-1 5 3 3 0 0 1-3 3c-1 0-2-.5-2-1.5V5.5C13 4.5 14 4 15 4Z" />,
@@ -16,8 +17,8 @@ const PATHS = {
   pin: <><path {...P} d="M12 21c4-4.5 7-8 7-11a7 7 0 0 0-14 0c0 3 3 6.5 7 11Z" /><circle {...P} cx="12" cy="10" r="2.5" /></>,
   mail: <><rect {...P} x="3" y="5" width="18" height="14" rx="2" /><path {...P} d="m3 7 9 6 9-6" /></>,
   clock: <><circle {...P} cx="12" cy="12" r="8" /><path {...P} d="M12 8v4l3 2" /></>,
-  arrow: <path {...P} d="M5 12h14M13 6l6 6-6 6" />,
-  check: <path {...P} d="m5 13 4 4L19 7" />,
+  arrow: <path {...PB} d="M4 12h15M13 6l6 6-6 6" />,
+  check: <path {...PB} d="m5 13 4 4L19 7" />,
 }
 
 export default function Icon({ name, size = 24, className }) {

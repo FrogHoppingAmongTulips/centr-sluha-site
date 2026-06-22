@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
-import { ADVANTAGES, STATS } from '../data/site'
+import Photo from '../components/Photo'
+import { ADVANTAGES, STATS, IMAGES } from '../data/site'
 import './Pages.css'
 
 const TEAM = [
@@ -36,7 +37,7 @@ export default function About() {
             </div>
           </Reveal>
           <Reveal className="about-split__visual" delay={120}>
-            <div className="about-art" />
+            <div className="about-art"><Photo src={IMAGES.about} alt="Приём сурдолога в центре «Вектор»" className="about-art__img" /></div>
           </Reveal>
         </div>
       </section>

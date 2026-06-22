@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
+import Photo from '../components/Photo'
 import { LOCATIONS, SITE } from '../data/site'
 import './Pages.css'
 
@@ -19,7 +20,8 @@ export default function Locations() {
         <div className="container loc-grid">
           {LOCATIONS.map((l, i) => (
             <Reveal className="loc-full" key={l.name} delay={(i % 2) * 80}>
-              <div className="loc-full__map" aria-hidden="true">
+              <div className="loc-full__map">
+                <Photo src={l.img} alt={l.name} className="loc-full__img" />
                 <Icon name="pin" size={34} />
               </div>
               <div className="loc-full__body">

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
-import { SERVICES, STEPS, STATS, ADVANTAGES, LOCATIONS, TESTIMONIALS, SITE } from '../data/site'
+import Photo from '../components/Photo'
+import { SERVICES, STEPS, STATS, ADVANTAGES, LOCATIONS, TESTIMONIALS, SITE, IMAGES } from '../data/site'
 import './Home.css'
 
 export default function Home() {
@@ -26,7 +27,11 @@ export default function Home() {
 
           <div className="hero__visual" aria-hidden="true">
             <div className="hero__photo">
-              <div className="hero__photo-inner" />
+              <Photo src={IMAGES.hero} alt="Специалист центра слуха «Вектор»" className="hero__img" />
+              <figcaption className="hero__caption">
+                <strong>Анна Соколова</strong>
+                <span>главный врач-сурдолог · 22 года практики</span>
+              </figcaption>
             </div>
             <div className="hero__badge hero__badge--top">
               <span className="hero__badge-ic"><Icon name="ear" size={22} /></span>
@@ -162,7 +167,7 @@ export default function Home() {
       <section className="cta">
         <div className="container cta__inner">
           <Reveal>
-            <span className="eyebrow" style={{ color: 'var(--teal-300)' }}>Первый шаг — самый важный</span>
+            <span className="eyebrow eyebrow--light">Первый шаг — самый важный</span>
             <h2>Запишитесь на бесплатную проверку слуха</h2>
             <p>Проверим слух, ответим на вопросы и подберём аппарат, если он нужен. Это бесплатно и ни к чему не обязывает.</p>
             <div className="cta__actions">

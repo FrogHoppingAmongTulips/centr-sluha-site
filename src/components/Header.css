@@ -5,7 +5,7 @@
 .hdr--scrolled {
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: saturate(180%) blur(14px);
-  box-shadow: 0 1px 0 var(--line), 0 10px 30px -22px rgba(11, 59, 55, 0.5);
+  box-shadow: 0 1px 0 var(--line), 0 10px 30px -22px rgba(17, 35, 94, 0.5);
 }
 .hdr__inner {
   display: flex; align-items: center; justify-content: space-between;

@@ -38,30 +38,27 @@
 .about-values span { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95rem; }
 .about-values svg { color: var(--teal-600); }
 .about-art {
-  aspect-ratio: 1 / 1; border-radius: 28px; box-shadow: var(--shadow);
+  aspect-ratio: 1 / 1; border-radius: 24px; box-shadow: var(--shadow);
   background:
-    radial-gradient(500px 260px at 25% 18%, rgba(125,211,192,.5), transparent 60%),
+    radial-gradient(500px 260px at 25% 18%, rgba(47,111,224,.5), transparent 60%),
     linear-gradient(150deg, var(--teal-600), var(--teal-900));
   position: relative; overflow: hidden;
 }
-.about-art::after {
-  content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 24px);
-}
+.about-art__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 880px) { .about-split { grid-template-columns: 1fr; gap: 40px; } }
 
 /* Dark stats */
 .stats-dark { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
 .stats-dark__value { font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 800; color: #fff; letter-spacing: -0.03em; }
-.stats-dark__value span { color: var(--teal-300); }
+.stats-dark__value span { color: var(--sky); }
 .stats-dark__label { color: rgba(255,255,255,.7); font-size: 0.94rem; margin-top: 4px; }
 @media (max-width: 680px) { .stats-dark { grid-template-columns: 1fr 1fr; gap: 32px; } }
 
 /* Advantage rows */
 .adv-row { display: flex; gap: 18px; align-items: flex-start; }
-.adv-row__ic { width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0; background: var(--teal-900); color: var(--teal-300); display: grid; place-items: center; }
-.adv-row h3 { font-size: 1.12rem; margin-bottom: 8px; }
-.adv-row p { color: var(--muted); font-size: 0.95rem; }
+.adv-row__ic { width: 54px; height: 54px; border-radius: 14px; flex-shrink: 0; background: var(--teal-50); color: var(--teal-700); display: grid; place-items: center; }
+.adv-row h3 { font-size: 1.18rem; margin-bottom: 8px; }
+.adv-row p { color: var(--muted); font-size: 1rem; }
 
 /* Team */
 .team-card { text-align: center; }
@@ -75,11 +72,14 @@
 .loc-full { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.3s, transform 0.3s var(--ease); }
 .loc-full:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
 .loc-full__map {
-  height: 180px; display: grid; place-items: center; color: #fff;
+  position: relative; height: 200px; display: grid; place-items: center; color: #fff; overflow: hidden;
   background:
-    radial-gradient(400px 200px at 70% 30%, rgba(125,211,192,.45), transparent 60%),
+    radial-gradient(400px 200px at 70% 30%, rgba(47,111,224,.45), transparent 60%),
     linear-gradient(150deg, var(--teal-600), var(--teal-900));
 }
+.loc-full__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.loc-full__map svg { position: relative; z-index: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+.loc-full__map::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(17,35,94,.45)); }
 .loc-full__body { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; flex-grow: 1; }
 .loc-full__body h3 { margin-top: 4px; }
 .loc-full__city { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.9rem; font-weight: 600; }
@@ -102,7 +102,7 @@
 .contacts-map {
   margin-top: 8px; height: 220px; border-radius: var(--radius); display: grid; place-items: center; color: #fff;
   background:
-    radial-gradient(400px 200px at 70% 30%, rgba(125,211,192,.45), transparent 60%),
+    radial-gradient(400px 200px at 70% 30%, rgba(47,111,224,.45), transparent 60%),
     linear-gradient(150deg, var(--teal-600), var(--teal-900));
 }
 .contacts-form-wrap { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(24px, 4vw, 40px); box-shadow: var(--shadow-sm); }

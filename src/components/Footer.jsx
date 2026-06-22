@@ -24,11 +24,11 @@ export default function Footer() {
         </div>
 
         <div className="ftr__col">
-          <h4>Направления</h4>
-          <Link to="/services">Неврология</Link>
-          <Link to="/services">Ортопедия</Link>
-          <Link to="/services">Физиотерапия</Link>
-          <Link to="/services">Кардиореабилитация</Link>
+          <h4>Услуги</h4>
+          <Link to="/services">Диагностика слуха</Link>
+          <Link to="/services">Слуховые аппараты</Link>
+          <Link to="/services">Настройка и подбор</Link>
+          <Link to="/services">Детская сурдология</Link>
         </div>
 
         <div className="ftr__col">
