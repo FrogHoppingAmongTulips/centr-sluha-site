@@ -70,8 +70,7 @@
 
 /* ===== ADVANTAGES ===== */
 .adv { background: var(--sand); }
-.adv__inner { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: start; }
-.adv__head { position: sticky; top: 100px; }
+.adv__inner { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: center; }
 .adv__head h2 { margin: 14px 0 16px; }
 .adv__head .btn { margin-top: 26px; }
 .adv__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
