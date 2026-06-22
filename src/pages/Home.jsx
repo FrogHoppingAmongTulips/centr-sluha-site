@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
 import Photo from '../components/Photo'
-import { SERVICES, STEPS, STATS, ADVANTAGES, LOCATIONS, TESTIMONIALS, SITE, IMAGES } from '../data/site'
+import Faq from '../components/Faq'
+import { SERVICES, STEPS, STATS, ADVANTAGES, LOCATIONS, FAQ, SITE, IMAGES } from '../data/site'
 import './Home.css'
 
 export default function Home() {
@@ -12,9 +13,9 @@ export default function Home() {
       <section className="hero">
         <div className="container hero__inner">
           <div className="hero__copy">
-            <span className="eyebrow">Центр слуха · 30 лет опыта</span>
+            <span className="eyebrow">Новый центр слуха в Москве</span>
             <h1>Возвращаем радость&nbsp;слышать</h1>
-            <p className="lead">Диагностика слуха, подбор и настройка слуховых аппаратов, детская сурдология. Бережно помогаем людям с инвалидностью по слуху — со всеми льготами и сертификатами.</p>
+            <p className="lead">Диагностика слуха, подбор и настройка слуховых аппаратов, детская сурдология. Опытные сурдологи, честный подбор и бесплатная первая проверка слуха.</p>
             <div className="hero__cta">
               <Link to="/contacts" className="btn btn-primary">Бесплатная проверка слуха <Icon name="arrow" size={18} /></Link>
               <Link to="/services" className="btn btn-ghost">Наши услуги</Link>
@@ -35,11 +36,11 @@ export default function Home() {
             </div>
             <div className="hero__badge hero__badge--top">
               <span className="hero__badge-ic"><Icon name="ear" size={22} /></span>
-              <div><strong>5 брендов</strong><small>слуховых аппаратов</small></div>
+              <div><strong>Бесплатно</strong><small>проверка слуха</small></div>
             </div>
             <div className="hero__badge hero__badge--bottom">
-              <span className="hero__badge-ic"><Icon name="target" size={22} /></span>
-              <div><strong>50 000+</strong><small>вернули слух</small></div>
+              <span className="hero__badge-ic"><Icon name="shield" size={22} /></span>
+              <div><strong>14 дней</strong><small>тест-драйв аппарата</small></div>
             </div>
           </div>
         </div>
@@ -124,42 +125,36 @@ export default function Home() {
       <section className="section loc-pre">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow">Наши центры</span>
-            <h2>Рядом с домом — три центра слуха</h2>
+            <span className="eyebrow">Где нас найти</span>
+            <h2>Приходите в наш центр слуха</h2>
           </Reveal>
-          <div className="grid grid-3">
-            {LOCATIONS.map((l, i) => (
-              <Reveal className="card loc-card" key={l.name} delay={i * 60}>
+          {LOCATIONS.map((l) => (
+            <Reveal className="visit" key={l.name}>
+              <div className="visit__photo"><Photo src={l.img} alt={l.name} className="visit__img" /></div>
+              <div className="visit__body">
                 <span className="loc-card__tag">{l.tag}</span>
-                <span className="loc-card__city"><Icon name="pin" size={17} /> {l.city}</span>
                 <h3>{l.name}</h3>
                 <p>{l.desc}</p>
-                <span className="loc-card__addr">{l.address}</span>
-              </Reveal>
-            ))}
-          </div>
+                <div className="visit__meta">
+                  <span><Icon name="pin" size={18} /> {l.city}, {l.address}</span>
+                  <span><Icon name="clock" size={18} /> Ежедневно 9:00–20:00</span>
+                  <a href={SITE.phoneHref}><Icon name="phone" size={18} /> {SITE.phone}</a>
+                </div>
+                <Link to="/contacts" className="btn btn-primary">Записаться на приём <Icon name="arrow" size={18} /></Link>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* FAQ */}
       <section className="section testi">
         <div className="container">
-          <Reveal className="section-head">
-            <span className="eyebrow">Истории пациентов</span>
-            <h2>Их результат — наша главная награда</h2>
+          <Reveal className="section-head" style={{ textAlign: 'center', marginInline: 'auto' }}>
+            <span className="eyebrow">Частые вопросы</span>
+            <h2>Отвечаем честно и понятно</h2>
           </Reveal>
-          <div className="grid grid-3">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal className="card testi__card" key={t.author} delay={i * 70}>
-                <div className="testi__quote">“</div>
-                <p>{t.text}</p>
-                <div className="testi__author">
-                  <span className="testi__avatar">{t.author[0]}</span>
-                  <div><strong>{t.author}</strong><small>{t.role}</small></div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal><Faq items={FAQ} /></Reveal>
         </div>
       </section>
 
