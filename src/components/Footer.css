@@ -1,0 +1,28 @@
+.ftr {
+  background: var(--teal-900); color: rgba(255, 255, 255, 0.78);
+  padding-top: 72px; margin-top: 40px;
+}
+.ftr__grid {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: 40px;
+  padding-bottom: 56px;
+}
+.ftr__about { margin-top: 20px; max-width: 38ch; font-size: 0.95rem; line-height: 1.7; }
+.ftr__col { display: flex; flex-direction: column; gap: 12px; }
+.ftr__col h4 { color: #fff; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.ftr__col a, .ftr__col span { display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.78); font-size: 0.95rem; transition: color 0.2s; }
+.ftr__col a:hover { color: var(--teal-300); }
+.ftr__col svg { color: var(--teal-300); flex-shrink: 0; }
+
+.ftr__bottom {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding: 24px 0 32px; border-top: 1px solid rgba(255,255,255,.12);
+  font-size: 0.84rem; color: rgba(255,255,255,.55);
+}
+
+@media (max-width: 900px) {
+  .ftr__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .ftr__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .ftr__grid { grid-template-columns: 1fr; }
+}

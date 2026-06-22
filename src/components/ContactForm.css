@@ -1,0 +1,23 @@
+.cform { display: flex; flex-direction: column; gap: 18px; }
+.cform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.cform label { display: flex; flex-direction: column; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--ink); }
+.cform input, .cform select, .cform textarea {
+  font-family: inherit; font-size: 1rem; color: var(--ink); font-weight: 400;
+  padding: 13px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: #fff; transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
+}
+.cform input:focus, .cform select:focus, .cform textarea:focus {
+  outline: none; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50);
+}
+.cform__consent { flex-direction: row; align-items: center; gap: 10px; font-weight: 400; font-size: 0.85rem; color: var(--muted); }
+.cform__consent input { width: 18px; height: 18px; accent-color: var(--teal-700); flex-shrink: 0; }
+.cform__submit { margin-top: 4px; width: 100%; }
+
+.cform--done { text-align: center; align-items: center; gap: 14px; padding: 20px 0; }
+.cform__check {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--teal-50); color: var(--teal-700);
+  display: grid; place-items: center; margin-bottom: 6px;
+}
+.cform--done p { color: var(--muted); max-width: 42ch; }
+
+@media (max-width: 560px) { .cform__row { grid-template-columns: 1fr; } }
