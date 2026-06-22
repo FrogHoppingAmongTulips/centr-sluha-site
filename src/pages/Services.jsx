@@ -10,9 +10,9 @@ export default function Services() {
     <>
       <PageHero
         crumb="Услуги"
-        eyebrow="Направления реабилитации"
-        title="Программы для каждого этапа восстановления"
-        text="Мы подбираем лечение под конкретную цель пациента — от снятия боли и первых движений до полного возвращения к работе и любимым занятиям."
+        eyebrow="Услуги центра слуха"
+        title="Всё для вашего слуха в одном месте"
+        text="От бесплатной диагностики до подбора, настройки и сервиса слуховых аппаратов. Особое внимание — детям и людям с инвалидностью по слуху."
       />
 
       <section className="section">
@@ -37,8 +37,8 @@ export default function Services() {
       <section className="section section--sand">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow">Как проходит лечение</span>
-            <h2>Прозрачный путь от заявки до результата</h2>
+            <span className="eyebrow">Как мы работаем</span>
+            <h2>Путь к хорошему слуху — четыре шага</h2>
           </Reveal>
           <div className="grid grid-4">
             {STEPS.map((s, i) => (
@@ -55,10 +55,10 @@ export default function Services() {
       <section className="section">
         <div className="container band">
           <div>
-            <h2>Не уверены, какая программа подойдёт?</h2>
-            <p className="lead">Оставьте заявку — реабилитолог изучит вашу ситуацию и предложит маршрут восстановления.</p>
+            <h2>Не знаете, какой аппарат нужен?</h2>
+            <p className="lead">Запишитесь на бесплатную проверку слуха — сурдолог всё проверит и честно подскажет решение.</p>
           </div>
-          <Link to="/contacts" className="btn btn-primary">Получить консультацию <Icon name="arrow" size={18} /></Link>
+          <Link to="/contacts" className="btn btn-primary">Проверить слух <Icon name="arrow" size={18} /></Link>
         </div>
       </section>
     </>

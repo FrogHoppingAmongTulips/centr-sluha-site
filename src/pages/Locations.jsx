@@ -10,9 +10,9 @@ export default function Locations() {
     <>
       <PageHero
         crumb="Клиники"
-        eyebrow="Наши клиники"
-        title="Три современных центра реабилитации"
-        text="Каждая клиника «Вектор» — это безбарьерная среда, передовое оборудование и команда специалистов рядом с вами."
+        eyebrow="Наши центры"
+        title="Три современных центра слуха"
+        text="Каждый центр «Вектор» — это безбарьерная среда, точное оборудование для диагностики и команда сурдологов рядом с вами."
       />
 
       <section className="section">
@@ -31,7 +31,7 @@ export default function Locations() {
                   <span><Icon name="clock" size={16} /> Ежедневно 8:00–21:00</span>
                   <a href={SITE.phoneHref}><Icon name="phone" size={16} /> {SITE.phone}</a>
                 </div>
-                <Link to="/contacts" className="btn btn-ghost">Записаться в эту клинику <Icon name="arrow" size={17} /></Link>
+                <Link to="/contacts" className="btn btn-ghost">Записаться в этот центр <Icon name="arrow" size={17} /></Link>
               </div>
             </Reveal>
           ))}
@@ -41,8 +41,8 @@ export default function Locations() {
       <section className="section">
         <div className="container band">
           <div>
-            <h2>Не нашли клинику в своём городе?</h2>
-            <p className="lead">Мы развиваем сеть и проводим онлайн-консультации. Напишите нам — подскажем ближайший вариант.</p>
+            <h2>Не нашли центр в своём городе?</h2>
+            <p className="lead">Мы развиваем сеть и проводим онлайн-консультации сурдолога. Напишите нам — подскажем ближайший центр.</p>
           </div>
           <Link to="/contacts" className="btn btn-primary">Связаться <Icon name="arrow" size={18} /></Link>
         </div>

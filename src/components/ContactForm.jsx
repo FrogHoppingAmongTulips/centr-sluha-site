@@ -39,7 +39,7 @@ export default function ContactForm() {
         </select>
       </label>
       <label>Коротко о ситуации
-        <textarea name="message" rows="4" placeholder="Диагноз, что уже сделано, какие цели восстановления" />
+        <textarea name="message" rows="4" placeholder="Что беспокоит со слухом, есть ли аппарат, нужна ли льгота" />
       </label>
       <label className="cform__consent">
         <input type="checkbox" required />

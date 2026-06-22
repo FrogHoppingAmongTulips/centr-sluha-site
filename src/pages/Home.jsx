@@ -11,12 +11,12 @@ export default function Home() {
       <section className="hero">
         <div className="container hero__inner">
           <div className="hero__copy">
-            <span className="eyebrow">Реабилитация мирового уровня</span>
-            <h1>Возвращаем к жизни, движению и&nbsp;себе</h1>
-            <p className="lead">Индивидуальные программы восстановления после травм, операций и тяжёлых заболеваний. Команда врачей рядом — на каждом шаге пути.</p>
+            <span className="eyebrow">Центр слуха · 30 лет опыта</span>
+            <h1>Возвращаем радость&nbsp;слышать</h1>
+            <p className="lead">Диагностика слуха, подбор и настройка слуховых аппаратов, детская сурдология. Бережно помогаем людям с инвалидностью по слуху — со всеми льготами и сертификатами.</p>
             <div className="hero__cta">
-              <Link to="/contacts" className="btn btn-primary">Записаться на консультацию <Icon name="arrow" size={18} /></Link>
-              <Link to="/services" className="btn btn-ghost">Наши программы</Link>
+              <Link to="/contacts" className="btn btn-primary">Бесплатная проверка слуха <Icon name="arrow" size={18} /></Link>
+              <Link to="/services" className="btn btn-ghost">Наши услуги</Link>
             </div>
             <div className="hero__trust">
               <a href={SITE.phoneHref} className="hero__phone"><Icon name="phone" size={18} /> {SITE.phone}</a>
@@ -29,12 +29,12 @@ export default function Home() {
               <div className="hero__photo-inner" />
             </div>
             <div className="hero__badge hero__badge--top">
-              <span className="hero__badge-ic"><Icon name="team" size={22} /></span>
-              <div><strong>40+ специалистов</strong><small>в одной команде</small></div>
+              <span className="hero__badge-ic"><Icon name="ear" size={22} /></span>
+              <div><strong>5 брендов</strong><small>слуховых аппаратов</small></div>
             </div>
             <div className="hero__badge hero__badge--bottom">
               <span className="hero__badge-ic"><Icon name="target" size={22} /></span>
-              <div><strong>94% пациентов</strong><small>улучшили показатели</small></div>
+              <div><strong>50 000+</strong><small>вернули слух</small></div>
             </div>
           </div>
         </div>
@@ -56,9 +56,9 @@ export default function Home() {
       <section className="section" id="services">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow">Направления</span>
-            <h2>Программы под вашу цель восстановления</h2>
-            <p className="lead">От первых шагов после операции до полного возвращения к активной жизни — мы ведём пациента на всех этапах.</p>
+            <span className="eyebrow">Услуги</span>
+            <h2>Всё для вашего слуха — в одном центре</h2>
+            <p className="lead">От бесплатной проверки слуха до подбора, настройки и сервиса аппарата — мы рядом на каждом этапе.</p>
           </Reveal>
           <div className="grid grid-3">
             {SERVICES.map((s, i) => (
@@ -80,8 +80,8 @@ export default function Home() {
         <div className="container adv__inner">
           <Reveal className="adv__head">
             <span className="eyebrow">Почему «Вектор»</span>
-            <h2>Подход, которому доверяют семьи</h2>
-            <p className="lead">Мы соединяем доказательную медицину, передовое оборудование и человеческую заботу — чтобы результат был измеримым, а путь к нему спокойным.</p>
+            <h2>Центр, которому доверяют семьи</h2>
+            <p className="lead">Мы соединяем точную диагностику, аппараты ведущих брендов и человеческую заботу — особенно к пожилым людям и пациентам с инвалидностью по слуху.</p>
             <Link to="/about" className="btn btn-ghost">Подробнее о центре <Icon name="arrow" size={18} /></Link>
           </Reveal>
           <div className="adv__grid">
@@ -101,7 +101,7 @@ export default function Home() {
         <div className="container">
           <Reveal className="section-head">
             <span className="eyebrow">Как мы работаем</span>
-            <h2>Путь восстановления — четыре этапа</h2>
+            <h2>Путь к хорошему слуху — четыре шага</h2>
           </Reveal>
           <div className="steps">
             {STEPS.map((s, i) => (
@@ -119,8 +119,8 @@ export default function Home() {
       <section className="section loc-pre">
         <div className="container">
           <Reveal className="section-head">
-            <span className="eyebrow">Наши клиники</span>
-            <h2>Рядом с домом — три современных центра</h2>
+            <span className="eyebrow">Наши центры</span>
+            <h2>Рядом с домом — три центра слуха</h2>
           </Reveal>
           <div className="grid grid-3">
             {LOCATIONS.map((l, i) => (
@@ -163,10 +163,10 @@ export default function Home() {
         <div className="container cta__inner">
           <Reveal>
             <span className="eyebrow" style={{ color: 'var(--teal-300)' }}>Первый шаг — самый важный</span>
-            <h2>Запишитесь на консультацию реабилитолога</h2>
-            <p>Обсудим вашу ситуацию, ответим на вопросы и предложим программу. Это ни к чему не обязывает.</p>
+            <h2>Запишитесь на бесплатную проверку слуха</h2>
+            <p>Проверим слух, ответим на вопросы и подберём аппарат, если он нужен. Это бесплатно и ни к чему не обязывает.</p>
             <div className="cta__actions">
-              <Link to="/contacts" className="btn btn-light">Оставить заявку <Icon name="arrow" size={18} /></Link>
+              <Link to="/contacts" className="btn btn-light">Записаться <Icon name="arrow" size={18} /></Link>
               <a href={SITE.phoneHref} className="cta__phone"><Icon name="phone" size={20} /> {SITE.phone}</a>
             </div>
           </Reveal>
