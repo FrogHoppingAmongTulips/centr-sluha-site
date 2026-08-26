@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+/* Сайт может жить не в корне домена (GitHub Pages кладёт его в подпапку),
+   поэтому пути к файлам считаем от базового адреса сборки. */
+const withBase = (src) => (src && src.startsWith('/') ? import.meta.env.BASE_URL + src.slice(1) : src)
+
 /* Слот изображения.
    Есть src и файл загрузился — показываем фото.
    Нет src или файла — чёрный блок на месте будущего снимка. */
@@ -10,7 +14,7 @@ export default function Ph({ ratio = '4 / 3', h, className = '', style, onDark =
   if (src && !failed) {
     return (
       <div className={`ph ph--img ${className}`} style={box}>
-        <img src={src} alt={alt} loading="lazy" style={{ objectFit: fit }} onError={() => setFailed(true)} />
+        <img src={withBase(src)} alt={alt} loading="lazy" style={{ objectFit: fit }} onError={() => setFailed(true)} />
       </div>
     )
   }
