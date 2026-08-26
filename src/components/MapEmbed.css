@@ -1,10 +1,74 @@
-.ymap { position: relative; width: 100%; height: 100%; min-height: 300px; overflow: hidden; }
+/* Карта оформлена как карточка адреса рядом: белая рамка и те же скругления */
+.ymap {
+  position: relative; width: 100%; height: 100%; min-height: 300px;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; transition: border-color 0.25s, box-shadow 0.25s var(--ease);
+}
+.ymap:hover { border-color: #c9d8f2; box-shadow: var(--shadow-sm); }
 .ymap iframe { width: 100%; height: 100%; border: 0; display: block; }
-.ymap__note {
-  position: absolute; left: 16px; bottom: 16px; z-index: 2;
+
+/* прозрачный слой: ловит клик, чтобы карта открылась на Яндексе */
+.ymap__hit { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; }
+.ymap__hint {
   display: inline-flex; align-items: center; gap: 8px;
+  background: var(--teal-700); color: #fff; font-weight: 700; font-size: 0.94rem;
+  padding: 12px 20px; border-radius: 999px; box-shadow: var(--shadow);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.ymap:hover .ymap__hint, .ymap__hit:focus-visible .ymap__hint { opacity: 1; transform: none; }
+
+.ymap__addr {
+  position: absolute; left: 14px; bottom: 14px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 90px);
   background: #fff; color: var(--ink); font-size: 0.85rem; font-weight: 600;
   padding: 9px 14px; border-radius: 999px; box-shadow: var(--shadow-sm);
 }
-.ymap__note svg { color: var(--teal-700); }
-.ymap__note:hover { color: var(--teal-700); }
+.ymap__addr svg { color: var(--teal-700); flex-shrink: 0; }
+
+.ymap__zoom {
+  position: absolute; right: 14px; bottom: 14px; z-index: 4;
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+  background: #fff; color: var(--teal-700); box-shadow: var(--shadow-sm);
+  transition: background 0.2s, color 0.2s;
+}
+.ymap__zoom:hover { background: var(--teal-700); color: #fff; }
+
+/* Развёрнутая карта */
+.ymap-full {
+  position: fixed; inset: 0; z-index: 120;
+  background: rgba(16, 42, 86, 0.55); backdrop-filter: blur(4px);
+  display: grid; place-items: center; padding: 20px;
+  animation: ymap-in 0.2s var(--ease);
+}
+.ymap-full__box {
+  width: min(1100px, 100%); height: min(760px, 88vh);
+  display: flex; flex-direction: column;
+  background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+}
+.ymap-full__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 16px 14px 20px; border-bottom: 1px solid var(--line);
+}
+.ymap-full__head > span { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; }
+.ymap-full__head svg { color: var(--teal-700); }
+.ymap-full__actions { display: flex; align-items: center; gap: 10px; }
+.ymap-full__close {
+  width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+  color: var(--muted); transition: background 0.2s, color 0.2s;
+}
+.ymap-full__close:hover { background: var(--sand); color: var(--ink); }
+.ymap-full__box iframe { flex: 1; width: 100%; border: 0; display: block; }
+
+@keyframes ymap-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 620px) {
+  /* на телефоне подсказку показываем сразу — наведения нет */
+  .ymap__hint { opacity: 1; transform: none; font-size: 0.88rem; padding: 10px 16px; }
+  .ymap__addr { font-size: 0.78rem; padding: 7px 11px; left: 10px; bottom: 10px; }
+  .ymap__zoom { width: 40px; height: 40px; right: 10px; bottom: 10px; }
+  .ymap-full { padding: 10px; }
+  .ymap-full__box { height: 86vh; }
+  .ymap-full__head { padding: 12px; }
+  .ymap-full__head > span { font-size: 0.9rem; }
+}
