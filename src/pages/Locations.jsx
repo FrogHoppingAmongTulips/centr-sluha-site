@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
 import Ph from '../components/Ph'
+import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import { useRequestForm } from '../components/RequestModal'
 import { CENTERS } from '../data/site'
@@ -45,8 +46,7 @@ export default function Locations() {
               ))}
             </Reveal>
             <Reveal className="map-split__map" delay={100}>
-              <Ph h="100%" className="ph--flat" />
-              <span className="map-note">Карта проезда</span>
+              <MapEmbed />
             </Reveal>
           </div>
         </div>

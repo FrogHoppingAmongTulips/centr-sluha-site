@@ -13,6 +13,7 @@ export const SITE = {
   address: 'Томск, Иркутский тракт, 33',
   city: 'Томск',
   hours: 'Пн–Пт 9:00–20:00',
+  coords: [56.502911, 85.011626], // Иркутский тракт, 33
 }
 
 export const NAV = [
@@ -31,6 +32,7 @@ export const SLIDES = [
     text: '',
     note: '0 ₽',
     cta: 'Записаться на приём',
+    cover: '/cover/audiogram.svg',
   },
   {
     eyebrow: 'Каталог',
@@ -38,6 +40,7 @@ export const SLIDES = [
     text: 'Подбираем модель под степень снижения слуха, образ жизни и бюджет.',
     note: 'от 7 890 ₽',
     cta: 'Смотреть каталог',
+    cover: '/cover/ear.svg',
   },
   {
     eyebrow: 'Выезд на дом',
@@ -45,6 +48,7 @@ export const SLIDES = [
     text: 'Назначаем с вами дату и время выезда специалиста.',
     note: 'по записи',
     cta: 'Вызвать специалиста',
+    cover: '/cover/care.svg',
   },
 ]
 
@@ -71,18 +75,21 @@ export const PROMOS = [
     text: 'Делите стоимость аппарата на равные платежи без переплаты и первого взноса.',
     until: '31 декабря',
     note: '0%',
+    cover: '/cover/wave.svg',
   },
   {
     title: 'Второй аппарат со скидкой',
     text: 'При бинауральном протезировании второй аппарат обойдётся дешевле.',
     until: '30 сентября',
     note: '−15%',
+    cover: '/cover/ear.svg',
   },
   {
     title: 'Годовой запас батареек',
     text: 'Дарим комплект батареек на год при покупке любого цифрового аппарата.',
     until: '31 октября',
     note: 'подарок',
+    cover: '/cover/care-kit.svg',
   },
 ]
 
@@ -276,7 +283,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'oticon-ruby-1-minirite',
-    img: null,
+    img: '/cover/device.svg',
     category: 'bte',
     title: 'Oticon Ruby 1 miniRITE R',
     tag: null,
@@ -317,7 +324,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'resound-key-3-bte',
-    img: null,
+    img: '/cover/device.svg',
     category: 'bte',
     title: 'ReSound Key 3 BTE',
     tag: null,
@@ -337,7 +344,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'phonak-naida-m50-sp',
-    img: null,
+    img: '/cover/device.svg',
     category: 'bte',
     title: 'Phonak Naida M50-SP',
     tag: 'мощный',
@@ -357,7 +364,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'signia-silk-1px',
-    img: null,
+    img: '/cover/device.svg',
     category: 'ite',
     title: 'Signia Silk 1PX',
     tag: null,
@@ -377,7 +384,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'widex-moment-220',
-    img: null,
+    img: '/cover/device.svg',
     category: 'bte',
     title: 'Widex Moment 220',
     tag: null,
@@ -397,7 +404,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'istok-audio-ariya-2',
-    img: null,
+    img: '/cover/device.svg',
     category: 'bte',
     title: 'Исток-Аудио Ария-2',
     tag: null,
@@ -417,7 +424,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'batareyki-power-one',
-    img: null,
+    img: '/cover/device.svg',
     category: 'accessories',
     title: 'Батарейки Power One, упаковка 6 шт',
     tag: null,
@@ -437,7 +444,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'nabor-uhoda',
-    img: null,
+    img: '/cover/device.svg',
     category: 'accessories',
     title: 'Набор для ухода за аппаратом',
     tag: null,
@@ -528,6 +535,7 @@ export const SORTS = ['По популярности', 'Сначала деше�
 export const NEWS = [
   {
     slug: 'novaya-partiya-signia',
+    cover: '/cover/ear.svg',
     type: 'news',
     tag: 'Каталог',
     date: '5 августа 2026',
@@ -541,6 +549,7 @@ export const NEWS = [
   },
   {
     slug: 'den-otkrytyh-dverey',
+    cover: '/cover/care.svg',
     type: 'news',
     tag: 'События',
     date: '28 июля 2026',
@@ -554,6 +563,7 @@ export const NEWS = [
   },
   {
     slug: 'masterskaya-bez-zapisi',
+    cover: '/cover/room.svg',
     type: 'news',
     tag: 'Сервис',
     date: '14 июля 2026',
@@ -567,6 +577,7 @@ export const NEWS = [
   },
   {
     slug: 'kogda-proveryat-sluh',
+    cover: '/cover/audiogram.svg',
     type: 'article',
     tag: 'Полезное',
     date: '2 августа 2026',
@@ -580,6 +591,7 @@ export const NEWS = [
   },
   {
     slug: 'zaushnyy-ili-vnutriushnoy',
+    cover: '/cover/ear.svg',
     type: 'article',
     tag: 'Выбор',
     date: '21 июля 2026',
@@ -593,6 +605,7 @@ export const NEWS = [
   },
   {
     slug: 'uhod-za-apparatom',
+    cover: '/cover/care-kit.svg',
     type: 'article',
     tag: 'Уход',
     date: '9 июля 2026',
@@ -616,6 +629,9 @@ export const CENTERS = [
   {
     slug: 'irkutskiy-trakt',
     title: 'Центр на Иркутском тракте',
+    cover: '/cover/room.svg',
+    gallery: ['/cover/room.svg', '/cover/care.svg', '/cover/audiogram.svg'],
+    coords: [56.502911, 85.011626],
     address: 'Томск, Иркутский тракт, 33',
     district: 'Октябрьский район',
     metro: 'Остановка «Иркутский тракт, 33»',

@@ -36,7 +36,7 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          <div className="hslider__media"><Ph h="100%" className="hslider__ph" onDark /></div>
+          <div className="hslider__media"><Ph h="100%" className="hslider__ph" src={s.cover} alt={s.title} fit="cover" onDark /></div>
 
           <div className="hslider__dots">
             {SLIDES.map((_, n) => (

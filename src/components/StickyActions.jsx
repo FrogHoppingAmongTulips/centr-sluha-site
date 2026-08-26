@@ -23,7 +23,14 @@ export default function StickyActions() {
       <button onClick={() => openForm('ask')} aria-label="Задать вопрос"><Icon name="chat" size={20} /></button>
       <button
         className={`sticky-actions__up ${up ? 'is-visible' : ''}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onClick={() => {
+          // плавно и до упора: у части браузеров scrollTo на sticky-шапке останавливается раньше
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+          window.setTimeout(() => {
+            document.documentElement.scrollTop = 0
+            document.body.scrollTop = 0
+          }, 600)
+        }}
         aria-label="Наверх"
         tabIndex={up ? 0 : -1}
       >

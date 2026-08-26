@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { SITE, NAV, CATEGORIES } from '../data/site'
 import Icon from './Icon'
 import Mail from './Mail'
-import InstallApp from './InstallApp'
 import Logo from './Logo'
 import { useRequestForm } from './RequestModal'
 import './Footer.css'
@@ -42,7 +41,6 @@ export default function Footer() {
           <span className="ftr__mail"><Icon name="mail" size={17} /> <Mail address={SITE.email} /></span>
           <span><Icon name="pin" size={17} /> {SITE.address}</span>
           <span><Icon name="clock" size={17} /> {SITE.hours}</span>
-          <InstallApp />
           <div className="ftr__chats">
             <a href={SITE.phoneHref} aria-label="Мессенджер"><Icon name="chat" size={18} /></a>
             <a href={SITE.phoneHref} aria-label="Позвонить"><Icon name="phone" size={18} /></a>

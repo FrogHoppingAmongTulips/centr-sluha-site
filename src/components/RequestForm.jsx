@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import PhoneInput from './PhoneInput'
 import DateInput from './DateInput'
-import TimeInput from './TimeInput'
 import { CATALOG, SERVICES } from '../data/site'
 import './RequestForm.css'
 
@@ -27,7 +26,7 @@ export const FORM_VARIANTS = {
     key: 'call',
     tab: 'Обратный звонок',
     title: 'Заказать звонок',
-    text: 'Перезвоним в удобное время',
+    text: 'Оставьте имя и телефон — перезвоним',
     submit: 'Жду звонка',
   },
 }
@@ -78,16 +77,12 @@ export default function RequestForm({ variant = 'visit', subject, id }) {
           </Field>
           <div className="rform__row">
             <Field label="Дата"><DateInput name="date" /></Field>
-            <Field label="Время"><TimeInput name="time" /></Field>
+            {/* время приёма пока не выбирается — подтверждаем по телефону */}
+            <Field label="Время">
+              <input type="text" name="time" value="1:00" readOnly disabled />
+            </Field>
           </div>
         </>
-      )}
-
-      {variant === 'call' && (
-        <div className="rform__row">
-          <Field label="Дата"><DateInput name="date" /></Field>
-          <Field label="Время"><TimeInput name="time" /></Field>
-        </div>
       )}
 
       {variant !== 'call' && (

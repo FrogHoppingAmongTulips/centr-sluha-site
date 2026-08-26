@@ -81,5 +81,5 @@
   .tile { padding: 13px 14px; gap: 10px; }
   .tile__label { font-size: 0.9rem; }
   .tile__ic { width: 34px; height: 34px; border-radius: 9px; }
-  .tile svg:last-child { display: none; }
+  .tile > svg { display: none; } /* прячем только стрелку, иконка внутри .tile__ic остаётся */
 }

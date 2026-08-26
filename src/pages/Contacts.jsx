@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
 import Ph from '../components/Ph'
+import MapEmbed from '../components/MapEmbed'
 import Mail from '../components/Mail'
 import Reveal from '../components/Reveal'
 import RequestForm, { FORM_VARIANTS } from '../components/RequestForm'
@@ -70,8 +71,7 @@ export default function Contacts() {
               ))}
             </Reveal>
             <Reveal className="map-split__map" delay={100}>
-              <Ph h="100%" className="ph--flat" />
-              <span className="map-note">Карта проезда</span>
+              <MapEmbed />
             </Reveal>
           </div>
         </div>

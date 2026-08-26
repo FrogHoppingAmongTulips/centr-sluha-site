@@ -28,7 +28,7 @@ export default function NewsItem() {
               <p className="lead">{item.excerpt}</p>
             </header>
 
-            <Ph ratio="16 / 9" className="article__cover" />
+            <Ph ratio="16 / 9" className="article__cover" src={item.cover} alt={item.title} fit="cover" />
 
             <div className="prose">
               <p>{item.body[0]}</p>
@@ -40,7 +40,7 @@ export default function NewsItem() {
                 <li>Привыкание к новому звуку занимает 2–4 недели.</li>
               </ul>
               <figure className="prose__figure">
-                <Ph ratio="21 / 9" />
+                <Ph ratio="21 / 9" src="/cover/wave.svg" alt="Иллюстрация" fit="cover" />
                 <figcaption>Приём сурдолога в центре на Профсоюзной</figcaption>
               </figure>
               <h2>Что делать дальше</h2>
@@ -78,7 +78,7 @@ export default function NewsItem() {
             {other.map((n, i) => (
               <Reveal key={n.slug} delay={i * 60}>
                 <Link to={`/news/${n.slug}`} className="ncard">
-                  <Ph ratio="16 / 9" className="ncard__ph" />
+                  <Ph ratio="16 / 9" className="ncard__ph" src={n.cover} alt={n.title} fit="cover" />
                   <div className="ncard__body">
                     <div className="ncard__meta"><span className="tag">{n.tag}</span><time>{n.date}</time></div>
                     <h3>{n.title}</h3>

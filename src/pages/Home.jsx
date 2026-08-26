@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import Ph from '../components/Ph'
+import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import Faq from '../components/Faq'
 import HeroSlider from '../components/HeroSlider'
@@ -179,8 +180,7 @@ export default function Home() {
               ))}
             </Reveal>
             <Reveal className="map-split__map" delay={100}>
-              <Ph h="100%" className="ph--flat" />
-              <span className="map-note">Карта проезда</span>
+              <MapEmbed />
             </Reveal>
           </div>
         </div>
@@ -206,7 +206,7 @@ export default function Home() {
           <div className="grid grid-3 grid--swipe">
             {posts.map((n) => (
               <Link key={n.slug} to={`/news/${n.slug}`} className="ncard">
-                <Ph ratio="16 / 9" className="ncard__ph" />
+                <Ph ratio="16 / 9" className="ncard__ph" src={n.cover} alt={n.title} fit="cover" />
                 <div className="ncard__body">
                   <div className="ncard__meta"><span className="tag">{n.tag}</span><time>{n.date}</time></div>
                   <h3>{n.title}</h3>

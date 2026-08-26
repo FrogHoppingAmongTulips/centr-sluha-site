@@ -7,10 +7,12 @@
 /* Верхняя служебная полоса */
 .hdr__top { background: var(--teal-900); color: rgba(255, 255, 255, 0.8); font-size: 0.84rem; }
 .hdr__top-inner { display: flex; align-items: center; gap: 28px; height: 40px; flex-wrap: wrap; overflow: hidden; }
-.hdr__top-inner span, .hdr__top-inner a { display: inline-flex; align-items: center; gap: 8px; }
+/* только прямые элементы полосы: иначе части почты разъезжались на 8px */
+.hdr__top-inner > span, .hdr__top-inner > a { display: inline-flex; align-items: center; gap: 8px; }
 .hdr__top-inner svg { color: var(--sky); }
 .hdr__top-inner a:hover { color: #fff; }
-.hdr__mail { display: inline-flex; align-items: center; gap: 8px; }
+.hdr__mail { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.hdr__mail .mail__name { overflow-wrap: normal; }
 .hdr__mail .mail:hover { color: #fff; }
 .hdr__city { font-weight: 700; color: #fff; }
 .hdr__city svg:last-child { color: rgba(255, 255, 255, 0.6); }

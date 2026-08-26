@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Breadcrumbs } from '../components/PageHero'
 import Icon from '../components/Icon'
 import Ph from '../components/Ph'
+import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
 import NotFound from './NotFound'
@@ -22,9 +23,9 @@ export default function Center() {
 
           <div className="center__top">
             <div className="center__gallery">
-              <Ph ratio="16 / 10" className="center__shot" />
+              <Ph ratio="16 / 10" className="center__shot" src={c.gallery?.[0] || c.cover} alt={c.title} fit="cover" />
               <div className="center__thumbs">
-                {[0, 1, 2].map((i) => <Ph key={i} ratio="1 / 1" />)}
+                {(c.gallery || []).map((g, i) => <Ph key={i} ratio="1 / 1" src={g} alt={c.title} fit="cover" />)}
               </div>
             </div>
 
@@ -66,8 +67,7 @@ export default function Center() {
             </div>
           </Reveal>
           <Reveal className="map-split__map" delay={100}>
-            <Ph h="100%" className="ph--flat" />
-            <span className="map-note">Карта проезда</span>
+            <MapEmbed coords={c.coords} address={c.address} />
           </Reveal>
         </div>
       </section>

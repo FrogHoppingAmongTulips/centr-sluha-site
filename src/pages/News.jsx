@@ -41,7 +41,7 @@ export default function News() {
           {lead && (
             <Reveal>
               <Link to={`/news/${lead.slug}`} className="nlead">
-                <Ph ratio="16 / 10" className="nlead__ph" />
+                <Ph ratio="16 / 10" className="nlead__ph" src={lead.cover} alt={lead.title} fit="cover" />
                 <div className="nlead__body">
                   <div className="ncard__meta"><span className="tag">{lead.tag}</span><time>{lead.date}</time></div>
                   <h2>{lead.title}</h2>
@@ -56,7 +56,7 @@ export default function News() {
             {rest.map((n, i) => (
               <Reveal key={n.slug} delay={(i % 3) * 60}>
                 <Link to={`/news/${n.slug}`} className="ncard">
-                  <Ph ratio="16 / 9" className="ncard__ph" />
+                  <Ph ratio="16 / 9" className="ncard__ph" src={n.cover} alt={n.title} fit="cover" />
                   <div className="ncard__body">
                     <div className="ncard__meta"><span className="tag">{n.tag}</span><time>{n.date}</time></div>
                     <h3>{n.title}</h3>
