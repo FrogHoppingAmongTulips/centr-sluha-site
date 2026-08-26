@@ -1,0 +1,22 @@
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(16, 42, 86, 0.5); backdrop-filter: blur(4px);
+  display: grid; place-items: center; padding: 20px;
+  animation: modal-in 0.25s var(--ease);
+  overflow-y: auto;
+}
+.modal__box {
+  position: relative; width: 100%; max-width: 520px;
+  background: #fff; border-radius: var(--radius); padding: clamp(26px, 4vw, 40px);
+  box-shadow: var(--shadow); margin: auto;
+  animation: modal-up 0.3s var(--ease);
+}
+.modal__close {
+  position: absolute; top: 16px; right: 16px; width: 40px; height: 40px;
+  border-radius: 10px; color: var(--muted); display: grid; place-items: center;
+  transition: background 0.2s, color 0.2s;
+}
+.modal__close:hover { background: var(--sand); color: var(--ink); }
+
+@keyframes modal-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }

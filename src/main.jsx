@@ -1,12 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import './styles/global.css' // базовые стили — раньше компонентных, чтобы те могли их переопределять
 import App from './App.jsx'
-import './styles/global.css'
+
+// сервис-воркер нужен только собранной версии: в разработке он мешал бы обновлениям
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {})
+  })
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

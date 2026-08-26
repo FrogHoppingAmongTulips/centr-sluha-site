@@ -1,11 +1,12 @@
 .phero {
-  padding: clamp(40px, 6vw, 72px) 0 clamp(36px, 5vw, 56px);
-  background:
-    radial-gradient(900px 400px at 90% -20%, var(--teal-50), transparent 70%),
-    linear-gradient(180deg, #fbfdfc, #fff);
+  padding: clamp(32px, 5vw, 56px) 0 clamp(32px, 5vw, 52px);
+  background: var(--sand);
   border-bottom: 1px solid var(--line);
 }
-.phero__crumbs { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--muted); margin-bottom: 22px; }
-.phero__crumbs a:hover { color: var(--teal-700); }
-.phero h1 { margin: 16px 0 18px; font-family: var(--font-serif); font-weight: 600; max-width: 18ch; }
-.phero .lead { max-width: 60ch; }
+.phero h1 { margin: 16px 0 18px; font-family: var(--font-serif); font-weight: 600; max-width: 20ch; }
+.phero .lead { max-width: 62ch; }
+
+.crumbs { display: flex; align-items: center; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
+.crumbs a:hover { color: var(--teal-700); }
+.crumbs__item { display: inline-flex; align-items: center; }
+.crumbs__sep { margin: 0 10px; opacity: 0.6; }

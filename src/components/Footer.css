@@ -1,28 +1,66 @@
 .ftr {
   background: var(--teal-900); color: rgba(255, 255, 255, 0.78);
-  padding-top: 72px; margin-top: 40px;
+  padding-top: 72px;
 }
 .ftr__grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: 48px;
+  display: grid; grid-template-columns: 1.8fr 1fr 1.1fr 1.3fr; gap: 48px;
   padding-bottom: 56px;
 }
-.ftr__about { margin-top: 22px; max-width: 42ch; font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,.82); }
+.ftr__brand .logo__mark--light { background: #fff; }
+.ftr__about { margin: 22px 0 20px; max-width: 40ch; font-size: 1rem; line-height: 1.75; color: rgba(255, 255, 255, 0.82); }
 .ftr__col { display: flex; flex-direction: column; gap: 14px; }
 .ftr__col h4 { color: #fff; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
-.ftr__col a, .ftr__col span { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.82); font-size: 1rem; transition: color 0.2s; }
+.ftr__col a, .ftr__col span { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.82); font-size: 1rem; transition: color 0.2s; }
+.ftr__mail { align-items: flex-start; }
+.ftr__mail svg { margin-top: 4px; }
+.ftr__mail .mail { color: rgba(255, 255, 255, 0.82); }
+.ftr__mail .mail:hover { color: #fff; }
 .ftr__col a:hover { color: #fff; }
 .ftr__col svg { color: var(--sky); flex-shrink: 0; }
 
-.ftr__bottom {
-  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-  padding: 24px 0 32px; border-top: 1px solid rgba(255,255,255,.12);
-  font-size: 0.84rem; color: rgba(255,255,255,.55);
+.ftr__chats { display: flex; gap: 10px; margin-top: 6px; }
+.ftr__chats a {
+  width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.08); transition: background 0.2s;
 }
+.ftr__chats a:hover { background: rgba(255, 255, 255, 0.18); }
+.ftr__chats svg { color: #fff; }
+
+.ftr__extra {
+  display: flex; flex-wrap: wrap; gap: 12px 26px; padding: 22px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.9rem;
+}
+.ftr__extra a, .ftr__extra button {
+  color: rgba(255, 255, 255, 0.8); font-weight: 600; font-size: 0.9rem; transition: color 0.2s;
+}
+.ftr__extra a:hover, .ftr__extra button:hover { color: #fff; }
+
+.ftr__note {
+  padding: 0 24px 18px; font-size: 0.8rem; color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.ftr__bottom {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 24px 0 32px; border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.84rem; color: rgba(255, 255, 255, 0.55);
+}
+.ftr__legal { display: inline-flex; gap: 22px; flex-wrap: wrap; }
+.ftr__legal a { text-decoration: underline; text-underline-offset: 3px; }
+.ftr__legal a:hover { color: #fff; }
 
 @media (max-width: 900px) {
   .ftr__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .ftr__brand { grid-column: 1 / -1; }
 }
 @media (max-width: 560px) {
-  .ftr__grid { grid-template-columns: 1fr; }
+  .ftr { padding-top: 44px; }
+  .ftr__grid { grid-template-columns: 1fr; gap: 22px; padding-bottom: 32px; }
+  .ftr__col { gap: 10px; }
+  .ftr__col h4 { font-size: 0.78rem; }
+  .logo__text small { font-size: 0.78rem; }
+  .ftr__about { margin: 16px 0 14px; font-size: 0.94rem; }
+  .ftr__extra { gap: 10px 18px; padding: 18px 24px; }
+  .ftr__note { font-size: 0.72rem; letter-spacing: 0.04em; }
+  .ftr__bottom { flex-direction: column; align-items: flex-start; }
 }

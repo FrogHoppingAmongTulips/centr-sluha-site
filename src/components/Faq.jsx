@@ -9,7 +9,7 @@ export default function Faq({ items }) {
       {items.map((it, i) => {
         const isOpen = open === i
         return (
-          <div className={`faq__item ${isOpen ? 'is-open' : ''}`} key={it.q}>
+          <div className={`faq__item ${isOpen ? 'is-open' : ''}`} key={i}>
             <button className="faq__q" onClick={() => setOpen(isOpen ? -1 : i)} aria-expanded={isOpen}>
               <span>{it.q}</span>
               <span className="faq__plus"><Icon name="arrow" size={20} /></span>

@@ -1,0 +1,22 @@
+.sticky-actions {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.sticky-actions button, .sticky-actions a {
+  width: 52px; height: 52px; display: grid; place-items: center;
+  background: #fff; border: 1px solid var(--line); border-right: none;
+  border-radius: 12px 0 0 12px; box-shadow: var(--shadow-sm);
+  color: var(--teal-700); transition: background 0.25s, color 0.25s;
+}
+.sticky-actions button:hover, .sticky-actions a:hover { background: var(--teal-700); color: #fff; }
+
+/* место под кнопку занято всегда — меняются только прозрачность и сдвиг */
+.sticky-actions__up {
+  color: var(--muted);
+  opacity: 0; visibility: hidden; transform: translateX(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s, background 0.25s, color 0.25s;
+}
+.sticky-actions__up.is-visible { opacity: 1; visibility: visible; transform: none; }
+.sticky-actions__up svg { transform: rotate(-90deg); }
+
+@media (max-width: 1280px) { .sticky-actions { display: none; } }

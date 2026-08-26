@@ -1,0 +1,42 @@
+.rform { display: flex; flex-direction: column; gap: 16px; }
+.rform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rform__row > * { min-width: 0; }
+.rform__field { display: flex; flex-direction: column; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--ink); }
+.rform input, .rform select, .rform textarea {
+  font-family: inherit; font-size: max(1rem, 16px); color: var(--ink); font-weight: 400; width: 100%; min-width: 0; max-width: 100%;
+  padding: 13px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: #fff; transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
+}
+.rform input:focus, .rform select:focus, .rform textarea:focus {
+  outline: none; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50);
+}
+.rform__consent { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+.rform__consent input { width: 18px; height: 18px; accent-color: var(--teal-700); flex-shrink: 0; margin-top: 2px; }
+.rform__consent a { color: var(--teal-700); text-decoration: underline; }
+.rform .btn { margin-top: 4px; }
+
+.rform--done { text-align: center; align-items: center; gap: 14px; padding: 24px 0; }
+.rform__check {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--teal-50); color: var(--teal-700);
+  display: grid; place-items: center;
+}
+.rform--done p { color: var(--muted); max-width: 42ch; }
+
+/* Панель формы (карточка) */
+.form-card {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(24px, 3.5vw, 38px); box-shadow: var(--shadow-sm);
+}
+.form-card__head { margin-bottom: 22px; }
+.form-card__head h3 { font-size: 1.45rem; margin-bottom: 8px; }
+.form-card__head p { color: var(--muted); font-size: 0.98rem; }
+
+/* Переключатель типов форм */
+.form-tabs { display: inline-flex; gap: 6px; padding: 6px; background: var(--sand); border-radius: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+.form-tabs button {
+  padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.94rem;
+  color: var(--muted); transition: background 0.25s, color 0.25s;
+}
+.form-tabs button.is-active { background: #fff; color: var(--teal-700); box-shadow: var(--shadow-sm); }
+
+@media (max-width: 560px) { .rform__row { grid-template-columns: 1fr; } }
