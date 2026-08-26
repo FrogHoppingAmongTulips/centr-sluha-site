@@ -204,6 +204,8 @@
 /* ===== Адреса и карта ===== */
 .map-split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 24px; align-items: stretch; }
 .map-split__list { display: flex; flex-direction: column; gap: 18px; }
+/* один центр — карточка тянется на всю высоту, чтобы совпасть с картой */
+.map-split__list .acard:only-child { flex: 1; justify-content: center; }
 .acard {
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
   display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
