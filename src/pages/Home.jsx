@@ -8,6 +8,7 @@ import Faq from '../components/Faq'
 import HeroSlider from '../components/HeroSlider'
 import ProductCard from '../components/ProductCard'
 import RequestForm from '../components/RequestForm'
+import Seo from '../components/Seo'
 import { useRequestForm } from '../components/RequestModal'
 import {
   SITE, OFFERS, PICKER, BRANDS, SERVICES, ADVANTAGES, STEPS, STATS,
@@ -26,6 +27,8 @@ export default function Home() {
 
   return (
     <>
+      <Seo description="Тест слуха бесплатно, подбор и настройка слуховых аппаратов ReSound, Phonak, Oticon, Signia и Widex. Томск, Иркутский тракт, 33." />
+
       {/* СЛАЙДЕР АКЦИЙ + ПЛИТКА БЫСТРЫХ ССЫЛОК */}
       <HeroSlider />
 
@@ -73,9 +76,9 @@ export default function Home() {
               <h2>Аппараты и услуги центра</h2>
             </div>
             <div className="feed-head">
-              <div className="form-tabs" style={{ margin: 0 }}>
-                <button className={shelf === 'goods' ? 'is-active' : ''} onClick={() => setShelf('goods')}>Аппараты</button>
-                <button className={shelf === 'services' ? 'is-active' : ''} onClick={() => setShelf('services')}>Услуги</button>
+              <div className="form-tabs" style={{ margin: 0 }} role="tablist" aria-label="Аппараты или услуги">
+                <button role="tab" aria-selected={shelf === 'goods'} className={shelf === 'goods' ? 'is-active' : ''} onClick={() => setShelf('goods')}>Аппараты</button>
+                <button role="tab" aria-selected={shelf === 'services'} className={shelf === 'services' ? 'is-active' : ''} onClick={() => setShelf('services')}>Услуги</button>
               </div>
               <Link to="/catalog" className="link-more">Весь каталог <Icon name="arrow" size={18} /></Link>
             </div>
@@ -195,9 +198,9 @@ export default function Home() {
               <h2>Новости и статьи</h2>
             </div>
             <div className="feed-head">
-              <div className="form-tabs" style={{ margin: 0 }}>
+              <div className="form-tabs" style={{ margin: 0 }} role="tablist" aria-label="Новости или статьи">
                 {NEWS_TYPES.map((t) => (
-                  <button key={t.key} className={feed === t.key ? 'is-active' : ''} onClick={() => setFeed(t.key)}>{t.label}</button>
+                  <button key={t.key} role="tab" aria-selected={feed === t.key} className={feed === t.key ? 'is-active' : ''} onClick={() => setFeed(t.key)}>{t.label}</button>
                 ))}
               </div>
               <Link to={`/news?type=${feed}`} className="link-more">Все материалы <Icon name="arrow" size={18} /></Link>

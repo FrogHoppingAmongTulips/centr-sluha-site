@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import Ph from './Ph'
@@ -10,13 +10,6 @@ import './HeroSlider.css'
 export default function HeroSlider() {
   const [i, setI] = useState(0)
   const openForm = useRequestForm()
-
-  // таймер перезапускается после каждого переключения — иначе через пару секунд
-  // после ручного клика срабатывал старый тик и уводил слайд обратно
-  useEffect(() => {
-    const t = setTimeout(() => setI((v) => (v + 1) % SLIDES.length), 7000)
-    return () => clearTimeout(t)
-  }, [i])
 
   const go = (d) => setI((v) => (v + d + SLIDES.length) % SLIDES.length)
   const s = SLIDES[i]

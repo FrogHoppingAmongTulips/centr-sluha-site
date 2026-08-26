@@ -7,6 +7,7 @@ import ProductCard from '../components/ProductCard'
 import { useRequestForm } from '../components/RequestModal'
 import { CATEGORIES, CATALOG, FILTERS, SORTS } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 /* Цена в данных — строка вида «от 7 890 ₽», берём из неё число */
 const priceValue = (s) => Number((s.match(/[\d\s]+/) || [''])[0].replace(/\s/g, '')) || 0
@@ -66,6 +67,7 @@ export default function Catalog() {
 
   return (
     <>
+      <Seo title={"Слуховые аппараты"} description={"Заушные, внутриушные и внутриканальные аппараты от 7 890 ₽. Подбор сурдолога после теста слуха."} path={"/catalog"} />
       <PageHero
         crumbs={[{ label: active ? active.title : extra || 'Каталог' }]}
         eyebrow="Каталог"

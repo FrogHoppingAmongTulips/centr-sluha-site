@@ -14,7 +14,9 @@ import './MapEmbed.css'
 export default function MapEmbed({ coords = SITE.coords, address = SITE.address, zoom = 16, className = '' }) {
   const [state, setState] = useState('loading') // loading | ready | failed
   const [big, setBig] = useState(false)
+  const [near, setNear] = useState(false) // виджет грузим, только когда до карты долистали
   const timer = useRef(null)
+  const box = useRef(null)
 
   const [lat, lon] = coords
   const point = `${lon},${lat}`
@@ -22,6 +24,18 @@ export default function MapEmbed({ coords = SITE.coords, address = SITE.address,
   const full = `https://yandex.ru/maps/?ll=${point}&z=${zoom}&pt=${point}`
 
   useEffect(() => {
+    const el = box.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect() } },
+      { rootMargin: '250px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!near) return
     // Заблокированный виджет всё равно вызывает onLoad у пустой рамки, поэтому
     // сначала проверяем сам запрос: не прошёл — значит карты не будет.
     let alive = true
@@ -32,7 +46,7 @@ export default function MapEmbed({ coords = SITE.coords, address = SITE.address,
       alive = false
       window.clearTimeout(timer.current)
     }
-  }, [])
+  }, [near])
 
   useEffect(() => {
     if (!big) return
@@ -52,14 +66,14 @@ export default function MapEmbed({ coords = SITE.coords, address = SITE.address,
 
   return (
     <>
-      <div className={`ymap ymap--${state} ${className}`}>
+      <div className={`ymap ymap--${state} ${className}`} ref={box}>
         {/* схема на время загрузки и на случай, если виджет не открылся */}
         <div className="ymap__stub" aria-hidden="true">
           <div className="ymap__grid" />
           <span className="ymap__pin"><Icon name="pin" size={26} /></span>
         </div>
 
-        {state !== 'failed' && (
+        {near && state !== 'failed' && (
           <iframe src={src(zoom)} title={`Карта: ${address}`} onLoad={onLoad} />
         )}
 

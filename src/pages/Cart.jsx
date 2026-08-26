@@ -6,6 +6,7 @@ import RequestForm from '../components/RequestForm'
 import { useCart } from '../components/CartContext'
 import { CATALOG } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 /* Корзина: выбранные позиции без количеств — итог остаётся заглушкой */
 export default function Cart() {
@@ -14,6 +15,7 @@ export default function Cart() {
 
   return (
     <>
+      <Seo title={"Список к примерке"} description={"Отобранные модели аппаратов, которые подготовим к вашему визиту."} path={"/cart"} />
       <PageHero crumbs={[{ label: 'Корзина' }]} eyebrow="Заявка" title="Отложенные аппараты" text="Соберите список моделей, которые хотите послушать на приёме, — покажем и настроим их подряд." />
 
       <section className="section">

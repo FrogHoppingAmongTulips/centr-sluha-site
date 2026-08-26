@@ -19,4 +19,5 @@
 .sticky-actions__up.is-visible { opacity: 1; visibility: visible; transform: none; }
 .sticky-actions__up svg { transform: rotate(-90deg); }
 
-@media (max-width: 1280px) { .sticky-actions { display: none; } }
+/* до 1024 работает нижняя панель, выше — боковые кнопки */
+@media (max-width: 1023px) { .sticky-actions { display: none; } }

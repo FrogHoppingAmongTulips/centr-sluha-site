@@ -26,6 +26,23 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Видно, где курсор при работе с клавиатуры (мышью обводка не появляется) */
+:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.btn:focus-visible, .chip:focus-visible, .pager__btn:focus-visible { outline-offset: 3px; }
+
+/* Ссылка для клавиатуры: первым же Tab можно перепрыгнуть шапку */
+.skip {
+  position: absolute; left: 16px; top: -100px; z-index: 200;
+  background: var(--teal-700); color: #fff; font-weight: 700;
+  padding: 12px 20px; border-radius: 0 0 12px 12px;
+  transition: top 0.2s var(--ease);
+}
+.skip:focus { top: 0; }
+
 html { scroll-behavior: smooth; }
 
 body {

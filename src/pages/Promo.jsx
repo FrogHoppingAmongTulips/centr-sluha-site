@@ -6,6 +6,7 @@ import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
 import { PROMOS, TILES } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 /* Акции и спецпредложения — отдельный раздел, как у референсов */
 export default function Promo() {
@@ -13,6 +14,7 @@ export default function Promo() {
 
   return (
     <>
+      <Seo title={"Акции и рассрочка"} description={"Рассрочка 0%, скидка на второй аппарат, батарейки в подарок. Действующие предложения центра слуха в Томске."} path={"/promo"} />
       <PageHero
         crumbs={[{ label: 'Акции' }]}
         eyebrow="Выгода"

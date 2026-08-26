@@ -7,6 +7,7 @@ import Reveal from '../components/Reveal'
 import { useRequestForm } from '../components/RequestModal'
 import { CENTERS } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 /* Адреса центров: поиск, карта и карточки со ссылкой на страницу центра */
 export default function Locations() {
@@ -14,6 +15,7 @@ export default function Locations() {
 
   return (
     <>
+      <Seo title={"Адрес центра"} description={"Томск, Иркутский тракт, 33, Октябрьский район. Часы приёма, как доехать, запись на тест слуха."} path={"/locations"} />
       <PageHero
         crumbs={[{ label: 'Центры' }]}
         eyebrow="Адреса"

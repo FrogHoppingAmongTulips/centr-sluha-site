@@ -243,7 +243,7 @@ export const CATALOG = [
   }),
   item({
     slug: 'widex-unique-cic-micro',
-    img: '/img/widex-unique-cic-micro.png',
+    img: '/img/widex-unique-cic-micro.webp',
     category: 'ite',
     title: 'Widex Unique CIC-Micro',
     tag: null,

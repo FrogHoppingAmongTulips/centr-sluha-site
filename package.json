@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "BASE_PATH=/centr-sluha-site/ vite build && cd dist && git add -A && git commit -q -m Публикация && git push -q origin main"
+    "deploy": "BASE_PATH=/centr-sluha-site/ vite build && cd dist && git add -A && git commit -q -m Публикация && git push -q origin main",
+    "test": "playwright test"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -16,7 +17,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "@playwright/test": "^1.47.0"
   },
   "allowScripts": {
     "esbuild@0.21.5": true

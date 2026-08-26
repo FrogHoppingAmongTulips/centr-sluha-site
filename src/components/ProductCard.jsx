@@ -33,7 +33,7 @@ export default function ProductCard({ item, compact = false }) {
           <button
             className={`pcard__cart ${cart.has(item.slug) ? 'is-in' : ''}`}
             onClick={() => (cart.has(item.slug) ? cart.remove(item.slug) : cart.add(item.slug))}
-            aria-label="В корзину"
+            aria-label="В список к примерке"
           >
             <Icon name={cart.has(item.slug) ? 'check' : 'cart'} size={18} />
           </button>

@@ -10,6 +10,7 @@ import RequestForm, { FORM_VARIANTS } from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
 import { SITE, CENTERS, SCHEDULE } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 const LINES = [
   { icon: 'phone', label: 'Единый телефон', value: SITE.phone, href: SITE.phoneHref },
@@ -25,6 +26,7 @@ export default function Contacts() {
 
   return (
     <>
+      <Seo title={"Контакты и запись"} description={"Телефон, почта, адрес и часы приёма. Запись на приём, вопрос сурдологу, обратный звонок."} path={"/contacts"} />
       <PageHero
         crumbs={[{ label: 'Контакты' }]}
         eyebrow="Связаться"
@@ -103,16 +105,28 @@ export default function Contacts() {
 
           <Reveal className="form-card" delay={100}>
             {/* Три формы из ТЗ: запись, вопрос, обратный звонок */}
-            <div className="form-tabs">
+            <div className="form-tabs" role="tablist" aria-label="Тип обращения">
               {Object.values(FORM_VARIANTS).map((f) => (
-                <button key={f.key} className={tab === f.key ? 'is-active' : ''} onClick={() => setTab(f.key)}>{f.tab}</button>
+                <button
+                  key={f.key}
+                  role="tab"
+                  id={`tab-${f.key}`}
+                  aria-selected={tab === f.key}
+                  aria-controls={`panel-${f.key}`}
+                  className={tab === f.key ? 'is-active' : ''}
+                  onClick={() => setTab(f.key)}
+                >
+                  {f.tab}
+                </button>
               ))}
             </div>
             <div className="form-card__head">
               <h3>{v.title}</h3>
               <p>{v.text}</p>
             </div>
-            <RequestForm variant={tab} key={tab} />
+            <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
+              <RequestForm variant={tab} key={tab} />
+            </div>
           </Reveal>
         </div>
       </section>

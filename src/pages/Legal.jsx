@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
+import Seo from '../components/Seo'
 import { LEGAL } from '../data/site'
 import './Pages.css'
 
@@ -12,6 +13,8 @@ export default function Legal({ doc = 'privacy' }) {
 
   return (
     <>
+      <Seo title={d.title} description={d.intro} path={doc === 'privacy' ? '/privacy' : '/consent'} />
+
       <PageHero crumbs={[{ label: d.title }]} eyebrow="Документы" title={d.title} text={d.intro} />
 
       <section className="section">

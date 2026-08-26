@@ -5,14 +5,16 @@
    — картинки, стили, скрипты: отдаём из кэша и параллельно обновляем;
    — всё чужое (шрифты Google) не трогаем. */
 
-const VERSION = 'v1'
+// версия приходит из адреса регистрации: у каждой сборки она своя
+const VERSION = new URL(self.location.href).searchParams.get('v') || 'v1'
 const SHELL = `shell-${VERSION}`
 const ASSETS = `assets-${VERSION}`
-const OFFLINE_URL = '/index.html'
+const BASE = self.location.pathname.replace(/sw\.js$/, '') // сайт может лежать в подпапке
+const OFFLINE_URL = `${BASE}index.html`
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(SHELL).then((c) => c.addAll([OFFLINE_URL, '/manifest.webmanifest', '/favicon.svg'])).then(() => self.skipWaiting())
+    caches.open(SHELL).then((c) => c.addAll([OFFLINE_URL, `${BASE}manifest.webmanifest`, `${BASE}favicon.svg`])).then(() => self.skipWaiting())
   )
 })
 

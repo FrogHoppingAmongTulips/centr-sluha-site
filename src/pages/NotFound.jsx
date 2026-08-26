@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
+import Seo from '../components/Seo'
 import { NAV } from '../data/site'
 import './Pages.css'
 
 /* Служебная страница 404 */
 export default function NotFound() {
   return (
-    <section className="section nf">
+    <>
+      <Seo title="Страница не найдена" />
+      <section className="section nf">
       <div className="container">
         <span className="nf__code">404</span>
         <h1>Страница не найдена</h1>
@@ -20,6 +23,7 @@ export default function NotFound() {
           {NAV.map((i) => <Link key={i.to} to={i.to}>{i.label}</Link>)}
         </div>
       </div>
-    </section>
+      </section>
+    </>
   )
 }

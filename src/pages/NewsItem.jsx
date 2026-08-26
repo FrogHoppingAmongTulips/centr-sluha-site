@@ -4,6 +4,7 @@ import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
+import Seo from '../components/Seo'
 import NotFound from './NotFound'
 import { NEWS } from '../data/site'
 import './Pages.css'
@@ -17,6 +18,8 @@ export default function NewsItem() {
 
   return (
     <>
+      <Seo title={item.title} description={item.excerpt} path={`/news/${item.slug}`} />
+
       <section className="section section--tight" style={{ paddingTop: 'clamp(28px, 4vw, 44px)' }}>
         <div className="container">
           <Breadcrumbs items={[{ to: '/news', label: 'Информация' }, { label: item.title }]} />

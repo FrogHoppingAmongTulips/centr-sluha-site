@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import PhoneInput from './PhoneInput'
 import DateInput from './DateInput'
-import { CATALOG, SERVICES } from '../data/site'
+import { CATALOG, SERVICES, SITE } from '../data/site'
 import './RequestForm.css'
 
 /* Три типа форм: запись на приём, вопрос специалисту, обратный звонок */
@@ -35,22 +35,52 @@ function Field({ label, children }) {
   return <label className="rform__field"><span>{label}</span>{children}</label>
 }
 
+const LABELS = {
+  name: 'Имя', phone: 'Телефон', email: 'Почта', subject: 'Услуга',
+  date: 'Дата', time: 'Время', message: 'Комментарий',
+}
+
 export default function RequestForm({ variant = 'visit', subject, id }) {
-  const [sent, setSent] = useState(false)
+  const [sent, setSent] = useState(null)
   const v = FORM_VARIANTS[variant] || FORM_VARIANTS.visit
 
+  /* Сервера у сайта нет, поэтому заявку не «проглатываем»: собираем текст
+     и отдаём человеку готовые способы отправки — сообщение или письмо.
+     Когда появится CRM, здесь останется один запрос на сервер. */
   const onSubmit = (e) => {
     e.preventDefault()
-    setSent(true)
+    const data = new FormData(e.currentTarget)
+    const lines = [`Заявка с сайта: ${v.title.toLowerCase()}`]
+    for (const [key, value] of data.entries()) {
+      if (LABELS[key] && String(value).trim()) lines.push(`${LABELS[key]}: ${value}`)
+    }
+    const text = lines.join('\n')
+    setSent({
+      text,
+      whatsapp: `https://wa.me/${SITE.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`,
+      mail: `mailto:${SITE.email}?subject=${encodeURIComponent(lines[0])}&body=${encodeURIComponent(text)}`,
+    })
   }
 
   if (sent) {
     return (
       <div className="rform rform--done">
         <span className="rform__check"><Icon name="check" size={30} /></span>
-        <h3>Заявка отправлена</h3>
-        <p>Перезвоним в рабочее время и подтвердим детали.</p>
-        <button className="btn btn-ghost btn-sm" onClick={() => setSent(false)}>Отправить ещё одну</button>
+        <h3>Заявка готова</h3>
+        <p>Отправьте её удобным способом — ответим в рабочее время. Или просто позвоните.</p>
+        <div className="rform__send">
+          <a className="btn btn-primary" href={sent.whatsapp} target="_blank" rel="noreferrer">
+            <Icon name="chat" size={18} /> Отправить сообщением
+          </a>
+          <a className="btn btn-ghost" href={sent.mail}>
+            <Icon name="mail" size={18} /> Письмом
+          </a>
+          <a className="btn btn-ghost" href={SITE.phoneHref}>
+            <Icon name="phone" size={18} /> {SITE.phone}
+          </a>
+        </div>
+        <pre className="rform__preview">{sent.text}</pre>
+        <button className="btn btn-ghost btn-sm" onClick={() => setSent(null)}>Заполнить заново</button>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import Reveal from '../components/Reveal'
 import ProductCard from '../components/ProductCard'
+import Seo from '../components/Seo'
 import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
 import NotFound from './NotFound'
@@ -31,6 +32,8 @@ export default function Product() {
 
   return (
     <>
+      <Seo title={item.title} description={`${item.short} Цена ${item.price}. Подбор и настройка в центре слуха, Томск.`} path={`/catalog/${item.slug}`} />
+
       <section className="prod">
         <div className="container">
           <Breadcrumbs items={[{ to: '/catalog', label: 'Каталог' }, { to: `/catalog?cat=${cat.slug}`, label: cat.title }, { label: item.title }]} />
@@ -84,15 +87,23 @@ export default function Product() {
       {/* Описание / характеристики / условия */}
       <section className="section section--sand">
         <div className="container">
-          <div className="tabs">
+          <div className="tabs" role="tablist" aria-label="Описание товара">
             {TABS.map((t) => (
-              <button key={t.key} className={`tabs__btn ${tab === t.key ? 'is-active' : ''}`} onClick={() => setTab(t.key)}>
+              <button
+                key={t.key}
+                role="tab"
+                id={`ptab-${t.key}`}
+                aria-selected={tab === t.key}
+                aria-controls="ppanel"
+                className={`tabs__btn ${tab === t.key ? 'is-active' : ''}`}
+                onClick={() => setTab(t.key)}
+              >
                 {t.label}
               </button>
             ))}
           </div>
 
-          <div className="tabs__panel">
+          <div className="tabs__panel" role="tabpanel" id="ppanel" aria-labelledby={`ptab-${tab}`}>
             {tab === 'desc' && (
               <div className="prose">
                 {item.desc.map((p, i) => <p key={i}>{p}</p>)}

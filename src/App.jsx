@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import StickyActions from './components/StickyActions'
 import MobileBar from './components/MobileBar'
+import ErrorBoundary from './components/ErrorBoundary'
 import { RequestProvider } from './components/RequestModal'
 import { CartProvider } from './components/CartContext'
 import Home from './pages/Home'
@@ -38,23 +39,26 @@ export default function App() {
     <CartProvider>
       <RequestProvider>
         <ScrollToTop />
+        <a className="skip" href="#main">К содержимому</a>
         <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/catalog/:slug" element={<Product />} />
-            <Route path="/promo" element={<Promo />} />
-            <Route path="/locations" element={<Locations />} />
-            <Route path="/locations/:slug" element={<Center />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:slug" element={<NewsItem />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/privacy" element={<Legal doc="privacy" />} />
-            <Route path="/consent" element={<Legal doc="consent" />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+        <main id="main">
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/catalog" element={<Catalog />} />
+              <Route path="/catalog/:slug" element={<Product />} />
+              <Route path="/promo" element={<Promo />} />
+              <Route path="/locations" element={<Locations />} />
+              <Route path="/locations/:slug" element={<Center />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/news/:slug" element={<NewsItem />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/privacy" element={<Legal doc="privacy" />} />
+              <Route path="/consent" element={<Legal doc="consent" />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
         </main>
         <StickyActions />
         <MobileBar />

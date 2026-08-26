@@ -6,6 +6,7 @@ import Reveal from '../components/Reveal'
 import { useRequestForm } from '../components/RequestModal'
 import { NEWS, NEWS_TYPES } from '../data/site'
 import './Pages.css'
+import Seo from '../components/Seo'
 
 /* Два раздела в одной ленте: новости центра и полезные материалы */
 export default function News() {
@@ -20,6 +21,7 @@ export default function News() {
 
   return (
     <>
+      <Seo title={"Новости и статьи"} description={"Новости центра и полезные материалы о слухе: когда проверять слух, какой аппарат выбрать, как ухаживать."} path={"/news"} />
       <PageHero
         crumbs={[{ label: type === 'article' ? NEWS_TYPES[1].label : 'Информация' }]}
         eyebrow="Информация"

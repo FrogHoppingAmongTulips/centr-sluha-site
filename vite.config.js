@@ -6,8 +6,12 @@ import { copyFileSync } from 'node:fs'
    а в папке с именем репозитория. Локально остаётся «/». */
 const base = process.env.BASE_PATH || '/'
 
+// метка сборки: ею помечаем кэш сервис-воркера, чтобы он обновлялся
+const buildId = Date.now().toString(36)
+
 export default defineConfig({
   base,
+  define: { __BUILD_ID__: JSON.stringify(buildId) },
   plugins: [
     react(),
     {

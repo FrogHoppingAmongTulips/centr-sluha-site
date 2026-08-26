@@ -1,0 +1,20 @@
+import { defineConfig } from '@playwright/test'
+
+/* Тесты гоняем по собранной версии на локальном сервере предпросмотра. */
+export default defineConfig({
+  testDir: './tests',
+  timeout: 30000,
+  expect: { timeout: 7000 },
+  fullyParallel: true,
+  reporter: process.env.CI ? 'list' : [['list']],
+  use: {
+    baseURL: 'http://localhost:4173',
+    trace: 'retain-on-failure',
+  },
+  webServer: {
+    command: 'npm run build && npm run preview -- --port 4173 --strictPort',
+    url: 'http://localhost:4173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
+})

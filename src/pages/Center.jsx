@@ -5,6 +5,7 @@ import Ph from '../components/Ph'
 import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
+import Seo from '../components/Seo'
 import NotFound from './NotFound'
 import { CENTERS, SCHEDULE } from '../data/site'
 import './Pages.css'
@@ -17,6 +18,8 @@ export default function Center() {
 
   return (
     <>
+      <Seo title={c.title} description={`${c.address}. ${c.hours}. Тест слуха, подбор аппаратов, мастерская.`} path={`/locations/${c.slug}`} />
+
       <section className="section section--tight" style={{ paddingTop: 'clamp(28px, 4vw, 44px)' }}>
         <div className="container">
           <Breadcrumbs items={[{ to: '/locations', label: 'Центры' }, { label: c.title }]} />
