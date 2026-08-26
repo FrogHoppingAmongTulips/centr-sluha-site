@@ -23,13 +23,7 @@ export default function Locations() {
 
       <section className="section">
         <div className="container">
-          <form className="addr-search" onSubmit={(e) => e.preventDefault()}>
-            <Icon name="search" size={18} />
-            <input type="search" placeholder="Улица или станция метро" aria-label="Поиск по адресу" />
-            <button className="btn btn-primary btn-sm" type="submit">Найти</button>
-          </form>
-
-          <div className="map-split" style={{ marginTop: 24 }}>
+          <div className="map-split">
             <Reveal className="map-split__list">
               {CENTERS.map((c) => (
                 <div className="acard" key={c.slug}>

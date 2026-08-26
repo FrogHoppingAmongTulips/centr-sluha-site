@@ -252,13 +252,6 @@
 
 /* ===== Страница центра ===== */
 .acard__actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-.addr-search {
-  display: flex; align-items: center; gap: 12px; max-width: 560px;
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 8px 8px 8px 16px;
-}
-.addr-search svg { color: var(--muted); flex-shrink: 0; }
-.addr-search input { flex-grow: 1; border: none; outline: none; font-family: inherit; font-size: 1rem; }
-
 .center__top { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
 .center__shot { border-radius: var(--radius); }
 .center__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
