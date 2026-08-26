@@ -21,6 +21,14 @@ import NotFound from './pages/NotFound'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
+
+  // браузер запоминает, где стояла прокрутка, и возвращает туда при открытии ссылки —
+  // отключаем это, иначе человек попадает в середину страницы
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+    window.scrollTo(0, 0)
+  }, [])
+
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [pathname])
   return null
 }

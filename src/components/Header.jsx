@@ -11,6 +11,7 @@ import './Header.css'
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [catOpen, setCatOpen] = useState(false) // подменю каталога на телефоне
   const { pathname } = useLocation()
   const openForm = useRequestForm()
   const cart = useCart()
@@ -23,7 +24,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => { setOpen(false); setCatOpen(false) }, [pathname])
 
   return (
     <header className={`hdr ${scrolled ? 'hdr--scrolled' : ''}`}>
@@ -43,10 +44,19 @@ export default function Header() {
         </Link>
 
         <nav className={`nav ${open ? 'nav--open' : ''}`}>
-          <div className="nav__item nav__item--drop">
+          <div className={`nav__item nav__item--drop ${catOpen ? 'is-open' : ''}`}>
             <NavLink to="/catalog" className={({ isActive }) => `nav__link ${isActive ? 'is-active' : ''}`}>
               {NAV[0].label}
             </NavLink>
+            {/* на телефоне разделы каталога прячем под стрелку, иначе меню на два экрана */}
+            <button
+              className="nav__more"
+              onClick={() => setCatOpen((v) => !v)}
+              aria-expanded={catOpen}
+              aria-label="Разделы каталога"
+            >
+              <Icon name="arrow" size={18} />
+            </button>
 
             {/* Меню каталога: бренд, тип корпуса, особенности, стоимость */}
             <div className="megamenu">

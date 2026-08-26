@@ -363,7 +363,7 @@
   .map-split__map { min-height: 320px; }
 }
 @media (max-width: 620px) {
-  .catalog__grid { grid-template-columns: 1fr; }
+  .catalog__grid { grid-template-columns: 1fr; gap: 12px; }
   .prod__meta, .center__features { grid-template-columns: 1fr; }
   .prod__actions .btn { min-width: 0; }
   .cart__row { grid-template-columns: 72px 1fr auto; row-gap: 12px; }
