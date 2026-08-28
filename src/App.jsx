@@ -9,6 +9,7 @@ import { RequestProvider } from './components/RequestModal'
 import { CartProvider } from './components/CartContext'
 import { ContentProvider } from './components/ContentContext'
 import Home from './pages/Home'
+import About from './pages/About'
 import Catalog from './pages/Catalog'
 import Product from './pages/Product'
 import Promo from './pages/Promo'
@@ -49,7 +50,8 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/catalog" element={<Catalog />} />
                 <Route path="/catalog/:slug" element={<Product />} />
-                <Route path="/promo" element={<Promo />} />
+                <Route path="/about" element={<About />} />
+              <Route path="/promo" element={<Promo />} />
                 <Route path="/locations" element={<Locations />} />
                 <Route path="/locations/:slug" element={<Center />} />
                 <Route path="/news" element={<News />} />

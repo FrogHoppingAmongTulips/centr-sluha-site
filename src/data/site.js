@@ -18,6 +18,7 @@ export const SITE = {
 
 export const NAV = [
   { to: '/catalog', label: 'Каталог' },
+  { to: '/about', label: 'О центре' },
   { to: '/news', label: 'Информация' },
   { to: '/promo', label: 'Акции' },
   { to: '/locations', label: 'Адреса центров' },

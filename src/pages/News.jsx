@@ -10,6 +10,8 @@ import './Pages.css'
 import Seo from '../components/Seo'
 
 /* Два раздела в одной ленте: новости центра и полезные материалы */
+const PER_PAGE = 6 // считая крупный материал сверху
+
 export default function News() {
   const { NEWS } = useContent()
   const [params, setParams] = useSearchParams()
@@ -17,9 +19,22 @@ export default function News() {
   const openForm = useRequestForm()
 
   const items = type ? NEWS.filter((n) => n.type === type) : NEWS
-  const [lead, ...rest] = items
+
+  /* Листание появляется, только когда материалов действительно больше одной страницы */
+  const pages = Math.max(1, Math.ceil(items.length / PER_PAGE))
+  const page = Math.min(Math.max(1, Number(params.get('page')) || 1), pages)
+  const shown = items.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+  const [lead, ...rest] = shown
 
   const setType = (t) => (t ? setParams({ type: t }) : setParams({}))
+
+  const goToPage = (n) => {
+    const next = new URLSearchParams(params)
+    if (n > 1) next.set('page', String(n))
+    else next.delete('page')
+    setParams(next)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <>
@@ -72,11 +87,34 @@ export default function News() {
             ))}
           </div>
 
-          <div className="pager">
-            <button className="pager__btn is-active">1</button>
-            <button className="pager__btn">2</button>
-            <button className="pager__btn pager__btn--next">Дальше <Icon name="arrow" size={16} /></button>
-          </div>
+          {pages > 1 && (
+            <div className="pager">
+              <button
+                className="pager__btn pager__btn--prev"
+                onClick={() => goToPage(page - 1)}
+                disabled={page === 1}
+                aria-label="Предыдущая страница"
+              >
+                <Icon name="arrowLeft" size={16} />
+              </button>
+              {Array.from({ length: pages }, (_, n) => (
+                <button
+                  key={n}
+                  className={`pager__btn ${page === n + 1 ? 'is-active' : ''}`}
+                  onClick={() => goToPage(n + 1)}
+                >
+                  {n + 1}
+                </button>
+              ))}
+              <button
+                className="pager__btn pager__btn--next"
+                onClick={() => goToPage(page + 1)}
+                disabled={page === pages}
+              >
+                Дальше <Icon name="arrow" size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

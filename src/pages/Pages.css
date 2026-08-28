@@ -379,3 +379,9 @@
   .cart__ph { width: 72px; }
   .cart__price { grid-column: 2 / -1; text-align: left; }
 }
+
+/* ===== О центре: снимок и текст ===== */
+.about-split { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.about-split__ph { border-radius: var(--radius); }
+.about-split h2 { margin: 12px 0 14px; font-size: clamp(1.6rem, 2.8vw, 2.3rem); }
+@media (max-width: 900px) { .about-split { grid-template-columns: 1fr; } }

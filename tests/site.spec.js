@@ -20,10 +20,22 @@ test.describe('Главная', () => {
     await expect(page.locator('.hero__card h1')).toHaveText(first)
   })
 
-  test('переключатель «Аппараты / Услуги» работает', async ({ page }) => {
+  test('главная — визитка: кто мы, разделы, адрес и связь', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('tab', { name: 'Услуги' }).click()
-    await expect(page.locator('.srv')).toHaveCount(3)
+    await expect(page.locator('.card-split__text h2')).toBeVisible()
+    await expect(page.locator('.navcard')).toHaveCount(4)
+    await expect(page.locator('.acard').first()).toContainText('Иркутский тракт')
+    await expect(page.locator('.msgr__btn').first()).toBeVisible()
+  })
+
+  test('с главной можно уйти в разделы', async ({ page }) => {
+    await page.goto('/')
+    await page.locator('.navcard', { hasText: 'Каталог аппаратов' }).click()
+    await expect(page).toHaveURL(/catalog/)
+    await page.goBack()
+    await page.locator('a.btn-ghost', { hasText: 'Подробнее о центре' }).click()
+    await expect(page).toHaveURL(/about/)
+    await expect(page.locator('h1')).toContainText('Центр слуха')
   })
 
   test('кнопка «наверх» поднимает страницу до конца', async ({ page }) => {
@@ -154,6 +166,18 @@ test.describe('Поиск и подбор', () => {
   })
 })
 
+test.describe('Информация', () => {
+  test('листание работает и ведёт на вторую страницу', async ({ page }) => {
+    await page.goto('/news')
+    const first = await page.locator('.ncard h3, .nlead h2').allTextContents()
+    await page.locator('.pager__btn', { hasText: '2' }).click()
+    await expect(page).toHaveURL(/page=2/)
+    const second = await page.locator('.ncard h3, .nlead h2').allTextContents()
+    expect(second.length).toBeGreaterThan(0)
+    expect(second[0]).not.toBe(first[0])
+  })
+})
+
 test.describe('Карта и адреса', () => {
   test('карта подключается с координатами центра', async ({ page }) => {
     await page.goto('/contacts')
@@ -181,6 +205,7 @@ test.describe('Страницы и мета', () => {
     ['/locations', 'Адрес центра'],
     ['/news', 'Новости'],
     ['/contacts', 'Контакты'],
+    ['/about', 'О центре'],
     ['/privacy', 'Политика'],
   ]
 
