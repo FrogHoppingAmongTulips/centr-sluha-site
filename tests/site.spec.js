@@ -7,17 +7,17 @@ test.describe('Главная', () => {
   test('открывается сверху и показывает первый экран', async ({ page }) => {
     await page.goto('/')
     expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0)
-    await expect(page.locator('.hslider__copy h1')).toBeVisible()
-    await expect(page.locator('.hslider__ph img')).toBeVisible()
+    await expect(page.locator('.hero__card h1')).toBeVisible()
+    await expect(page.locator('.hero__ph img')).toBeVisible()
   })
 
   test('слайдер листается стрелками и точками', async ({ page }) => {
     await page.goto('/')
-    const first = await page.locator('.hslider__copy h1').textContent()
-    await page.locator('.hslider__arrow--next').click()
-    await expect(page.locator('.hslider__copy h1')).not.toHaveText(first)
-    await page.locator('.hslider__dots button').first().click()
-    await expect(page.locator('.hslider__copy h1')).toHaveText(first)
+    const first = await page.locator('.hero__card h1').textContent()
+    await page.locator('.hero__arrow--next').click()
+    await expect(page.locator('.hero__card h1')).not.toHaveText(first)
+    await page.locator('.hero__dots button').first().click()
+    await expect(page.locator('.hero__card h1')).toHaveText(first)
   })
 
   test('переключатель «Аппараты / Услуги» работает', async ({ page }) => {

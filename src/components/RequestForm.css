@@ -10,7 +10,7 @@
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 .rform input::placeholder, .rform textarea::placeholder { color: #9aa3b5; }
-.rform input:hover, .rform select:hover, .rform textarea:hover { border-color: #d9cdc2; }
+.rform input:hover, .rform select:hover, .rform textarea:hover { border-color: #c6d2e6; }
 .rform input:focus, .rform select:focus, .rform textarea:focus {
   outline: none; background: #fff; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50);
 }

@@ -1,27 +1,29 @@
 :root {
-  /* Тёплая «премиальная» гамма: сливовый как основной цвет действий,
-     золото — акцент и обводки, фон и линии в тёплых серых. */
-  --teal-900: #2b1b2a;  /* тёмный сливовый — подвал и крупные плашки */
-  --teal-700: #8b2f74;  /* основной сливовый: кнопки и ссылки */
-  --teal-600: #a03a86;  /* светлее, для наведения */
-  --teal-300: #b7844b;  /* золото — акценты */
-  --teal-50:  #f7eef4;  /* очень светлый сливовый */
-  --sand:     #f6f3ef;  /* тёплый светлый фон */
-  --ink:      #1d1a19;  /* основной текст */
-  --muted:    #5a5350;  /* вторичный текст */
-  --line:     #e6ded6;  /* тёплые линии и рамки */
+  /* Медицинский синий — как было. Золото оставлено переменной, но указывает
+     на тот же синий: если снова захотим тёплый акцент, менять одну строку. */
+  --teal-900: #102a56;  /* тёмный синий: подвал, крупные плашки */
+  --teal-700: #1d5fd6;  /* основной синий: кнопки и ссылки */
+  --teal-600: #2f6fe0;  /* светлее, для наведения */
+  --teal-300: #1d5fd6;
+  --teal-50:  #eaf1fd;  /* очень светлый синий */
+  --sand:     #f3f6fb;  /* прохладный светлый фон */
+  --ink:      #16213b;  /* основной текст */
+  --muted:    #495267;  /* вторичный текст */
+  --line:     #dde4f0;
   --white:    #ffffff;
-  --gold:     #b7844b;  /* то же золото, отдельным именем для ясности */
-  --gold-50:  #f7efe3;
-  --coral:    #b7844b;  /* плашки скидок — золотом */
-  --coral-50: #f7efe3;
-  --sky:      #d8b98a;  /* золото на тёмном фоне */
+  --gold:     #1d5fd6;
+  --gold-50:  #eaf1fd;
+  --coral:    #e8734f;  /* тёплый акцент: плашки скидок */
+  --coral-50: #fdf0ea;
+  --sky:      #93b4f2;  /* акцент на тёмном фоне */
 
-  --maxw: 1440px;
+  /* Содержимое тянется почти во всю ширину окна */
+  --maxw: 1920px;
+  --gutter: clamp(20px, 3vw, 64px); /* боковые поля: одно значение на весь сайт */
   --radius: 20px;
   --radius-sm: 14px;
-  --shadow: 0 18px 50px -24px rgba(43, 27, 42, 0.28);
-  --shadow-sm: 0 8px 24px -16px rgba(43, 27, 42, 0.35);
+  --shadow: 0 18px 50px -24px rgba(17, 35, 94, 0.32);
+  --shadow-sm: 0 8px 24px -16px rgba(17, 35, 94, 0.4);
   --font-sans: 'Golos Text', system-ui, -apple-system, sans-serif;
   --font-serif: 'Spectral', Georgia, serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -75,7 +77,7 @@ h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
 h3 { font-size: 1.25rem; }
 
 /* Полоса содержимого шире прежней: на больших экранах поля по бокам небольшие */
-.container { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(24px, 4vw, 56px); }
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 /* Блок во всю ширину окна, без полей */
 .full { width: 100%; }
 
@@ -149,7 +151,7 @@ h3 { font-size: 1.25rem; }
   .grid--swipe {
     grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none;
     overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px;
-    padding: 0 24px 6px; margin: 0 -24px;
+    padding: 0 var(--gutter) 6px; margin: 0 calc(-1 * var(--gutter));
     scrollbar-width: none;
   }
   .grid--swipe::-webkit-scrollbar { display: none; }
