@@ -3,13 +3,34 @@
 .rform__row > * { min-width: 0; }
 .rform__field { display: flex; flex-direction: column; gap: 8px; font-weight: 600; font-size: 0.9rem; color: var(--ink); }
 .rform input, .rform select, .rform textarea {
-  font-family: inherit; font-size: max(1rem, 16px); color: var(--ink); font-weight: 400; width: 100%; min-width: 0; max-width: 100%;
-  padding: 13px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
-  background: #fff; transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
+  font-family: inherit; font-size: max(1rem, 16px); color: var(--ink); font-weight: 400;
+  width: 100%; min-width: 0; max-width: 100%;
+  padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--sand);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
+.rform input::placeholder, .rform textarea::placeholder { color: #9aa3b5; }
+.rform input:hover, .rform select:hover, .rform textarea:hover { border-color: #c6d2e6; }
 .rform input:focus, .rform select:focus, .rform textarea:focus {
-  outline: none; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50);
+  outline: none; background: #fff; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50);
 }
+
+/* Поле комментария: без «уголка» для растягивания — растёт само по мере ввода */
+.rform textarea {
+  resize: none; min-height: 104px; line-height: 1.55;
+  field-sizing: content; max-height: 260px;
+}
+
+/* Свой значок у выпадающих списков вместо системного */
+.rform select {
+  appearance: none; -webkit-appearance: none; padding-right: 42px; cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23495267' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+}
+
+/* Дата и время: системная иконка календаря не выбивается из стиля */
+.rform input[type='date']::-webkit-calendar-picker-indicator { opacity: 0.45; cursor: pointer; }
+.rform input[type='date']::-webkit-calendar-picker-indicator:hover { opacity: 0.8; }
 .rform__consent { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
 .rform__consent input { width: 18px; height: 18px; accent-color: var(--teal-700); flex-shrink: 0; margin-top: 2px; }
 .rform__consent a { color: var(--teal-700); text-decoration: underline; }
