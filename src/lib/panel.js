@@ -77,6 +77,25 @@ const toPost = (n) => ({
   body: (n.body || '').split('\n\n').filter(Boolean),
 })
 
+/* Цена в панели — строка вида «46 900 ₽»: достаём число, считаем скидку и
+   собираем строку обратно, сохраняя знак валюты и приставку «от». */
+const priceParts = (price) => {
+  const digits = String(price).replace(/[^\d]/g, '')
+  if (!digits) return null
+  return {
+    value: Number(digits),
+    prefix: /^\s*от/i.test(String(price)) ? 'от ' : '',
+    suffix: String(price).includes('₽') ? ' ₽' : '',
+  }
+}
+
+const withDiscount = (price, percent) => {
+  const parts = priceParts(price)
+  if (!parts || !percent) return null
+  const value = Math.round((parts.value * (100 - percent)) / 100 / 10) * 10
+  return `${parts.prefix}${value.toLocaleString('ru-RU')}${parts.suffix}`
+}
+
 const toPromo = (a) => ({
   title: a.title,
   text: a.text || '',
@@ -108,16 +127,33 @@ const toCenter = (c) => ({
 
 /* ——— загрузка всего содержимого одним заходом ——— */
 export async function loadContent() {
-  const [tovary, uslugi, akcii, novosti, centry, nastroyki] = await Promise.all([
+  const [tovary, uslugi, akcii, novosti, centry, nastroyki, svyaz] = await Promise.all([
     get('/items/tovary?limit=-1&sort=sort'),
     get('/items/uslugi?limit=-1&sort=sort'),
-    get('/items/akcii?limit=-1&sort=sort'),
+    get('/items/akcii?limit=-1&sort=sort&fields=*,tovary.tovary_id'),
     get('/items/novosti?limit=-1&sort=-date'),
     get('/items/centry?limit=-1'),
     get('/items/nastroyki'),
+    get('/items/svyaz').catch(() => null),
   ])
 
   const products = tovary.map(toProduct)
+
+  /* Акция со скидкой проставляется товарам, которые в ней выбраны:
+     на карточке появляется плашка, а цена показывается пересчитанной. */
+  const byId = new Map(tovary.map((row, i) => [row.id, products[i]]))
+  for (const promo of akcii) {
+    if (!promo.discount) continue
+    for (const link of promo.tovary || []) {
+      const product = byId.get(link.tovary_id?.id ?? link.tovary_id)
+      if (!product) continue
+      const discounted = withDiscount(product.price, promo.discount)
+      if (!discounted) continue
+      product.old = product.old || product.price
+      product.price = discounted
+      product.promo = { title: promo.title, discount: promo.discount }
+    }
+  }
 
   return {
     CATALOG: products,
@@ -126,6 +162,17 @@ export async function loadContent() {
     PROMOS: akcii.map(toPromo),
     NEWS: novosti.map(toPost),
     CENTERS: centry.map(toCenter),
+    LINKS: svyaz
+      ? {
+          whatsapp: svyaz.whatsapp ? `https://wa.me/${String(svyaz.whatsapp).replace(/\D/g, '')}` : null,
+          telegram: svyaz.telegram
+            ? (String(svyaz.telegram).startsWith('http') ? svyaz.telegram : `https://t.me/${String(svyaz.telegram).replace(/^@/, '')}`)
+            : null,
+          vk: svyaz.vk || null,
+          viber: svyaz.viber ? `viber://chat?number=${String(svyaz.viber).replace(/\D/g, '')}` : null,
+          phone: svyaz.call_phone || null,
+        }
+      : null,
     SITE_OVERRIDES: nastroyki
       ? {
           phone: nastroyki.phone,

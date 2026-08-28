@@ -93,8 +93,8 @@ export default function Header() {
         </form>
 
         <div className="hdr__actions">
-          <Link to="/cart" className="hdr__cart" aria-label="Список к примерке">
-            <Icon name="doc" size={22} />
+          <Link to="/cart" className="hdr__cart" aria-label="Корзина">
+            <Icon name="cart" size={22} />
             {cart.slugs.length > 0 && <span className="hdr__cart-badge" />}
           </Link>
           <button className="btn btn-primary hdr__cta" onClick={() => openForm('visit')}>Записаться</button>

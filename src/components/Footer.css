@@ -3,28 +3,30 @@
   padding-top: 72px;
 }
 .ftr__grid {
-  display: grid; grid-template-columns: 1.8fr 1fr 1.1fr 1.3fr; gap: 48px;
+  display: grid; grid-template-columns: 1.45fr 0.8fr 0.95fr 1.55fr 1fr; gap: 32px;
   padding-bottom: 56px;
 }
 .ftr__brand .logo__mark--light { background: #fff; }
 .ftr__about { margin: 22px 0 20px; max-width: 40ch; font-size: 1rem; line-height: 1.75; color: rgba(255, 255, 255, 0.82); }
 .ftr__col { display: flex; flex-direction: column; gap: 14px; }
 .ftr__col h4 { color: #fff; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
-.ftr__col a, .ftr__col span { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.82); font-size: 1rem; transition: color 0.2s; }
-.ftr__mail { align-items: flex-start; }
-.ftr__mail svg { margin-top: 4px; }
+.ftr__col > a, .ftr__col > span { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.82); font-size: 1rem; transition: color 0.2s; }
+.ftr__mail { align-items: center; }
+.ftr__mail .mail { font-size: 0.92rem; white-space: nowrap; }
 .ftr__mail .mail { color: rgba(255, 255, 255, 0.82); }
 .ftr__mail .mail:hover { color: #fff; }
-.ftr__col a:hover { color: #fff; }
-.ftr__col svg { color: var(--sky); flex-shrink: 0; }
+.ftr__col > a:hover { color: #fff; }
+.ftr__col > a svg, .ftr__col > span svg { color: var(--sky); flex-shrink: 0; }
 
-.ftr__chats { display: flex; gap: 10px; margin-top: 6px; }
-.ftr__chats a {
-  width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center;
+.ftr__hint { color: rgba(255, 255, 255, 0.6); font-size: 0.86rem; line-height: 1.5; margin-bottom: 4px; }
+.ftr__chats { display: flex; flex-direction: column; gap: 8px; }
+.ftr__chat {
+  display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+  padding: 9px 14px; border-radius: 10px; font-size: 0.94rem;
   background: rgba(255, 255, 255, 0.08); transition: background 0.2s;
 }
-.ftr__chats a:hover { background: rgba(255, 255, 255, 0.18); }
-.ftr__chats svg { color: #fff; }
+.ftr__chat:hover { background: rgba(255, 255, 255, 0.18); }
+.ftr__chat svg { color: var(--sky); }
 
 .ftr__extra {
   display: flex; flex-wrap: wrap; gap: 12px 26px; padding: 22px 24px;
@@ -49,6 +51,9 @@
 .ftr__legal a { text-decoration: underline; text-underline-offset: 3px; }
 .ftr__legal a:hover { color: #fff; }
 
+@media (max-width: 1100px) {
+  .ftr__grid { grid-template-columns: 1fr 1fr 1fr; }
+}
 @media (max-width: 900px) {
   .ftr__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .ftr__brand { grid-column: 1 / -1; }

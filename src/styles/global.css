@@ -166,7 +166,7 @@ h3 { font-size: 1.25rem; }
 
 /* Почта: перенос только перед «собакой», домен целиком */
 .mail { display: inline; }
-.mail__name { overflow-wrap: anywhere; }
+.mail__name { word-break: keep-all; }
 .mail__domain { white-space: nowrap; }
 
 /* Тег / бейдж */

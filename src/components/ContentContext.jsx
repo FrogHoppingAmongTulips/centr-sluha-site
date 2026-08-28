@@ -19,6 +19,8 @@ const BUILTIN = {
   NEWS: builtin.NEWS,
   CENTERS: builtin.CENTERS,
   SITE: builtin.SITE,
+  // мессенджеры: пока панель не ответила, показываем номер из настроек сайта
+  LINKS: { whatsapp: `https://wa.me/${builtin.SITE.phoneHref.replace(/\D/g, '')}`, telegram: null, vk: null, viber: null, phone: builtin.SITE.phone },
   fromPanel: false,
 }
 
@@ -40,6 +42,7 @@ export function ContentProvider({ children }) {
           NEWS: fresh.NEWS.length ? fresh.NEWS : BUILTIN.NEWS,
           CENTERS: fresh.CENTERS.length ? fresh.CENTERS : BUILTIN.CENTERS,
           SITE: { ...builtin.SITE, ...(fresh.SITE_OVERRIDES || {}) },
+          LINKS: fresh.LINKS || BUILTIN.LINKS,
           fromPanel: true,
         })
       })

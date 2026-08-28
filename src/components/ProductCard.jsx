@@ -18,7 +18,10 @@ export default function ProductCard({ item, compact = false }) {
     <article className="pcard">
       <Link to={`/catalog/${item.slug}`} className="pcard__media">
         <Ph ratio="4 / 3" src={item.img} alt={item.title} />
-        {item.tag && !OUT_OF_STOCK[item.stock] && <span className="tag tag--accent pcard__tag">{item.tag}</span>}
+        {item.promo && !OUT_OF_STOCK[item.stock] && (
+          <span className="tag pcard__tag pcard__tag--sale" title={item.promo.title}>−{item.promo.discount}%</span>
+        )}
+        {item.tag && !item.promo && !OUT_OF_STOCK[item.stock] && <span className="tag tag--accent pcard__tag">{item.tag}</span>}
         {OUT_OF_STOCK[item.stock] && (
           <span className={`tag pcard__tag pcard__tag--${item.stock}`}>{OUT_OF_STOCK[item.stock]}</span>
         )}
@@ -43,7 +46,7 @@ export default function ProductCard({ item, compact = false }) {
           {!missing && <button
             className={`pcard__cart ${cart.has(item.slug) ? 'is-in' : ''}`}
             onClick={() => (cart.has(item.slug) ? cart.remove(item.slug) : cart.add(item.slug))}
-            aria-label="В список к примерке"
+            aria-label="В корзину"
           >
             <Icon name={cart.has(item.slug) ? 'check' : 'cart'} size={18} />
           </button>}

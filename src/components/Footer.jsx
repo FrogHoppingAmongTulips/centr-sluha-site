@@ -8,7 +8,7 @@ import { useRequestForm } from './RequestModal'
 import './Footer.css'
 
 export default function Footer() {
-  const { SITE } = useContent()
+  const { SITE, LINKS } = useContent()
   const openForm = useRequestForm()
   return (
     <footer className="ftr">
@@ -43,10 +43,30 @@ export default function Footer() {
           <span className="ftr__mail"><Icon name="mail" size={17} /> <Mail address={SITE.email} /></span>
           <span><Icon name="pin" size={17} /> {SITE.address}</span>
           <span><Icon name="clock" size={17} /> {SITE.hours}</span>
+        </div>
+
+        <div className="ftr__col">
+          <h4>Написать нам</h4>
+          <p className="ftr__hint">Ответим в рабочее время. Заявку можно отправить и без звонка.</p>
           <div className="ftr__chats">
-            <a href={SITE.phoneHref} aria-label="Мессенджер"><Icon name="chat" size={18} /></a>
-            <a href={SITE.phoneHref} aria-label="Позвонить"><Icon name="phone" size={18} /></a>
-            <a href={`mailto:${SITE.email}`} aria-label="Написать письмо"><Icon name="mail" size={18} /></a>
+            {LINKS.whatsapp && (
+              <a href={LINKS.whatsapp} target="_blank" rel="noreferrer" className="ftr__chat">
+                <Icon name="chat" size={18} /> WhatsApp
+              </a>
+            )}
+            {LINKS.telegram && (
+              <a href={LINKS.telegram} target="_blank" rel="noreferrer" className="ftr__chat">
+                <Icon name="chat" size={18} /> Telegram
+              </a>
+            )}
+            {LINKS.vk && (
+              <a href={LINKS.vk} target="_blank" rel="noreferrer" className="ftr__chat">
+                <Icon name="chat" size={18} /> ВКонтакте
+              </a>
+            )}
+            <a href={`mailto:${SITE.email}`} className="ftr__chat">
+              <Icon name="mail" size={18} /> Письмом
+            </a>
           </div>
         </div>
       </div>
