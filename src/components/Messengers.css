@@ -1,0 +1,32 @@
+/* Фирменные цвета мессенджеров */
+.msgr {
+  --whatsapp: #25d366;
+  --telegram: #229ed9;
+  --viber: #7360f2;
+  --vk: #0077ff;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+
+.msgr__btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-radius: 12px;
+  font-weight: 600; font-size: 0.94rem; color: #fff;
+  transition: transform 0.2s var(--ease), filter 0.2s;
+}
+.msgr__btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.msgr__btn svg { flex-shrink: 0; }
+
+.msgr__btn--whatsapp { background: var(--whatsapp); }
+.msgr__btn--telegram { background: var(--telegram); }
+.msgr__btn--viber { background: var(--viber); }
+.msgr__btn--vk { background: var(--vk); }
+.msgr__btn--mail { background: var(--teal-700); }
+
+/* Крупный вариант — для страницы контактов */
+.msgr--big .msgr__btn { padding: 14px 22px; font-size: 1rem; border-radius: 14px; }
+.msgr--big .msgr__btn svg { width: 22px; height: 22px; }
+
+@media (max-width: 480px) {
+  .msgr { flex-direction: column; }
+  .msgr__btn { justify-content: flex-start; }
+}

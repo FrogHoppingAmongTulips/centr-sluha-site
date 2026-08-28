@@ -5,6 +5,7 @@ import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import MapEmbed from '../components/MapEmbed'
 import Mail from '../components/Mail'
+import Messengers from '../components/Messengers'
 import Reveal from '../components/Reveal'
 import RequestForm, { FORM_VARIANTS } from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
@@ -14,7 +15,7 @@ import './Pages.css'
 import Seo from '../components/Seo'
 
 export default function Contacts() {
-  const { SITE, CENTERS } = useContent()
+  const { SITE, CENTERS, LINKS } = useContent()
   const [tab, setTab] = useState('visit')
 
   const LINES = [
@@ -50,6 +51,18 @@ export default function Contacts() {
         </div>
       </section>
 
+      {/* Мессенджеры — отдельно от контактной информации */}
+      <section className="section section--tight" style={{ paddingTop: 'clamp(20px, 2.5vw, 32px)' }}>
+        <div className="container msgr-row">
+          <div>
+            <span className="eyebrow">Связь</span>
+            <h2>Напишите, если звонить неудобно</h2>
+            <p className="lead">Отвечаем в рабочее время. Можно прислать аудиограмму или фотографию аппарата — подскажем, что с ним.</p>
+          </div>
+          <Messengers links={LINKS} mail={SITE.email} size="big" />
+        </div>
+      </section>
+
       {/* Адреса + карта */}
       <section className="section">
         <div className="container">
@@ -67,7 +80,7 @@ export default function Contacts() {
                   <span className="acard__row"><Icon name="wave" size={17} /> {a.metro}</span>
                   <span className="acard__row"><Icon name="clock" size={17} /> {a.hours}</span>
                   <a className="acard__row" href={SITE.phoneHref}><Icon name="phone" size={17} /> {a.phone}</a>
-                  <p className="acard__note">{a.note}</p>
+                  {a.note && <p className="acard__note">{a.note}</p>}
                   <div className="acard__actions">
                     <Link to={`/locations/${a.slug}`} className="btn btn-ghost btn-sm">О центре</Link>
                     <button className="btn btn-primary btn-sm" onClick={() => openForm('visit')}>Записаться</button>

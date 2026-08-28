@@ -4,6 +4,7 @@ import { useContent } from './ContentContext'
 import Icon from './Icon'
 import Mail from './Mail'
 import Logo from './Logo'
+import Messengers from './Messengers'
 import { useRequestForm } from './RequestModal'
 import './Footer.css'
 
@@ -48,26 +49,7 @@ export default function Footer() {
         <div className="ftr__col">
           <h4>Написать нам</h4>
           <p className="ftr__hint">Ответим в рабочее время. Заявку можно отправить и без звонка.</p>
-          <div className="ftr__chats">
-            {LINKS.whatsapp && (
-              <a href={LINKS.whatsapp} target="_blank" rel="noreferrer" className="ftr__chat">
-                <Icon name="chat" size={18} /> WhatsApp
-              </a>
-            )}
-            {LINKS.telegram && (
-              <a href={LINKS.telegram} target="_blank" rel="noreferrer" className="ftr__chat">
-                <Icon name="chat" size={18} /> Telegram
-              </a>
-            )}
-            {LINKS.vk && (
-              <a href={LINKS.vk} target="_blank" rel="noreferrer" className="ftr__chat">
-                <Icon name="chat" size={18} /> ВКонтакте
-              </a>
-            )}
-            <a href={`mailto:${SITE.email}`} className="ftr__chat">
-              <Icon name="mail" size={18} /> Письмом
-            </a>
-          </div>
+          <Messengers links={LINKS} mail={SITE.email} />
         </div>
       </div>
 

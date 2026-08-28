@@ -168,7 +168,9 @@ export async function loadContent() {
           telegram: svyaz.telegram
             ? (String(svyaz.telegram).startsWith('http') ? svyaz.telegram : `https://t.me/${String(svyaz.telegram).replace(/^@/, '')}`)
             : null,
-          vk: svyaz.vk || null,
+          vk: svyaz.vk
+            ? (String(svyaz.vk).startsWith('http') ? svyaz.vk : `https://vk.com/${encodeURIComponent(String(svyaz.vk).replace(/^@/, '').trim())}`)
+            : null,
           viber: svyaz.viber ? `viber://chat?number=${String(svyaz.viber).replace(/\D/g, '')}` : null,
           phone: svyaz.call_phone || null,
         }

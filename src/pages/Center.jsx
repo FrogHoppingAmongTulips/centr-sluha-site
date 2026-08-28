@@ -46,7 +46,7 @@ export default function Center() {
               <ul className="center__features">
                 {c.features.map((f, i) => <li key={i}><Icon name="check" size={16} /> {f}</li>)}
               </ul>
-              <p className="center__note">{c.note}</p>
+              {c.note && <p className="center__note">{c.note}</p>}
             </div>
           </div>
         </div>
