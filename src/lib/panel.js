@@ -5,7 +5,14 @@
    отвечает, эти данные замещает. Заявки при недоступной панели уходят
    прежним путём — сообщением или письмом. */
 
+import { CATALOG as BUILTIN_CATALOG, NEWS as BUILTIN_NEWS } from '../data/site'
+
 const URL_BASE = import.meta.env.VITE_PANEL_URL || ''
+
+/* Фотографии, которые уже лежат в проекте: если в панели снимок ещё не загружен,
+   берём картинку по такому же адресу страницы — карточка не остаётся пустой. */
+const BUILTIN_IMAGES = new Map(BUILTIN_CATALOG.filter((p) => p.img).map((p) => [p.slug, p.img]))
+const BUILTIN_COVERS = new Map(BUILTIN_NEWS.filter((n) => n.cover).map((n) => [n.slug, n.cover]))
 
 export const panelEnabled = Boolean(URL_BASE)
 
@@ -49,7 +56,7 @@ const toProduct = (p) => ({
   old: p.old_price || null,
   tag: p.tag || null,
   short: p.short || '',
-  img: fileUrl(p.image),
+  img: fileUrl(p.image) || BUILTIN_IMAGES.get(p.slug) || null,
   points: toList(p.points),
   specs: toSpecs(p.specs),
   desc: (p.description || '').split('\n\n').filter(Boolean),
@@ -73,7 +80,7 @@ const toPost = (n) => ({
   date: toRuDate(n.date),
   title: n.title,
   excerpt: n.excerpt || '',
-  cover: fileUrl(n.cover),
+  cover: fileUrl(n.cover) || BUILTIN_COVERS.get(n.slug) || null,
   body: (n.body || '').split('\n\n').filter(Boolean),
 })
 

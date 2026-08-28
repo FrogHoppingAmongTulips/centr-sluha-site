@@ -1,7 +1,7 @@
 /* ===== БЫСТРЫЙ ПОДБОР ===== */
 .picker { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 24px 32px; align-items: start; }
 .picker h2 { margin-top: 10px; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
-.chip--all { background: var(--teal-50); border-color: #d3e0f7; color: var(--teal-700); }
+.chip--all { background: var(--gold-50); border-color: #ead8bf; color: var(--teal-700); }
 
 /* ===== БРЕНДЫ ===== */
 .brands { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center; }
@@ -86,7 +86,7 @@
   position: absolute; top: 0; left: 0;
   width: 46px; height: 46px; border-radius: 50%;
   background: var(--teal-700); color: #fff; font-size: 1.2rem; font-weight: 800;
-  display: grid; place-items: center; box-shadow: 0 8px 20px -8px rgba(29, 95, 214, 0.6);
+  display: grid; place-items: center; box-shadow: 0 8px 20px -8px rgba(139, 47, 116, 0.45);
 }
 .step h3 { font-size: 1.15rem; margin-bottom: 8px; }
 .step p { color: var(--muted); font-size: 0.96rem; }

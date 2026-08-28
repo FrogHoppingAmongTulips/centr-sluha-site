@@ -6,7 +6,7 @@
   background: var(--sand); font-family: inherit; font-size: max(1rem, 16px); color: var(--ink);
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
-.timepick__field:hover { border-color: #c6d2e6; }
+.timepick__field:hover { border-color: #d9cdc2; }
 .timepick__field.is-open { background: #fff; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50); }
 .timepick__field svg { color: var(--muted); flex-shrink: 0; }
 .timepick__placeholder { color: #9aa3b5; }

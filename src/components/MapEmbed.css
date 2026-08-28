@@ -18,7 +18,7 @@
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
     linear-gradient(90deg, var(--line) 1px, transparent 1px),
-    linear-gradient(115deg, transparent 46%, #e3ebf9 46%, #e3ebf9 54%, transparent 54%);
+    linear-gradient(115deg, transparent 46%, #efe6da 46%, #efe6da 54%, transparent 54%);
   background-size: 46px 46px, 46px 46px, 100% 100%;
   opacity: 0.9;
 }

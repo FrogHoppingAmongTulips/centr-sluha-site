@@ -7,6 +7,7 @@ import ProductCard from '../components/ProductCard'
 import { useRequestForm } from '../components/RequestModal'
 import { CATEGORIES, FILTERS } from '../data/site'
 import { useContent } from '../components/ContentContext'
+import { matchesSearch } from '../lib/search'
 import './Pages.css'
 import Seo from '../components/Seo'
 
@@ -35,15 +36,6 @@ const SORT_MODES = {
   fresh: { label: 'Сначала новинки', apply: (list) => [...list].sort((a, b) => Number(Boolean(b.tag)) - Number(Boolean(a.tag))) },
 }
 
-/* Поиск идёт по названию, бренду, описанию и характеристикам */
-const matchesQuery = (item, query) => {
-  const words = query.toLowerCase().split(/\s+/).filter(Boolean)
-  const hay = [item.title, item.brand, item.short, ...(item.points || []), ...(item.specs || []).map((sp) => `${sp.k} ${sp.v}`)]
-    .join(' ')
-    .toLowerCase()
-  return words.every((w) => hay.includes(w))
-}
-
 const asNumber = (value) => Number(String(value).replace(/[^\d]/g, '')) || null
 
 export default function Catalog() {
@@ -66,7 +58,7 @@ export default function Catalog() {
     if (brand && !matchesFeature(i, brand)) return false
     if (feature && !matchesFeature(i, feature)) return false
     if (price && PRICE_TIERS[price] && !PRICE_TIERS[price].test(priceValue(i.price))) return false
-    if (query && !matchesQuery(i, query)) return false
+    if (query && !matchesSearch(i, query)) return false
     if (priceFrom && priceValue(i.price) < priceFrom) return false
     if (priceTo && priceValue(i.price) > priceTo) return false
     return true
