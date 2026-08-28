@@ -21,7 +21,7 @@ export const NAV = [
   { to: '/about', label: 'О центре' },
   { to: '/news', label: 'Информация' },
   { to: '/promo', label: 'Акции' },
-  { to: '/locations', label: 'Адреса центров' },
+  { to: '/locations', label: 'Адрес центра' },
   { to: '/contacts', label: 'Контакты' },
 ]
 
@@ -61,7 +61,7 @@ export const TILES = [
   { icon: 'ear', label: 'Слуховые аппараты', to: '/catalog' },
   { icon: 'wave', label: 'Услуги и цены', to: '/catalog?cat=services' },
   { icon: 'star', label: 'Рассрочка 0%', to: '/promo' },
-  { icon: 'pin', label: 'Адреса центров', to: '/locations' },
+  { icon: 'pin', label: 'Адрес центра', to: '/locations' },
 ]
 
 /* Быстрый подбор */

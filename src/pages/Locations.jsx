@@ -9,7 +9,7 @@ import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
-/* Адреса центров: поиск, карта и карточки со ссылкой на страницу центра */
+/* Адрес центра: карта, карточка с адресом и ссылка на страницу центра */
 export default function Locations() {
   const { CENTERS } = useContent()
   const openForm = useRequestForm()
@@ -18,8 +18,8 @@ export default function Locations() {
     <>
       <Seo title={"Адрес центра"} description={"Томск, Иркутский тракт, 33, Октябрьский район. Часы приёма, как доехать, запись на тест слуха."} path={"/locations"} />
       <PageHero
-        crumbs={[{ label: 'Центры' }]}
-        eyebrow="Адреса"
+        crumbs={[{ label: 'Адрес центра' }]}
+        eyebrow="Адрес"
         title="Наш центр в Томске"
         text="Приём, подбор аппаратов и сервис — в Октябрьском районе Томска. Записаться можно по телефону или через форму."
       />
