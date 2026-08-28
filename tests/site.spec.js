@@ -59,10 +59,10 @@ test.describe('Каталог', () => {
     await expect(page.locator('.pcard').first()).toBeVisible()
   })
 
-  test('фильтр по категории сужает выдачу', async ({ page }) => {
+  test('подбор по типу сужает выдачу', async ({ page }) => {
     await page.goto('/catalog')
     const all = await page.locator('.pcard').count()
-    await page.locator('.chip', { hasText: 'Услуги центра' }).click()
+    await page.locator('.filters__list label', { hasText: 'Услуги центра' }).click()
     await expect(page).toHaveURL(/cat=services/)
     expect(await page.locator('.pcard').count()).toBeLessThanOrEqual(all)
   })

@@ -103,34 +103,7 @@ export default function Catalog() {
         crumbs={[{ label: active ? active.title : extra || 'Каталог' }]}
         eyebrow="Каталог"
         title={query ? `Поиск: ${query}` : active ? active.title : extra || 'Слуховые аппараты'}
-        text="Заушные, внутриушные и внутриканальные модели от 7 890 ₽. Точную модель подбирает сурдолог после теста слуха — приходите с результатами или проверьте слух у нас."
       />
-
-      {/* Категории плиткой */}
-      <section className="section section--tight" style={{ paddingTop: 'clamp(32px, 4vw, 48px)' }}>
-        <div className="container">
-          <div className="cat-chips">
-            <button className={`chip ${!cat ? 'is-active' : ''}`} onClick={() => setCat(null)}>
-              Все <small>{CATALOG.length}</small>
-            </button>
-            {CATEGORIES.map((c) => (
-              <button key={c.slug} className={`chip ${cat === c.slug ? 'is-active' : ''}`} onClick={() => setCat(c.slug)}>
-                {c.title} <small>{c.count}</small>
-              </button>
-            ))}
-            {extra && (
-              <button className="chip is-active" onClick={() => setParams({})}>
-                {extra} <Icon name="close" size={14} />
-              </button>
-            )}
-            {query && (
-              <button className="chip is-active" onClick={() => setParam('q', null)}>
-                Поиск: {query} <Icon name="close" size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-      </section>
 
       <section className="section section--tight" style={{ paddingTop: 32 }}>
         <div className="container catalog">
@@ -161,14 +134,14 @@ export default function Catalog() {
               <h4>Цена, ₽</h4>
               <div className="filters__price">
                 <input
-                  type="text" inputMode="numeric" placeholder="от 7 000" aria-label="Цена от"
+                  type="text" inputMode="numeric" placeholder="7 000" aria-label="Цена от"
                   defaultValue={params.get('from') || ''}
                   onBlur={(e) => setParam('from', asNumber(e.target.value))}
                   onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
                 />
                 <span>—</span>
                 <input
-                  type="text" inputMode="numeric" placeholder="до 120 000" aria-label="Цена до"
+                  type="text" inputMode="numeric" placeholder="120 000" aria-label="Цена до"
                   defaultValue={params.get('to') || ''}
                   onBlur={(e) => setParam('to', asNumber(e.target.value))}
                   onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}

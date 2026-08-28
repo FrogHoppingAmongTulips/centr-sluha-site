@@ -26,7 +26,7 @@
 .catalog__main { min-width: 0; }
 
 .filters {
-  position: sticky; top: 110px;
+  /* без прилипания: раньше панель ехала до середины списка и замирала */
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
   display: flex; flex-direction: column; gap: 22px;
 }
