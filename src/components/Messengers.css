@@ -1,32 +1,32 @@
-/* Фирменные цвета мессенджеров */
+/* Кнопки одинаковой ширины и невысокие: ряд не разъезжается и не выглядит тяжёлым */
 .msgr {
-  --whatsapp: #25d366;
-  --telegram: #229ed9;
-  --viber: #7360f2;
-  --vk: #0077ff;
-  display: flex; flex-wrap: wrap; gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(134px, 1fr));
+  gap: 8px;
+  width: 100%;
 }
 
 .msgr__btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 16px; border-radius: 12px;
-  font-weight: 600; font-size: 0.94rem; color: #fff;
-  transition: transform 0.2s var(--ease), filter 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 7px 12px; border-radius: 10px; min-height: 38px;
+  font-weight: 600; font-size: 0.88rem; color: #fff;
+  background: var(--brand);
+  transition: filter 0.2s, transform 0.2s var(--ease);
 }
-.msgr__btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.msgr__btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
 .msgr__btn svg { flex-shrink: 0; }
 
-.msgr__btn--whatsapp { background: var(--whatsapp); }
-.msgr__btn--telegram { background: var(--telegram); }
-.msgr__btn--viber { background: var(--viber); }
-.msgr__btn--vk { background: var(--vk); }
-.msgr__btn--mail { background: var(--teal-700); }
+/* фирменные цвета: тем же цветом закрашена внутренняя деталь значка */
+.msgr__btn--whatsapp { --brand: #25d366; }
+.msgr__btn--telegram { --brand: #229ed9; }
+.msgr__btn--viber { --brand: #7360f2; }
+.msgr__btn--vk { --brand: #0077ff; }
+.msgr__btn--mail { --brand: var(--teal-700); }
 
-/* Крупный вариант — для страницы контактов */
-.msgr--big .msgr__btn { padding: 14px 22px; font-size: 1rem; border-radius: 14px; }
-.msgr--big .msgr__btn svg { width: 22px; height: 22px; }
+/* Крупный вариант — на странице контактов */
+.msgr--big { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.msgr--big .msgr__btn { padding: 9px 14px; min-height: 44px; font-size: 0.94rem; border-radius: 12px; }
 
-@media (max-width: 480px) {
-  .msgr { flex-direction: column; }
-  .msgr__btn { justify-content: flex-start; }
+@media (max-width: 420px) {
+  .msgr, .msgr--big { grid-template-columns: 1fr 1fr; }
 }
