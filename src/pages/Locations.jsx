@@ -50,12 +50,14 @@ export default function Locations() {
       </section>
 
       <section className="section section--tight">
-        <div className="container band">
-          <div>
-            <h2>Неудобно приехать?</h2>
-            <p className="lead">Обсудим ситуацию по телефону и подскажем, что делать дальше.</p>
+        <div className="container">
+          <div className="band">
+            <div>
+              <h2>Неудобно приехать?</h2>
+              <p className="lead">Обсудим ситуацию по телефону и подскажем, что делать дальше.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => openForm('call')}>Заказать звонок <Icon name="arrow" size={18} /></button>
           </div>
-          <button className="btn btn-primary" onClick={() => openForm('call')}>Заказать звонок <Icon name="arrow" size={18} /></button>
         </div>
       </section>
     </>

@@ -20,9 +20,8 @@ test.describe('Главная', () => {
     await expect(page.locator('.hero__text h1')).toHaveText(title)
   })
 
-  test('на главной кто мы, рисунки по краям и запись', async ({ page }) => {
+  test('на главной кто мы и запись', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hero__ear')).toHaveCount(2)
     await expect(page.locator('.hero__text h1')).toContainText('Слышать')
     await expect(page.locator('.hero__text .btn-primary')).toBeVisible()
     // адрес и телефон живут в подвале, а не на первом экране
@@ -221,6 +220,21 @@ test.describe('Страницы и мета', () => {
   test('несуществующий адрес показывает 404', async ({ page }) => {
     await page.goto('/takoy-stranicy-net')
     await expect(page.locator('.nf__code')).toBeVisible()
+  })
+})
+
+test.describe('Правая колонка кнопок', () => {
+  test('содержимое не залезает под липкие кнопки', async ({ page }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    for (const path of ['/catalog', '/news', '/about', '/locations']) {
+      await page.goto(path)
+      const rail = await page.locator('.sticky-actions').boundingBox()
+      const band = page.locator('.band').first()
+      if (await band.count()) {
+        const b = await band.boundingBox()
+        expect(b.x + b.width, `полоса на ${path}`).toBeLessThanOrEqual(rail.x)
+      }
+    }
   })
 })
 

@@ -119,12 +119,14 @@ export default function News() {
       </section>
 
       <section className="section section--tight">
-        <div className="container band">
-          <div>
-            <h2>Не нашли ответ?</h2>
-            <p className="lead">Напишите вопрос — сурдолог ответит в течение рабочего дня.</p>
+        <div className="container">
+          <div className="band">
+            <div>
+              <h2>Не нашли ответ?</h2>
+              <p className="lead">Напишите вопрос — сурдолог ответит в течение рабочего дня.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => openForm('ask')}>Задать вопрос <Icon name="arrow" size={18} /></button>
           </div>
-          <button className="btn btn-primary" onClick={() => openForm('ask')}>Задать вопрос <Icon name="arrow" size={18} /></button>
         </div>
       </section>
     </>

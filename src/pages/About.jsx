@@ -9,6 +9,7 @@ import { useRequestForm } from '../components/RequestModal'
 import { useContent } from '../components/ContentContext'
 import { ADVANTAGES, STEPS, STATS, BRANDS, FAQ } from '../data/site'
 import './Pages.css'
+import './Sections.css'
 
 /* Подробный рассказ о центре: почему к нам, как проходит подбор, вопросы.
    На главной остаётся короткая визитка со ссылкой сюда. */
@@ -127,12 +128,14 @@ export default function About() {
 
       {/* Куда приходить */}
       <section className="section section--tight">
-        <div className="container band">
-          <div>
-            <h2>Приходите на тест слуха</h2>
-            <p className="lead">{main.address} · {main.hours}. Записаться можно по телефону {SITE.phone}.</p>
+        <div className="container">
+          <div className="band">
+            <div>
+              <h2>Приходите на тест слуха</h2>
+              <p className="lead">{main.address} · {main.hours}. Записаться можно по телефону {SITE.phone}.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => openForm('visit')}>Записаться <Icon name="arrow" size={18} /></button>
           </div>
-          <button className="btn btn-primary" onClick={() => openForm('visit')}>Записаться <Icon name="arrow" size={18} /></button>
         </div>
       </section>
     </>

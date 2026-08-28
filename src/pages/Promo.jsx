@@ -7,6 +7,7 @@ import { useRequestForm } from '../components/RequestModal'
 import { TILES } from '../data/site'
 import { useContent } from '../components/ContentContext'
 import './Pages.css'
+import './Sections.css'
 import Seo from '../components/Seo'
 
 /* Акции и спецпредложения — отдельный раздел, как у референсов */

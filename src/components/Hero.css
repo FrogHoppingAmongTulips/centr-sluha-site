@@ -1,13 +1,7 @@
 /* Первый экран: текст по центру, рисунки уха по краям */
 .hero { padding: clamp(28px, 4vw, 64px) 0 clamp(32px, 4vw, 64px); }
 
-.hero__inner {
-  display: grid; grid-template-columns: auto minmax(0, 860px) auto;
-  align-items: center; justify-content: center; gap: clamp(16px, 4vw, 72px);
-}
-
-.hero__ear { width: clamp(96px, 12vw, 200px); height: auto; }
-.hero__ear--flip { transform: scaleX(-1); }
+.hero__inner { display: grid; justify-items: center; }
 
 .hero__text { text-align: center; }
 .hero__text h1 {
@@ -17,10 +11,4 @@
 .hero__text p { color: var(--muted); font-size: 1.08rem; line-height: 1.75; max-width: 60ch; margin: 0 auto; }
 .hero__text .btn { margin-top: 26px; }
 
-@media (max-width: 900px) {
-  /* на узком экране ухо одно и стоит над текстом */
-  .hero__inner { grid-template-columns: 1fr; gap: 18px; justify-items: center; }
-  .hero__ear--flip { display: none; }
-  .hero__ear { width: 84px; }
-  .hero__text { text-align: center; }
-}
+

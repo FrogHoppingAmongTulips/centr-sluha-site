@@ -242,12 +242,14 @@ export default function Catalog() {
       </section>
 
       <section className="section">
-        <div className="container band">
-          <div>
-            <h2>Сомневаетесь в выборе?</h2>
-            <p className="lead">Позвоним, зададим несколько вопросов и предложим 2–3 модели в вашем бюджете.</p>
+        <div className="container">
+          <div className="band">
+            <div>
+              <h2>Сомневаетесь в выборе?</h2>
+              <p className="lead">Позвоним, зададим несколько вопросов и предложим 2–3 модели в вашем бюджете.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => openForm('call')}>Заказать звонок <Icon name="arrow" size={18} /></button>
           </div>
-          <button className="btn btn-primary" onClick={() => openForm('call')}>Заказать звонок <Icon name="arrow" size={18} /></button>
         </div>
       </section>
     </>
