@@ -7,28 +7,26 @@ test.describe('Главная', () => {
   test('открывается сверху и показывает первый экран', async ({ page }) => {
     await page.goto('/')
     expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0)
-    await expect(page.locator('.hero__card h1')).toBeVisible()
-    await expect(page.locator('.hero__ph img')).toBeVisible()
+    await expect(page.locator('.hero__text h1')).toBeVisible()
   })
 
-  test('первый экран не меняет картинки сам', async ({ page }) => {
+  test('первый экран статичный, без фоновой картинки', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('.hero__arrow')).toHaveCount(0)
     await expect(page.locator('.hero__dots')).toHaveCount(0)
-    const title = await page.locator('.hero__card h1').textContent()
-    await page.waitForTimeout(2500)
-    await expect(page.locator('.hero__card h1')).toHaveText(title)
+    await expect(page.locator('.hero__media')).toHaveCount(0)
+    const title = await page.locator('.hero__text h1').textContent()
+    await page.waitForTimeout(2000)
+    await expect(page.locator('.hero__text h1')).toHaveText(title)
   })
 
-  test('на главной видно, кто мы и где искать', async ({ page }) => {
+  test('на главной кто мы, рисунки по краям и запись', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hero__ph img')).toBeVisible()
     await expect(page.locator('.hero__ear')).toHaveCount(2)
-    await expect(page.locator('.hero__card h1')).toContainText('Слышать')
-    await expect(page.locator('.hero__where')).toContainText('Иркутский тракт')
-    await expect(page.locator('.hero__where')).toContainText('821-73-47')
-    await expect(page.locator('.hero__card .btn-primary')).toBeVisible()
-    // остальное — в меню и подвале
+    await expect(page.locator('.hero__text h1')).toContainText('Слышать')
+    await expect(page.locator('.hero__text .btn-primary')).toBeVisible()
+    // адрес и телефон живут в подвале, а не на первом экране
+    await expect(page.locator('.hero__where')).toHaveCount(0)
     await expect(page.locator('.ftr__col')).toHaveCount(4)
   })
 
