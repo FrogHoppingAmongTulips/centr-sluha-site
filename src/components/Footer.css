@@ -47,7 +47,7 @@
   padding: 24px 0 32px; border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 0.84rem; color: rgba(255, 255, 255, 0.55);
 }
-.ftr__legal { display: inline-flex; gap: 22px; flex-wrap: wrap; }
+.ftr__legal { display: inline-flex; gap: 22px; flex-wrap: wrap; padding-left: clamp(12px, 3vw, 56px); }
 .ftr__legal a { text-decoration: underline; text-underline-offset: 3px; }
 .ftr__legal a:hover { color: #fff; }
 

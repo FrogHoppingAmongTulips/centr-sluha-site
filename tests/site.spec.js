@@ -11,23 +11,25 @@ test.describe('Главная', () => {
     await expect(page.locator('.hero__ph img')).toBeVisible()
   })
 
-  test('слайдер листается стрелками и точками', async ({ page }) => {
+  test('первый экран не меняет картинки сам', async ({ page }) => {
     await page.goto('/')
-    const first = await page.locator('.hero__card h1').textContent()
-    await page.locator('.hero__arrow--next').click()
-    await expect(page.locator('.hero__card h1')).not.toHaveText(first)
-    await page.locator('.hero__dots button').first().click()
-    await expect(page.locator('.hero__card h1')).toHaveText(first)
+    await expect(page.locator('.hero__arrow')).toHaveCount(0)
+    await expect(page.locator('.hero__dots')).toHaveCount(0)
+    const title = await page.locator('.hero__card h1').textContent()
+    await page.waitForTimeout(2500)
+    await expect(page.locator('.hero__card h1')).toHaveText(title)
   })
 
-  test('главная — снимок, карточка с рассказом и подвал', async ({ page }) => {
+  test('на главной видно, кто мы и где искать', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('.hero__ph img')).toBeVisible()
-    await expect(page.locator('.hero__card p')).toHaveCount(2)
+    await expect(page.locator('.hero__ear')).toHaveCount(2)
+    await expect(page.locator('.hero__card h1')).toContainText('Слышать')
+    await expect(page.locator('.hero__where')).toContainText('Иркутский тракт')
+    await expect(page.locator('.hero__where')).toContainText('821-73-47')
     await expect(page.locator('.hero__card .btn-primary')).toBeVisible()
-    // всё остальное живёт в меню и подвале
+    // остальное — в меню и подвале
     await expect(page.locator('.ftr__col')).toHaveCount(4)
-    await expect(page.locator('.ftr .msgr__btn').first()).toBeVisible()
   })
 
   test('из шапки можно уйти в разделы', async ({ page }) => {
