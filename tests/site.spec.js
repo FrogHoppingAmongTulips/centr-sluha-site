@@ -111,6 +111,47 @@ test.describe('Формы', () => {
     await expect(page.locator('.rform__send a').first()).toHaveAttribute('href', /wa\.me/)
     await expect(page.locator('.rform__preview')).toContainText('Пётр')
   })
+
+  test('время выбирается барабаном', async ({ page }) => {
+    await page.goto('/contacts')
+    await page.locator('.timepick__field').click()
+    await expect(page.locator('.timepick__drop')).toBeVisible()
+    // крутим барабаны по очереди, как это делает человек
+    await page.locator('.wheel').first().evaluate((el) => { el.scrollTop = 5 * 42 })
+    await expect.poll(() => page.locator('input[name="time"]').inputValue()).toBe('14:00')
+    await page.locator('.wheel').nth(1).evaluate((el) => { el.scrollTop = 2 * 42 })
+    await expect.poll(() => page.locator('input[name="time"]').inputValue()).toBe('14:30')
+    await page.locator('.timepick__foot .btn').click()
+    await expect(page.locator('.timepick__drop')).toHaveCount(0)
+  })
+})
+
+test.describe('Поиск и подбор', () => {
+  test('поиск в шапке находит модель', async ({ page }) => {
+    await page.goto('/')
+    await page.locator('.hdr__search input').fill('phonak')
+    await page.locator('.hdr__search input').press('Enter')
+    await expect(page).toHaveURL(/q=phonak/)
+    const titles = await page.locator('.pcard h3').allTextContents()
+    expect(titles.length).toBeGreaterThan(0)
+    expect(titles.every((t) => /phonak/i.test(t))).toBe(true)
+  })
+
+  test('сортировка меняет порядок', async ({ page }) => {
+    await page.goto('/catalog?sort=cheap')
+    const prices = (await page.locator('.pcard__price strong').allTextContents()).map((t) => Number(t.replace(/\D/g, '')))
+    expect(prices.every((n, i) => i === 0 || prices[i - 1] <= n)).toBe(true)
+  })
+
+  test('фильтр по цене отсекает дешёвые модели', async ({ page }) => {
+    await page.goto('/catalog')
+    const from = page.locator('.filters__price input').first()
+    await from.fill('50000')
+    await from.press('Enter')
+    await expect(page).toHaveURL(/from=50000/)
+    const prices = (await page.locator('.pcard__price strong').allTextContents()).map((t) => Number(t.replace(/\D/g, '')))
+    expect(prices.every((n) => n >= 50000)).toBe(true)
+  })
 })
 
 test.describe('Карта и адреса', () => {

@@ -87,9 +87,16 @@ export default function Header() {
           <a href={SITE.phoneHref} className="nav__phone">{SITE.phone}</a>
         </nav>
 
-        <form className="hdr__search" onSubmit={(e) => { e.preventDefault(); navigate('/catalog') }}>
+        <form
+          className="hdr__search"
+          onSubmit={(e) => {
+            e.preventDefault()
+            const q = new FormData(e.currentTarget).get('q').toString().trim()
+            navigate(q ? `/catalog?q=${encodeURIComponent(q)}` : '/catalog')
+          }}
+        >
           <Icon name="search" size={17} />
-          <input type="search" placeholder="Поиск" aria-label="Поиск по сайту" />
+          <input type="search" name="q" placeholder="Поиск по каталогу" aria-label="Поиск по каталогу" />
         </form>
 
         <div className="hdr__actions">

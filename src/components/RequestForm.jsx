@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import PhoneInput from './PhoneInput'
 import DateInput from './DateInput'
+import TimeInput from './TimeInput'
 import { useContent } from './ContentContext'
 import { panelEnabled, sendRequest } from '../lib/panel'
 import './RequestForm.css'
@@ -153,7 +154,7 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
             <Field label="Дата"><DateInput name="date" /></Field>
             {/* время приёма пока не выбирается — подтверждаем по телефону */}
             <Field label="Время">
-              <input type="text" name="time" value="1:00" readOnly disabled />
+              <TimeInput name="time" />
             </Field>
           </div>
         </>

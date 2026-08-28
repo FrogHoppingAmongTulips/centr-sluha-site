@@ -79,15 +79,11 @@ h3 { font-size: 1.25rem; }
 .section--tight { padding-top: 0; }
 
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center;
   font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--teal-700);
 }
-.eyebrow::before {
-  content: ''; width: 22px; height: 2px; background: var(--teal-300); border-radius: 2px;
-}
 .eyebrow--light { color: var(--sky); }
-.eyebrow--light::before { background: var(--sky); }
 
 .lead { color: var(--muted); font-size: 1.18rem; line-height: 1.7; max-width: 56ch; }
 

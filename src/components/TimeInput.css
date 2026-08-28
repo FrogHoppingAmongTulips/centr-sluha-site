@@ -1,0 +1,51 @@
+.timepick { position: relative; }
+
+.timepick__field {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
+  padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--sand); font-family: inherit; font-size: max(1rem, 16px); color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.timepick__field:hover { border-color: #c6d2e6; }
+.timepick__field.is-open { background: #fff; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50); }
+.timepick__field svg { color: var(--muted); flex-shrink: 0; }
+.timepick__placeholder { color: #9aa3b5; }
+
+.timepick__drop {
+  position: absolute; z-index: 30; left: 0; right: auto; top: calc(100% + 8px);
+  min-width: max(100%, 232px);
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 12px 12px 10px;
+  animation: timepick-in 0.18s var(--ease);
+}
+@keyframes timepick-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* Барабаны: подсвеченная полоса по центру, как в мобильных выборках */
+.timepick__wheels { position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.timepick__band {
+  position: absolute; left: 6px; right: 6px; top: 50%; height: 42px; transform: translateY(-50%);
+  background: var(--teal-50); border-radius: 10px; pointer-events: none;
+}
+.timepick__colon { font-weight: 800; color: var(--muted); }
+
+.wheel {
+  position: relative; overflow-y: auto; scroll-snap-type: y mandatory;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column; align-items: stretch; min-width: 76px;
+}
+.wheel::-webkit-scrollbar { display: none; }
+.wheel__item {
+  scroll-snap-align: center; flex: 0 0 42px; height: 42px;
+  font-family: inherit; font-size: 1.05rem; font-weight: 600; color: var(--muted);
+  border-radius: 10px; transition: color 0.15s, transform 0.15s;
+}
+.wheel__item:hover { color: var(--ink); }
+.wheel__item.is-active { color: var(--teal-700); font-size: 1.2rem; font-weight: 800; }
+
+.timepick__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.8rem; white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) { .timepick__drop { animation: none; } }

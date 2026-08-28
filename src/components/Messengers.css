@@ -7,14 +7,13 @@
 }
 
 .msgr__btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
+  display: flex; align-items: center; justify-content: center;
   padding: 7px 12px; border-radius: 10px; min-height: 38px;
   font-weight: 600; font-size: 0.88rem; color: #fff;
   background: var(--brand);
   transition: filter 0.2s, transform 0.2s var(--ease);
 }
 .msgr__btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
-.msgr__btn svg { flex-shrink: 0; }
 
 /* фирменные цвета: тем же цветом закрашена внутренняя деталь значка */
 .msgr__btn--whatsapp { --brand: #25d366; }

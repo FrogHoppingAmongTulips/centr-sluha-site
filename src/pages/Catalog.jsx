@@ -5,7 +5,7 @@ import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
 import ProductCard from '../components/ProductCard'
 import { useRequestForm } from '../components/RequestModal'
-import { CATEGORIES, FILTERS, SORTS } from '../data/site'
+import { CATEGORIES, FILTERS } from '../data/site'
 import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
@@ -27,6 +27,25 @@ const matchesFeature = (i, q) => {
 
 const PER_PAGE = 6
 
+/* Порядок вывода: значение в адресе → как сортируем список */
+const SORT_MODES = {
+  popular: { label: 'По популярности', apply: (list) => list },
+  cheap: { label: 'Сначала дешевле', apply: (list) => [...list].sort((a, b) => priceValue(a.price) - priceValue(b.price)) },
+  expensive: { label: 'Сначала дороже', apply: (list) => [...list].sort((a, b) => priceValue(b.price) - priceValue(a.price)) },
+  fresh: { label: 'Сначала новинки', apply: (list) => [...list].sort((a, b) => Number(Boolean(b.tag)) - Number(Boolean(a.tag))) },
+}
+
+/* Поиск идёт по названию, бренду, описанию и характеристикам */
+const matchesQuery = (item, query) => {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean)
+  const hay = [item.title, item.brand, item.short, ...(item.points || []), ...(item.specs || []).map((sp) => `${sp.k} ${sp.v}`)]
+    .join(' ')
+    .toLowerCase()
+  return words.every((w) => hay.includes(w))
+}
+
+const asNumber = (value) => Number(String(value).replace(/[^\d]/g, '')) || null
+
 export default function Catalog() {
   const { CATALOG } = useContent()
   const [params, setParams] = useSearchParams()
@@ -34,20 +53,38 @@ export default function Catalog() {
   const brand = params.get('brand')
   const price = params.get('price')
   const feature = params.get('feature')
+  const query = (params.get('q') || '').trim()
+  const sort = SORT_MODES[params.get('sort')] ? params.get('sort') : 'popular'
+  const priceFrom = asNumber(params.get('from'))
+  const priceTo = asNumber(params.get('to'))
   const openForm = useRequestForm()
   // на телефоне подбор закрыт: иначе до первого товара пришлось бы листать целый экран
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  const items = CATALOG.filter((i) => {
+  const found = CATALOG.filter((i) => {
     if (cat && i.category !== cat) return false
     if (brand && !matchesFeature(i, brand)) return false
     if (feature && !matchesFeature(i, feature)) return false
     if (price && PRICE_TIERS[price] && !PRICE_TIERS[price].test(priceValue(i.price))) return false
+    if (query && !matchesQuery(i, query)) return false
+    if (priceFrom && priceValue(i.price) < priceFrom) return false
+    if (priceTo && priceValue(i.price) > priceTo) return false
     return true
   })
 
+  const items = SORT_MODES[sort].apply(found)
+
   const active = CATEGORIES.find((c) => c.slug === cat)
   const extra = brand || feature || (price && PRICE_TIERS[price] ? PRICE_TIERS[price].label : null)
+
+  /* Меняем один параметр в адресе, остальные не трогаем; страница сбрасывается на первую */
+  const setParam = (key, value) => {
+    const next = new URLSearchParams(params)
+    if (value) next.set(key, value)
+    else next.delete(key)
+    next.delete('page')
+    setParams(next)
+  }
 
   /* Постраничный вывод: номер страницы живёт в адресе, фильтр сбрасывает его на первую */
   const pages = Math.max(1, Math.ceil(items.length / PER_PAGE))
@@ -73,7 +110,7 @@ export default function Catalog() {
       <PageHero
         crumbs={[{ label: active ? active.title : extra || 'Каталог' }]}
         eyebrow="Каталог"
-        title={active ? active.title : extra || 'Слуховые аппараты'}
+        title={query ? `Поиск: ${query}` : active ? active.title : extra || 'Слуховые аппараты'}
         text="Заушные, внутриушные и внутриканальные модели от 7 890 ₽. Точную модель подбирает сурдолог после теста слуха — приходите с результатами или проверьте слух у нас."
       />
 
@@ -92,6 +129,11 @@ export default function Catalog() {
             {extra && (
               <button className="chip is-active" onClick={() => setParams({})}>
                 {extra} <Icon name="close" size={14} />
+              </button>
+            )}
+            {query && (
+              <button className="chip is-active" onClick={() => setParam('q', null)}>
+                Поиск: {query} <Icon name="close" size={14} />
               </button>
             )}
           </div>
@@ -126,9 +168,19 @@ export default function Catalog() {
             <div className="filters__group">
               <h4>Цена, ₽</h4>
               <div className="filters__price">
-                <input type="text" defaultValue="7 000" aria-label="Цена от" />
+                <input
+                  type="text" inputMode="numeric" placeholder="от 7 000" aria-label="Цена от"
+                  defaultValue={params.get('from') || ''}
+                  onBlur={(e) => setParam('from', asNumber(e.target.value))}
+                  onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+                />
                 <span>—</span>
-                <input type="text" defaultValue="120 000" aria-label="Цена до" />
+                <input
+                  type="text" inputMode="numeric" placeholder="до 120 000" aria-label="Цена до"
+                  defaultValue={params.get('to') || ''}
+                  onBlur={(e) => setParam('to', asNumber(e.target.value))}
+                  onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur() }}
+                />
               </div>
             </div>
 
@@ -163,8 +215,10 @@ export default function Catalog() {
               <span>Найдено: <strong>{items.length}</strong>{pages > 1 && <> · страница {page} из {pages}</>}</span>
               <label className="catalog__sort">
                 Сортировка
-                <select defaultValue={SORTS[0]}>
-                  {SORTS.map((s, i) => <option key={i}>{s}</option>)}
+                <select value={sort} onChange={(e) => setParam('sort', e.target.value === 'popular' ? null : e.target.value)}>
+                  {Object.entries(SORT_MODES).map(([key, mode]) => (
+                    <option key={key} value={key}>{mode.label}</option>
+                  ))}
                 </select>
               </label>
             </div>
