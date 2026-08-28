@@ -7,11 +7,13 @@ import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
 import Seo from '../components/Seo'
 import NotFound from './NotFound'
-import { CENTERS, SCHEDULE } from '../data/site'
+import { SCHEDULE } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 
 /* Страница отдельного центра: фото, адрес, график, как добраться, врачи, форма */
 export default function Center() {
+  const { CENTERS } = useContent()
   const { slug } = useParams()
   const c = CENTERS.find((x) => x.slug === slug)
   if (!c) return <NotFound />

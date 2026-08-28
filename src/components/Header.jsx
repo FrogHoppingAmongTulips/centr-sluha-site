@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { SITE, NAV, CATALOG_MENU, CERT_LINK } from '../data/site'
+import { NAV, CATALOG_MENU, CERT_LINK } from '../data/site'
+import { useContent } from './ContentContext'
 import Icon from './Icon'
 import Logo from './Logo'
 import Mail from './Mail'
@@ -9,6 +10,7 @@ import { useCart } from './CartContext'
 import './Header.css'
 
 export default function Header() {
+  const { SITE } = useContent()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [catOpen, setCatOpen] = useState(false) // подменю каталога на телефоне

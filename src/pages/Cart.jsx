@@ -4,12 +4,13 @@ import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import RequestForm from '../components/RequestForm'
 import { useCart } from '../components/CartContext'
-import { CATALOG } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
 /* Корзина: выбранные позиции без количеств — итог остаётся заглушкой */
 export default function Cart() {
+  const { CATALOG } = useContent()
   const cart = useCart()
   const items = CATALOG.filter((i) => cart.slugs.includes(i.slug))
 
@@ -60,7 +61,7 @@ export default function Cart() {
                     <h3>Записаться на примерку</h3>
                     <p>Подготовим выбранные модели к вашему визиту.</p>
                   </div>
-                  <RequestForm variant="visit" />
+                  <RequestForm variant="visit" items={items.map((i) => `${i.title} — ${i.price}`).join('; ')} />
                 </div>
               </aside>
             </div>

@@ -4,12 +4,14 @@ import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import Reveal from '../components/Reveal'
 import { useRequestForm } from '../components/RequestModal'
-import { NEWS, NEWS_TYPES } from '../data/site'
+import { NEWS_TYPES } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
 /* Два раздела в одной ленте: новости центра и полезные материалы */
 export default function News() {
+  const { NEWS } = useContent()
   const [params, setParams] = useSearchParams()
   const type = params.get('type')
   const openForm = useRequestForm()

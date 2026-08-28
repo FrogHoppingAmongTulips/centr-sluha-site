@@ -9,7 +9,8 @@ import Seo from '../components/Seo'
 import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
 import NotFound from './NotFound'
-import { CATALOG, CATEGORIES, SITE } from '../data/site'
+import { CATEGORIES } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 
 const TABS = [
@@ -19,6 +20,7 @@ const TABS = [
 ]
 
 export default function Product() {
+  const { CATALOG, SITE } = useContent()
   const { slug } = useParams()
   const [tab, setTab] = useState('desc')
   const [shot, setShot] = useState(0)
@@ -28,6 +30,7 @@ export default function Product() {
   if (!item) return <NotFound />
 
   const cat = CATEGORIES.find((c) => c.slug === item.category)
+  const missing = item.stock === 'net'
   const related = CATALOG.filter((i) => i.slug !== item.slug).slice(0, 4)
 
   return (
@@ -67,8 +70,15 @@ export default function Product() {
                 <ul className="prod__points">
                   {item.points.map((p, i) => <li key={i}><Icon name="check" size={16} /> {p}</li>)}
                 </ul>
-                <div className="prod__actions">
-                  <button className="btn btn-primary" onClick={() => openForm('visit', item.slug)}>Записаться на примерку <Icon name="arrow" size={18} /></button>
+                {missing && (
+                <p className="prod__stock">
+                  <Icon name="clock" size={17} /> Сейчас нет в наличии — сообщим, когда поступит
+                </p>
+              )}
+              <div className="prod__actions">
+                  <button className="btn btn-primary" onClick={() => openForm(missing ? 'ask' : 'visit', item.slug)}>
+                  {missing ? 'Сообщить о поступлении' : 'Записаться на примерку'} <Icon name="arrow" size={18} />
+                </button>
                   <button className="btn btn-ghost" onClick={() => openForm('call')}>Заказать звонок</button>
                 </div>
                 <a href={SITE.phoneHref} className="prod__phone"><Icon name="phone" size={18} /> {SITE.phone}</a>

@@ -1,11 +1,12 @@
 import Icon from './Icon'
 import { useRequestForm } from './RequestModal'
-import { SITE } from '../data/site'
+import { useContent } from './ContentContext'
 import './MobileBar.css'
 
 /* Нижняя панель для телефона: два главных действия всегда под рукой.
    На широких экранах её заменяют липкие кнопки справа. */
 export default function MobileBar() {
+  const { SITE } = useContent()
   const openForm = useRequestForm()
   return (
     <div className="mbar">

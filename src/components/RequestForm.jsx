@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import PhoneInput from './PhoneInput'
 import DateInput from './DateInput'
-import { CATALOG, SERVICES, SITE } from '../data/site'
+import { useContent } from './ContentContext'
+import { panelEnabled, sendRequest } from '../lib/panel'
 import './RequestForm.css'
 
 /* Три типа форм: запись на приём, вопрос специалисту, обратный звонок */
@@ -40,26 +41,69 @@ const LABELS = {
   date: 'Дата', time: 'Время', message: 'Комментарий',
 }
 
-export default function RequestForm({ variant = 'visit', subject, id }) {
+const REQUEST_TYPE = { visit: 'zapis', ask: 'vopros', call: 'zvonok' }
+
+export default function RequestForm({ variant = 'visit', subject, id, items }) {
+  const { CATALOG, SERVICES, SITE } = useContent()
   const [sent, setSent] = useState(null)
+  const [sending, setSending] = useState(false)
   const v = FORM_VARIANTS[variant] || FORM_VARIANTS.visit
 
-  /* Сервера у сайта нет, поэтому заявку не «проглатываем»: собираем текст
-     и отдаём человеку готовые способы отправки — сообщение или письмо.
-     Когда появится CRM, здесь останется один запрос на сервер. */
-  const onSubmit = (e) => {
+  /* Заявка уходит в панель управления — владелец видит её в разделе «Заявки».
+     Если панель недоступна, показываем готовый текст и способы отправить
+     его вручную: сообщением или письмом. Заявка не теряется в любом случае. */
+  const onSubmit = async (e) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
+    const values = Object.fromEntries([...data.entries()].filter(([, val]) => String(val).trim()))
+
     const lines = [`Заявка с сайта: ${v.title.toLowerCase()}`]
-    for (const [key, value] of data.entries()) {
-      if (LABELS[key] && String(value).trim()) lines.push(`${LABELS[key]}: ${value}`)
+    for (const [key, value] of Object.entries(values)) {
+      if (LABELS[key]) lines.push(`${LABELS[key]}: ${value}`)
     }
+    if (items) lines.push(`Выбрано: ${items}`)
     const text = lines.join('\n')
+
+    if (panelEnabled) {
+      setSending(true)
+      try {
+        await sendRequest({
+          type: items ? 'zakaz' : REQUEST_TYPE[variant],
+          name: values.name || '',
+          phone: values.phone || '',
+          email: values.email || '',
+          preferred: [values.date, values.time].filter(Boolean).join(' '),
+          items: items || (values.subject ? `Услуга: ${values.subject}` : ''),
+          comment: values.message || '',
+          page: window.location.pathname,
+        })
+        setSending(false)
+        setSent({ accepted: true })
+        return
+      } catch {
+        setSending(false) // панель не ответила — уходим на запасной путь
+      }
+    }
+
     setSent({
       text,
       whatsapp: `https://wa.me/${SITE.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`,
       mail: `mailto:${SITE.email}?subject=${encodeURIComponent(lines[0])}&body=${encodeURIComponent(text)}`,
     })
+  }
+
+  if (sent?.accepted) {
+    return (
+      <div className="rform rform--done">
+        <span className="rform__check"><Icon name="check" size={30} /></span>
+        <h3>Заявка принята</h3>
+        <p>Перезвоним в рабочее время и подтвердим детали. Если нужно срочно — звоните: {SITE.phone}.</p>
+        <div className="rform__send">
+          <a className="btn btn-ghost" href={SITE.phoneHref}><Icon name="phone" size={18} /> {SITE.phone}</a>
+        </div>
+        <button className="btn btn-ghost btn-sm" onClick={() => setSent(null)}>Отправить ещё одну</button>
+      </div>
+    )
   }
 
   if (sent) {
@@ -128,8 +172,8 @@ export default function RequestForm({ variant = 'visit', subject, id }) {
         </span>
       </label>
 
-      <button type="submit" className="btn btn-primary btn-block">
-        {v.submit} <Icon name="arrow" size={18} />
+      <button type="submit" className="btn btn-primary btn-block" disabled={sending}>
+        {sending ? 'Отправляем…' : v.submit} <Icon name="arrow" size={18} />
       </button>
     </form>
   )

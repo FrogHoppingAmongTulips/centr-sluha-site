@@ -4,12 +4,14 @@ import Ph from '../components/Ph'
 import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
-import { PROMOS, TILES } from '../data/site'
+import { TILES } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
 /* Акции и спецпредложения — отдельный раздел, как у референсов */
 export default function Promo() {
+  const { PROMOS } = useContent()
   const openForm = useRequestForm()
 
   return (

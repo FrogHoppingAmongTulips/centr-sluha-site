@@ -87,7 +87,7 @@ test.describe('Формы', () => {
     await expect(phone).toHaveValue('+14155552468')
   })
 
-  test('заявка собирается и предлагает способы отправки', async ({ page }) => {
+  test('заявка уходит в панель, если она подключена', async ({ page }) => {
     await page.goto('/contacts')
     await page.getByRole('tab', { name: 'Обратный звонок' }).click()
     await page.locator('.form-card input[name="name"]').fill('Иван')
@@ -95,8 +95,21 @@ test.describe('Формы', () => {
     await page.locator('.form-card input[type="checkbox"]').check()
     await page.locator('.form-card button[type="submit"]').click()
     await expect(page.locator('.rform--done')).toBeVisible()
+    // с панелью — «принята», без панели — готовый текст для отправки вручную
+    await expect(page.locator('.rform--done h3')).toHaveText(/Заявка (принята|готова)/)
+  })
+
+  test('без панели заявку можно отправить сообщением или письмом', async ({ page }) => {
+    // обрываем связь с панелью — проверяем запасной путь
+    await page.route('**/items/zayavki', (route) => route.abort())
+    await page.goto('/contacts')
+    await page.getByRole('tab', { name: 'Обратный звонок' }).click()
+    await page.locator('.form-card input[name="name"]').fill('Пётр')
+    await page.locator('.form-card input[name="phone"]').type('9138217347')
+    await page.locator('.form-card input[type="checkbox"]').check()
+    await page.locator('.form-card button[type="submit"]').click()
     await expect(page.locator('.rform__send a').first()).toHaveAttribute('href', /wa\.me/)
-    await expect(page.locator('.rform__preview')).toContainText('Иван')
+    await expect(page.locator('.rform__preview')).toContainText('Пётр')
   })
 })
 

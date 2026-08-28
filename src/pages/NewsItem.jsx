@@ -6,10 +6,11 @@ import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
 import Seo from '../components/Seo'
 import NotFound from './NotFound'
-import { NEWS } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 
 export default function NewsItem() {
+  const { NEWS } = useContent()
   const { slug } = useParams()
   const item = NEWS.find((n) => n.slug === slug)
   if (!item) return <NotFound />

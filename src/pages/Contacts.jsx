@@ -8,19 +8,22 @@ import Mail from '../components/Mail'
 import Reveal from '../components/Reveal'
 import RequestForm, { FORM_VARIANTS } from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
-import { SITE, CENTERS, SCHEDULE } from '../data/site'
+import { SCHEDULE } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
-const LINES = [
-  { icon: 'phone', label: 'Единый телефон', value: SITE.phone, href: SITE.phoneHref },
-  { icon: 'mail', label: 'Почта', value: SITE.email, mail: true },
-  { icon: 'pin', label: 'Главный центр', value: SITE.address },
-  { icon: 'clock', label: 'Часы работы', value: SITE.hours },
-]
-
 export default function Contacts() {
+  const { SITE, CENTERS } = useContent()
   const [tab, setTab] = useState('visit')
+
+  const LINES = [
+    { icon: 'phone', label: 'Единый телефон', value: SITE.phone, href: SITE.phoneHref },
+    { icon: 'mail', label: 'Почта', value: SITE.email, mail: true },
+    { icon: 'pin', label: 'Главный центр', value: SITE.address },
+    { icon: 'clock', label: 'Часы работы', value: SITE.hours },
+  ]
+
   const openForm = useRequestForm()
   const v = FORM_VARIANTS[tab]
 

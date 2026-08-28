@@ -5,7 +5,8 @@ import Icon from '../components/Icon'
 import Reveal from '../components/Reveal'
 import ProductCard from '../components/ProductCard'
 import { useRequestForm } from '../components/RequestModal'
-import { CATEGORIES, CATALOG, FILTERS, SORTS } from '../data/site'
+import { CATEGORIES, FILTERS, SORTS } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
@@ -27,6 +28,7 @@ const matchesFeature = (i, q) => {
 const PER_PAGE = 6
 
 export default function Catalog() {
+  const { CATALOG } = useContent()
   const [params, setParams] = useSearchParams()
   const cat = params.get('cat')
   const brand = params.get('brand')

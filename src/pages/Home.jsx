@@ -11,13 +11,15 @@ import RequestForm from '../components/RequestForm'
 import Seo from '../components/Seo'
 import { useRequestForm } from '../components/RequestModal'
 import {
-  SITE, OFFERS, PICKER, BRANDS, SERVICES, ADVANTAGES, STEPS, STATS,
-  CATEGORIES, CATALOG, NEWS, NEWS_TYPES, CENTERS, FAQ,
+  OFFERS, PICKER, BRANDS, ADVANTAGES, STEPS, STATS,
+  CATEGORIES, NEWS_TYPES, FAQ,
 } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import './Home.css'
 
 export default function Home() {
+  const { SITE, HOME_PRODUCTS, SERVICES, NEWS, CENTERS } = useContent()
   const openForm = useRequestForm()
   const [shelf, setShelf] = useState('goods')    // товары / услуги
   const [feed, setFeed] = useState('news')       // новости / полезные материалы
@@ -86,7 +88,7 @@ export default function Home() {
 
           {shelf === 'goods' ? (
             <div className="grid grid-4 grid--swipe">
-              {CATALOG.slice(0, 4).map((item) => <ProductCard key={item.slug} item={item} compact />)}
+              {HOME_PRODUCTS.slice(0, 4).map((item) => <ProductCard key={item.slug} item={item} compact />)}
             </div>
           ) : (
             <div className="grid grid-3 grid--swipe">

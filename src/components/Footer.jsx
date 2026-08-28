@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { SITE, NAV, CATEGORIES } from '../data/site'
+import { NAV, CATEGORIES } from '../data/site'
+import { useContent } from './ContentContext'
 import Icon from './Icon'
 import Mail from './Mail'
 import Logo from './Logo'
@@ -7,6 +8,7 @@ import { useRequestForm } from './RequestModal'
 import './Footer.css'
 
 export default function Footer() {
+  const { SITE } = useContent()
   const openForm = useRequestForm()
   return (
     <footer className="ftr">

@@ -7,6 +7,8 @@
 .pcard__media { position: relative; display: block; }
 .pcard__media .ph { border-radius: 0; }
 .pcard__tag { position: absolute; top: 14px; left: 14px; background: #fff; }
+.pcard__tag--net { color: var(--coral); background: var(--coral-50); }
+.pcard__tag--pod_zakaz { color: #a2680f; background: #fdf4e3; }
 .pcard__body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex-grow: 1; }
 .pcard__body h3 { font-size: 1.15rem; margin-bottom: 8px; }
 .pcard__body h3 a:hover { color: var(--teal-700); }

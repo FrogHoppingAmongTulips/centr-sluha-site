@@ -5,12 +5,13 @@ import Ph from '../components/Ph'
 import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import { useRequestForm } from '../components/RequestModal'
-import { CENTERS } from '../data/site'
+import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import Seo from '../components/Seo'
 
 /* Адреса центров: поиск, карта и карточки со ссылкой на страницу центра */
 export default function Locations() {
+  const { CENTERS } = useContent()
   const openForm = useRequestForm()
 
   return (
