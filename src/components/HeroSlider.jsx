@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import Ph from './Ph'
 import { useRequestForm } from './RequestModal'
-import { SLIDES, TILES } from '../data/site'
+import { SLIDES } from '../data/site'
 import './HeroSlider.css'
 
-/* Первый экран: снимок во всю ширину, поверх него — карточка с заголовком
-   и кнопкой. Под ней плитка быстрых ссылок. */
+/* Первый экран: снимок во всю ширину, поверх него — карточка с рассказом
+   о центре. Так же устроена главная у сайта-образца. */
 export default function HeroSlider() {
   const [i, setI] = useState(0)
   const openForm = useRequestForm()
@@ -34,6 +33,7 @@ export default function HeroSlider() {
           <span className="eyebrow">{s.eyebrow}</span>
           <h1>{s.title}</h1>
           <p>{s.text}</p>
+          {s.text2 && <p>{s.text2}</p>}
           <div className="hero__cta">
             <button className="btn btn-primary" onClick={() => openForm('visit')}>
               {s.cta} <Icon name="arrow" size={18} />
@@ -54,15 +54,6 @@ export default function HeroSlider() {
           </div>
         </div>
 
-        <div className="tiles">
-          {TILES.map((t, n) => (
-            <Link key={n} to={t.to} className="tile">
-              <span className="tile__ic"><Icon name={t.icon} size={22} /></span>
-              <span className="tile__label">{t.label}</span>
-              <Icon name="arrow" size={17} />
-            </Link>
-          ))}
-        </div>
       </div>
     </section>
   )

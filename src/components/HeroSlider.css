@@ -1,6 +1,6 @@
 /* Первый экран: широкий снимок и карточка поверх него */
 /* clip убирает дробный «хвост» в 1px от широкого снимка */
-.hero { position: relative; padding-bottom: clamp(20px, 3vw, 32px); overflow-x: clip; }
+.hero { position: relative; padding-bottom: clamp(40px, 5vw, 72px); overflow-x: clip; }
 
 .hero__media { position: relative; }
 .hero__ph { border-radius: 0; aspect-ratio: 12 / 5; max-height: 58vh; }
@@ -26,7 +26,7 @@
 /* Карточка заезжает на снимок снизу */
 .hero__card {
   position: relative; z-index: 3;
-  max-width: 860px; margin: clamp(-120px, -8vw, -60px) auto 0;
+  max-width: 940px; margin: clamp(-140px, -9vw, -70px) auto 0;
   background: #fff; border-radius: var(--radius);
   padding: clamp(28px, 3.5vw, 52px) clamp(24px, 4vw, 64px) clamp(24px, 3vw, 40px);
   box-shadow: var(--shadow); text-align: center;
@@ -36,7 +36,8 @@
   font-family: var(--font-serif); font-weight: 600;
   font-size: clamp(2rem, 3.6vw, 3.2rem); margin: 12px 0 16px;
 }
-.hero__card p { color: var(--muted); font-size: 1.1rem; max-width: 56ch; margin: 0 auto; }
+.hero__card p { color: var(--muted); font-size: 1.06rem; line-height: 1.75; max-width: 62ch; margin: 0 auto; }
+.hero__card p + p { margin-top: 14px; }
 
 .hero__cta { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 26px; }
 .hero__note { font-weight: 800; font-size: 1.2rem; color: var(--teal-900); }

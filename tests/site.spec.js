@@ -20,26 +20,25 @@ test.describe('Главная', () => {
     await expect(page.locator('.hero__card h1')).toHaveText(first)
   })
 
-  test('главная — визитка: кто мы, разделы, адрес и связь', async ({ page }) => {
+  test('главная — снимок, карточка с рассказом и подвал', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.card-split__text h2')).toBeVisible()
-    await expect(page.locator('.navcard')).toHaveCount(4)
-    await expect(page.locator('.acard').first()).toContainText('Иркутский тракт')
-    await expect(page.locator('.msgr__btn').first()).toBeVisible()
+    await expect(page.locator('.hero__ph img')).toBeVisible()
+    await expect(page.locator('.hero__card p')).toHaveCount(2)
+    await expect(page.locator('.hero__card .btn-primary')).toBeVisible()
+    // всё остальное живёт в меню и подвале
+    await expect(page.locator('.ftr__col')).toHaveCount(4)
+    await expect(page.locator('.ftr .msgr__btn').first()).toBeVisible()
   })
 
-  test('с главной можно уйти в разделы', async ({ page }) => {
+  test('из шапки можно уйти в разделы', async ({ page }) => {
     await page.goto('/')
-    await page.locator('.navcard', { hasText: 'Каталог аппаратов' }).click()
-    await expect(page).toHaveURL(/catalog/)
-    await page.goBack()
-    await page.locator('a.btn-ghost', { hasText: 'Подробнее о центре' }).click()
+    await page.locator('.nav__link', { hasText: 'О центре' }).click()
     await expect(page).toHaveURL(/about/)
     await expect(page.locator('h1')).toContainText('Центр слуха')
   })
 
   test('кнопка «наверх» поднимает страницу до конца', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/about')
     await page.evaluate(() => window.scrollTo(0, 4000))
     await page.locator('.sticky-actions__up').click()
     await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 4000 }).toBe(0)
