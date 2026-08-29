@@ -40,8 +40,11 @@ test.describe('Главная', () => {
   test('кнопка «наверх» поднимает страницу до конца', async ({ page }) => {
     await page.goto('/about')
     await page.evaluate(() => window.scrollTo(0, 4000))
-    await page.locator('.sticky-actions__up').click()
-    await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 4000 }).toBe(0)
+    const up = page.locator('.sticky-actions__up')
+    await expect(up).toBeVisible()
+    await up.click()
+    // подъём плавный: даём ему договорить до конца
+    await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 10000 }).toBe(0)
   })
 })
 
