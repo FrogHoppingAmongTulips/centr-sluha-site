@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { readdirSync, statSync } from 'node:fs'
 
 /* Проверки основных сценариев. Запуск: npm test
    Тесты идут по собранной версии (npm run preview), как её видит посетитель. */
@@ -10,11 +11,12 @@ test.describe('Главная', () => {
     await expect(page.locator('.hero__text h1')).toBeVisible()
   })
 
-  test('первый экран статичный, без фоновой картинки', async ({ page }) => {
+  test('первый экран статичный: одна фотография рядом с текстом, без слайдера', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('.hero__arrow')).toHaveCount(0)
     await expect(page.locator('.hero__dots')).toHaveCount(0)
-    await expect(page.locator('.hero__media')).toHaveCount(0)
+    // фотография стоит рядом с текстом, а не фоном под ним
+    await expect(page.locator('.hero__media img')).toHaveCount(1)
     const title = await page.locator('.hero__text h1').textContent()
     await page.waitForTimeout(2000)
     await expect(page.locator('.hero__text h1')).toHaveText(title)
@@ -288,3 +290,81 @@ test.describe('Доступность', () => {
     expect(outline).not.toBe('0px')
   })
 })
+
+test.describe('Скорость и выдача', () => {
+  test('страницы отдаются готовым HTML: робот видит текст без скриптов', async ({ browser }) => {
+    // выключаем скрипты — остаётся то, что увидит поисковый робот и превью ссылки
+    const ctx = await browser.newContext({ javaScriptEnabled: false })
+    const page = await ctx.newPage()
+    // со слешем на конце: так адрес папки со страницей выглядит на хостинге
+    await page.goto('/catalog/signia-motion-2px/')
+    await expect(page).toHaveTitle(/Signia Motion 2px/)
+    await expect(page.locator('h1')).toContainText('Signia Motion 2px')
+    await page.goto('/about/')
+    await expect(page.locator('#main')).toContainText('тест слуха')
+    // блоки ниже первого экрана должны быть видны, а не прозрачны
+    await expect(page.locator('.adv__item').first()).toBeVisible()
+    await ctx.close()
+  })
+
+  test('шрифт лежит в проекте: за ним не ходят к Google', async ({ page }) => {
+    const outside = []
+    page.on('request', (r) => {
+      const host = new URL(r.url()).host
+      // карта и панель — свои по договорённости, остальное чужое
+      if (/google|gstatic|cdn|unpkg|jsdelivr|typekit/.test(host)) outside.push(host)
+    })
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+    expect(outside).toEqual([])
+    // шрифт приезжает со своего сервера
+    const fonts = await page.evaluate(() =>
+      performance.getEntriesByType('resource').filter((r) => r.name.includes('golos')).map((r) => r.name))
+    expect(fonts.length).toBeGreaterThan(0)
+    expect(fonts.every((u) => u.includes('localhost'))).toBe(true)
+  })
+
+  test('страницы собраны отдельными кусками, а не одним файлом', async () => {
+    const files = readdirSync('dist/assets').filter((f) => f.endsWith('.js'))
+    // у каждой страницы свой файл: человек скачивает только то, что открыл
+    expect(files.length).toBeGreaterThan(5)
+    expect(files.some((f) => f.startsWith('Catalog-'))).toBe(true)
+    const main = files.find((f) => f.startsWith('index-'))
+    const weight = statSync(`dist/assets/${main}`).size
+    expect(weight, 'вес основного файла').toBeLessThan(260 * 1024)
+  })
+})
+
+test.describe('Появление блоков', () => {
+  test('при прокрутке главной проявляются все блоки, пустых мест не остаётся', async ({ page }) => {
+    await page.goto('/')
+    for (let i = 0; i < 60; i++) { await page.mouse.wheel(0, 400); await page.waitForTimeout(50) }
+    await page.waitForTimeout(600)
+    const hidden = await page.$$eval('.reveal', (els) =>
+      els.filter((e) => !e.classList.contains('in')).map((e) => e.innerText.slice(0, 30)))
+    expect(hidden).toEqual([])
+  })
+})
+
+test.describe('Телефон: размер кнопок', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true })
+
+  test('по кнопкам и ссылкам можно попасть пальцем', async ({ page }) => {
+    for (const path of ['/', '/catalog', '/contacts']) {
+      await page.goto(path)
+      const small = await page.$$eval('a, button, select', (els) =>
+        els.filter((el) => {
+          const r = el.getBoundingClientRect()
+          if (!r.width || getComputedStyle(el).visibility === 'hidden') return false
+          // названия товаров — обычный текст в строке, их не считаем
+          if (el.closest('.pcard__body h3') || el.closest('.crumbs') || el.closest('.rform__consent')) return false
+          return r.height < 38
+        }).map((el) => {
+          const r = el.getBoundingClientRect()
+          return `${el.tagName}.${(el.className.baseVal ?? el.className ?? '').toString().split(' ')[0]} ${Math.round(r.width)}x${Math.round(r.height)} «${(el.innerText || '').slice(0, 20)}»`
+        }))
+      expect(small, `мелкие кнопки на ${path}`).toEqual([])
+    }
+  })
+})
+

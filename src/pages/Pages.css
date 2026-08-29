@@ -32,7 +32,7 @@
 }
 .filters__body { display: flex; flex-direction: column; gap: 22px; }
 .filters__head {
-  display: flex; align-items: center; gap: 10px; width: 100%;
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px;
   font-weight: 800; font-size: 1.05rem; color: var(--ink); text-align: left;
 }
 .filters__toggle { display: none; margin-left: auto; color: var(--muted); }
@@ -65,7 +65,7 @@
 .catalog__sort { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; color: var(--muted); }
 .catalog__sort select {
   font-family: inherit; font-size: 0.95rem; color: var(--ink); font-weight: 600;
-  padding: 9px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff;
+  padding: 11px 14px; min-height: 44px; border: 1px solid var(--line); border-radius: 10px; background: #fff;
 }
 .catalog__grid { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 1180px) { .catalog__grid { grid-template-columns: repeat(2, 1fr); } }
@@ -116,7 +116,12 @@
 .prod__stock svg { flex-shrink: 0; }
 .prod__actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .prod__actions .btn { flex: 1; min-width: 180px; }
-.prod__phone { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; font-weight: 700; color: var(--teal-700); }
+.prod__cart.is-in { background: var(--teal-700); border-color: var(--teal-700); color: #fff; }
+/* «Заказать звонок» — запасной путь, поэтому ссылкой, а не второй кнопкой рядом с записью */
+.prod__contact { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; }
+.prod__call { font-weight: 700; color: var(--teal-700); text-decoration: underline; text-underline-offset: 3px; }
+.prod__call:hover { color: var(--teal-900); }
+.prod__phone { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--teal-700); }
 .prod__meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
 .prod__meta li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.92rem; font-weight: 600; }
 .prod__meta svg { color: var(--teal-700); flex-shrink: 0; }
@@ -352,7 +357,7 @@
   .catalog { grid-template-columns: 1fr; }
   /* подбор сворачивается в одну кнопку */
   .filters { position: static; padding: 14px 18px; gap: 0; }
-  .filters__head { padding: 6px 0; }
+  .filters__head { padding: 6px 0; min-height: 44px; }
   .filters__toggle { display: block; }
   .filters__body { display: none; padding-top: 18px; }
   .filters.is-open .filters__body { display: flex; }
@@ -373,6 +378,13 @@
   .map-split__map { min-height: 320px; }
 }
 @media (max-width: 620px) {
+  /* на телефоне до первого товара было полтора экрана пустоты — сжимаем шапку списка */
+  .catalog__bar { padding-bottom: 12px; margin-bottom: 14px; gap: 10px; font-size: 0.9rem; }
+  .catalog__sort { margin-left: auto; }
+  .catalog { gap: 14px; }
+  /* на телефоне снимок занимал весь экран, а цену приходилось искать прокруткой */
+  .prod__shot { aspect-ratio: auto; height: 220px; }
+  .prod { padding-top: 12px; }
   .catalog__grid { grid-template-columns: 1fr; gap: 12px; }
   .prod__meta, .center__features { grid-template-columns: 1fr; }
   .prod__actions .btn { min-width: 0; }

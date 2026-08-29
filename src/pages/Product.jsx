@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard'
 import Seo from '../components/Seo'
 import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
+import { useCart } from '../components/CartContext'
 import NotFound from './NotFound'
 import { CATEGORIES } from '../data/site'
 import { useContent } from '../components/ContentContext'
@@ -24,6 +25,7 @@ export default function Product() {
   const { slug } = useParams()
   const [tab, setTab] = useState('desc')
   const openForm = useRequestForm()
+  const cart = useCart()
 
   const item = CATALOG.find((i) => i.slug === slug)
   if (!item) return <NotFound />
@@ -73,9 +75,22 @@ export default function Product() {
                   <button className="btn btn-primary" onClick={() => openForm(missing ? 'ask' : 'visit', item.slug)}>
                   {missing ? 'Сообщить о поступлении' : 'Записаться на примерку'} <Icon name="arrow" size={18} />
                 </button>
-                  <button className="btn btn-ghost" onClick={() => openForm('call')}>Заказать звонок</button>
+                  {/* Отложить в корзину можно и отсюда: раньше это было только в каталоге,
+                      и человек, дошедший до карточки, терял такую возможность. */}
+                  {!missing && (
+                    <button
+                      className={`btn btn-ghost prod__cart ${cart.has(item.slug) ? 'is-in' : ''}`}
+                      onClick={() => (cart.has(item.slug) ? cart.remove(item.slug) : cart.add(item.slug))}
+                    >
+                      <Icon name={cart.has(item.slug) ? 'check' : 'cart'} size={18} />
+                      {cart.has(item.slug) ? 'В корзине' : 'В корзину'}
+                    </button>
+                  )}
                 </div>
-                <a href={SITE.phoneHref} className="prod__phone"><Icon name="phone" size={18} /> {SITE.phone}</a>
+                <div className="prod__contact">
+                  <a href={SITE.phoneHref} className="prod__phone"><Icon name="phone" size={18} /> {SITE.phone}</a>
+                  <button className="prod__call" onClick={() => openForm('call')}>или закажите звонок</button>
+                </div>
               </div>
 
               <ul className="prod__meta">

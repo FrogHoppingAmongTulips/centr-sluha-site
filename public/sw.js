@@ -3,7 +3,7 @@
 
    — переходы по страницам: сначала сеть, при обрыве — сохранённая оболочка;
    — картинки, стили, скрипты: отдаём из кэша и параллельно обновляем;
-   — всё чужое (шрифты Google) не трогаем. */
+   — всё чужое (карта) не трогаем. */
 
 // версия приходит из адреса регистрации: у каждой сборки она своя
 const VERSION = new URL(self.location.href).searchParams.get('v') || 'v1'
@@ -31,7 +31,7 @@ self.addEventListener('fetch', (e) => {
   if (request.method !== 'GET') return
 
   const url = new URL(request.url)
-  if (url.origin !== self.location.origin) return // шрифты и прочее внешнее — мимо
+  if (url.origin !== self.location.origin) return // карта и прочее внешнее — мимо
 
   // переход по адресу: свежая страница, при обрыве — оболочка из кэша
   if (request.mode === 'navigate') {

@@ -2,14 +2,15 @@
    Модели и цены — по обзору expertology.ru «13 лучших слуховых аппаратов»,
    набор разделов и услуг — по структуре ssluha.ru.
    Название, телефон, адреса и имена врачей — вымышленные, для примера.
-   Фотографии не подставлены: на их месте чёрные блоки <Ph />. */
+   Фотографии — временные, со свободной лицензией (public/photo/ИСТОЧНИКИ.md):
+   их меняют на снимки центра перед запуском. */
 
 export const SITE = {
   name: 'Центр слуха',
   tagline: 'диагностика и слуховые аппараты',
   phone: '+7 (913) 821-73-47',
   phoneHref: 'tel:+79138217347',
-  email: 'kostochkodebildmitriy@gmail.ru',
+  email: 'info@centr-sluha.ru', // адрес для показа: заменить на рабочую почту центра
   address: 'Томск, Иркутский тракт, 33',
   city: 'Томск',
   hours: 'Пн–Пт 9:00–20:00',
@@ -33,7 +34,7 @@ export const SLIDES = [
     text2: 'Предлагаем то, что подходит вашему слуху и бюджету, а не самое дорогое. Донастройки после покупки — без доплат, приходите столько раз, сколько нужно.',
     note: '0 ₽',
     cta: 'Записаться на тест слуха',
-    cover: '/cover/audiogram.svg',
+    cover: '/photo/consult.webp',
   },
   {
     eyebrow: 'Каталог',
@@ -42,7 +43,7 @@ export const SLIDES = [
     text2: 'Точную модель подбирает сурдолог после теста слуха: смотрим на степень снижения слуха, образ жизни и бюджет.',
     note: 'от 7 890 ₽',
     cta: 'Смотреть каталог',
-    cover: '/cover/ear.svg',
+    cover: '/photo/ear.webp',
   },
   {
     eyebrow: 'Выезд на дом',
@@ -51,7 +52,7 @@ export const SLIDES = [
     text2: 'Назначаем дату и время выезда вместе с вами. Записаться можно по телефону или через форму на сайте.',
     note: 'по записи',
     cta: 'Вызвать специалиста',
-    cover: '/cover/care.svg',
+    cover: '/photo/care.webp',
   },
 ]
 
@@ -78,21 +79,21 @@ export const PROMOS = [
     text: 'Делите стоимость аппарата на равные платежи без переплаты и первого взноса.',
     until: '31 декабря',
     note: '0%',
-    cover: '/cover/wave.svg',
+    cover: '/photo/senior.webp',
   },
   {
     title: 'Второй аппарат со скидкой',
     text: 'При бинауральном протезировании второй аппарат обойдётся дешевле.',
     until: '30 сентября',
     note: '−15%',
-    cover: '/cover/ear.svg',
+    cover: '/photo/ear.webp',
   },
   {
     title: 'Годовой запас батареек',
     text: 'Дарим комплект батареек на год при покупке любого цифрового аппарата.',
     until: '31 октября',
     note: 'подарок',
-    cover: '/cover/care-kit.svg',
+    cover: '/photo/workshop.webp',
   },
 ]
 
@@ -538,7 +539,7 @@ export const SORTS = ['По популярности', 'Сначала деше�
 export const NEWS = [
   {
     slug: 'novaya-partiya-signia',
-    cover: '/cover/ear.svg',
+    cover: '/photo/ear.webp',
     type: 'news',
     tag: 'Каталог',
     date: '5 августа 2026',
@@ -552,7 +553,7 @@ export const NEWS = [
   },
   {
     slug: 'den-otkrytyh-dverey',
-    cover: '/cover/care.svg',
+    cover: '/photo/care.webp',
     type: 'news',
     tag: 'События',
     date: '28 июля 2026',
@@ -566,7 +567,7 @@ export const NEWS = [
   },
   {
     slug: 'masterskaya-bez-zapisi',
-    cover: '/cover/room.svg',
+    cover: '/photo/reception.webp',
     type: 'news',
     tag: 'Сервис',
     date: '14 июля 2026',
@@ -580,7 +581,7 @@ export const NEWS = [
   },
   {
     slug: 'kogda-proveryat-sluh',
-    cover: '/cover/audiogram.svg',
+    cover: '/photo/consult.webp',
     type: 'article',
     tag: 'Полезное',
     date: '2 августа 2026',
@@ -594,7 +595,7 @@ export const NEWS = [
   },
   {
     slug: 'zaushnyy-ili-vnutriushnoy',
-    cover: '/cover/ear.svg',
+    cover: '/photo/ear.webp',
     type: 'article',
     tag: 'Выбор',
     date: '21 июля 2026',
@@ -608,7 +609,7 @@ export const NEWS = [
   },
   {
     slug: 'uhod-za-apparatom',
-    cover: '/cover/care-kit.svg',
+    cover: '/photo/workshop.webp',
     type: 'article',
     tag: 'Уход',
     date: '9 июля 2026',
@@ -632,7 +633,7 @@ export const CENTERS = [
   {
     slug: 'irkutskiy-trakt',
     title: 'Центр на Иркутском тракте',
-    cover: '/cover/room.svg',
+    cover: '/photo/reception.webp',
     gallery: ['/cover/room.svg', '/cover/care.svg', '/cover/audiogram.svg'],
     coords: [56.502911, 85.011626],
     address: 'Томск, Иркутский тракт, 33',

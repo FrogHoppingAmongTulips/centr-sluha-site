@@ -10,3 +10,12 @@
 .crumbs a:hover { color: var(--teal-700); }
 .crumbs__item { display: inline-flex; align-items: center; }
 .crumbs__sep { margin: 0 10px; opacity: 0.6; }
+
+/* На телефоне заголовок страницы занимал почти весь первый экран —
+   ужимаем его, чтобы товары начинались сразу. */
+@media (max-width: 620px) {
+  .phero { padding: 18px 0 22px; }
+  .phero h1 { font-size: 2rem; margin: 8px 0 12px; }
+  .phero .lead { font-size: 1rem; }
+  .crumbs { margin-bottom: 12px; font-size: 0.8rem; }
+}

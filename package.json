@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "deploy": "BASE_PATH=/centr-sluha-site/ vite build && cd dist && git add -A && git commit -q -m Публикация && git push -q origin main",
-    "test": "playwright test"
+    "deploy": "VITE_PANEL_URL= BASE_PATH=/centr-sluha-site/ npm run build && cd dist && git add -A && git commit -q -m Публикация && git push -q origin main",
+    "test": "playwright test",
+    "build:fast": "vite build"
   },
   "dependencies": {
     "react": "^18.3.1",

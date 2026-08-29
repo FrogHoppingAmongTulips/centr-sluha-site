@@ -7,7 +7,9 @@ import ProductCard from '../components/ProductCard'
 import Messengers from '../components/Messengers'
 import Seo from '../components/Seo'
 import { useRequestForm } from '../components/RequestModal'
+import Faq from '../components/Faq'
 import { useContent } from '../components/ContentContext'
+import { STEPS, FAQ } from '../data/site'
 import './Pages.css'
 import './Sections.css'
 
@@ -25,6 +27,29 @@ export default function Home() {
       <Seo description="Центр слуха в Томске: тест слуха бесплатно, подбор и настройка слуховых аппаратов. Иркутский тракт, 33." />
 
       <Hero />
+
+      {/* С ЧЕГО НАЧАТЬ — для тех, кто пришёл без понимания, что делать */}
+      <section className="section section--tight">
+        <div className="container">
+          <Reveal className="section-head" style={{ marginBottom: 24 }}>
+            <span className="eyebrow">С чего начать</span>
+            <h2>Как проходит первый визит</h2>
+            <p className="lead">
+              Не нужно заранее знать, какой аппарат вам нужен, — это работа сурдолога.
+              От вас требуется только прийти.
+            </p>
+          </Reveal>
+          <div className="steps steps--flat">
+            {STEPS.map((s, i) => (
+              <Reveal className="step" key={i} delay={i * 60}>
+                <span className="step__n">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* АППАРАТЫ */}
       <section className="section section--sand">
@@ -67,6 +92,20 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ВОПРОСЫ — снимаем страх перед первым визитом */}
+      <section className="section">
+        <div className="container">
+          <Reveal className="head-row">
+            <div className="section-head" style={{ marginBottom: 0 }}>
+              <span className="eyebrow">Частые вопросы</span>
+              <h2>Отвечаем коротко</h2>
+            </div>
+            <Link to="/about" className="link-more">Все ответы <Icon name="arrow" size={18} /></Link>
+          </Reveal>
+          <Reveal><Faq items={FAQ.slice(0, 4)} /></Reveal>
         </div>
       </section>
 

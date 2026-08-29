@@ -23,7 +23,7 @@
   height: 82px; gap: 20px;
 }
 
-.logo { display: flex; align-items: center; gap: 12px; }
+.logo { display: flex; align-items: center; gap: 12px; min-height: 44px; }
 .logo__mark {
   width: 46px; height: 46px; border-radius: 12px; background: var(--teal-50);
   flex-shrink: 0; display: grid; place-items: center;
@@ -111,8 +111,9 @@
   .megamenu__cols { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 900px) {
-  .hdr__top-inner { height: 34px; gap: 14px; font-size: 0.78rem; }
-  .hdr__city, .hdr__top-phone { padding: 9px 0; }
+  /* высота полосы и отступы подобраны так, чтобы палец попадал по городу и телефону */
+  .hdr__top-inner { height: 44px; gap: 14px; font-size: 0.8rem; }
+  .hdr__city, .hdr__top-phone { min-height: 44px; padding: 12px 0; }
   /* на телефоне в полосе только город и телефон */
   .hdr__top-inner > span:not(.hdr__city) { display: none; }
   .hdr__top-phone { margin-left: auto; font-weight: 700; color: #fff; }
@@ -122,15 +123,15 @@
   .logo__mark { width: 36px; height: 36px; border-radius: 10px; }
   .logo__mark svg { width: 28px; height: 28px; }
   .logo__text { font-size: 1rem; }
-  .hdr__cart { width: 40px; height: 40px; }
+  .hdr__cart { width: 44px; height: 44px; }
   .hdr__cart svg { width: 20px; height: 20px; }
   .nav {
-    position: fixed; inset: 92px 0 auto 0;
+    position: fixed; inset: 102px 0 auto 0;
     flex-direction: column; align-items: stretch; gap: 4px;
     background: #fff; padding: 18px 24px 28px;
     box-shadow: var(--shadow); border-top: 1px solid var(--line);
     transform: translateY(-140%); transition: transform 0.35s var(--ease);
-    max-height: calc(100vh - 92px); overflow-y: auto; overflow-x: hidden; max-width: 100%;
+    max-height: calc(100vh - 102px); overflow-y: auto; overflow-x: hidden; max-width: 100%;
   }
   .nav--open { transform: translateY(0); }
   .nav__link { width: 100%; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
@@ -151,6 +152,6 @@
   .megamenu__cols { grid-template-columns: 1fr 1fr; gap: 18px; }
   .megamenu__col a { padding: 10px 0; font-weight: 500; color: var(--muted); }
   .megamenu__foot { margin-top: 14px; }
-  .nav__phone { display: block; margin-top: 16px; font-size: 1.15rem; font-weight: 800; color: var(--teal-700); }
+  .nav__phone { display: flex; align-items: center; min-height: 44px; margin-top: 16px; font-size: 1.15rem; font-weight: 800; color: var(--teal-700); }
   .nav__cta { display: inline-flex; margin-top: 14px; }
 }

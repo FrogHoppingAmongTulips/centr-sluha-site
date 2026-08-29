@@ -36,7 +36,7 @@ export default function About() {
       <section className="section section--tight" style={{ paddingTop: 'clamp(28px, 4vw, 48px)' }}>
         <div className="container about-split">
           <Reveal>
-            <Ph ratio="4 / 3" src="/cover/room.svg" alt="Кабинет центра слуха" fit="cover" className="about-split__ph" />
+            <Ph ratio="4 / 3" src="/photo/consult.webp" alt="Приём сурдолога" fit="cover" className="about-split__ph" />
           </Reveal>
           <Reveal delay={100}>
             <span className="eyebrow">Как мы работаем</span>

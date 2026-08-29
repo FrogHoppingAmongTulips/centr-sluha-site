@@ -38,11 +38,12 @@ export default function ProductCard({ item, compact = false }) {
           <strong>{item.price}</strong>
           {item.old && <s>{item.old}</s>}
         </div>
+        {/* Действий два, а не три: карточка и название и так ведут на страницу товара,
+            отдельная кнопка «Подробнее» только спорила с записью на приём. */}
         <div className="pcard__actions">
           <button className="btn btn-primary btn-sm" onClick={() => openForm(missing ? 'ask' : 'visit', item.slug)}>
             {missing ? 'Сообщить о поступлении' : 'Записаться'}
           </button>
-          <Link to={`/catalog/${item.slug}`} className="btn btn-ghost btn-sm">Подробнее</Link>
           {!missing && <button
             className={`pcard__cart ${cart.has(item.slug) ? 'is-in' : ''}`}
             onClick={() => (cart.has(item.slug) ? cart.remove(item.slug) : cart.add(item.slug))}

@@ -12,7 +12,7 @@
 .pcard__tag--pod_zakaz { color: #a2680f; background: #fdf4e3; }
 .pcard__body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex-grow: 1; }
 .pcard__body h3 { font-size: 1.15rem; margin-bottom: 8px; }
-.pcard__body h3 a:hover { color: var(--teal-700); }
+.pcard__body h3 a:hover { color: var(--teal-700); text-decoration: underline; text-underline-offset: 3px; }
 .pcard__body > p { color: var(--muted); font-size: 0.95rem; }
 .pcard__points { display: flex; flex-direction: column; gap: 7px; margin: 16px 0 18px; }
 .pcard__points li { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--ink); }
@@ -51,12 +51,10 @@
   .pcard__price strong { font-size: 1.1rem; }
   .pcard__price s { font-size: 0.82rem; }
   .pcard__actions { margin-top: 10px; gap: 8px; }
-  .pcard__actions .btn-ghost { display: none; }
   .pcard__actions .btn { padding: 10px 14px; font-size: 0.88rem; }
   .pcard__cart { width: 40px; }
 
   /* в горизонтальной ленте на главной карточки остаются вертикальными */
   .grid--swipe .pcard { grid-template-columns: 1fr; }
   .grid--swipe .pcard__media .ph { height: auto; min-height: 0; }
-  .grid--swipe .pcard__actions .btn-ghost { display: inline-flex; }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import './styles/fonts.css'
 import './styles/global.css' // базовые стили — раньше компонентных, чтобы те могли их переопределять
 import App from './App.jsx'
 
