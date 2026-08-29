@@ -16,5 +16,5 @@
   .mbar__book { background: var(--teal-700); color: #fff; }
 
   /* чтобы панель не перекрывала конец страницы */
-  body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 }

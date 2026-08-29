@@ -1,11 +1,11 @@
 .sticky-actions {
-  position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 40;
+  position: fixed; right: 20px; bottom: 28px; z-index: 40;
   display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
 }
 .sticky-actions button, .sticky-actions a {
-  width: 52px; height: 52px; display: grid; place-items: center;
-  background: #fff; border: 1px solid var(--line); border-right: none;
-  border-radius: 12px 0 0 12px; box-shadow: var(--shadow-sm);
+  width: 48px; height: 48px; display: grid; place-items: center;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 50%; box-shadow: var(--shadow-sm);
   color: var(--teal-700); transition: background 0.25s, color 0.25s;
 }
 .sticky-actions button:hover, .sticky-actions a:hover { background: var(--teal-700); color: #fff; }

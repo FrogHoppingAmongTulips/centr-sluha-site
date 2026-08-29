@@ -3,7 +3,7 @@
   background: var(--sand);
   border-bottom: 1px solid var(--line);
 }
-.phero h1 { margin: 16px 0 18px; font-family: var(--font-serif); font-weight: 600; max-width: 20ch; }
+.phero h1 { margin: 16px 0 18px; font-family: var(--font-display); font-weight: 800; max-width: 20ch; }
 .phero .lead { max-width: 62ch; }
 
 .crumbs { display: flex; align-items: center; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }

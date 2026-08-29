@@ -223,18 +223,14 @@ test.describe('Страницы и мета', () => {
   })
 })
 
-test.describe('Правая колонка кнопок', () => {
-  test('содержимое не залезает под липкие кнопки', async ({ page }) => {
+test.describe('Кнопка «наверх»', () => {
+  test('одна круглая кнопка внизу справа, без дублей записи', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
-    for (const path of ['/catalog', '/news', '/about', '/locations']) {
-      await page.goto(path)
-      const rail = await page.locator('.sticky-actions').boundingBox()
-      const band = page.locator('.band').first()
-      if (await band.count()) {
-        const b = await band.boundingBox()
-        expect(b.x + b.width, `полоса на ${path}`).toBeLessThanOrEqual(rail.x)
-      }
-    }
+    await page.goto('/about')
+    // в колонке остаётся ровно одна кнопка — «наверх»
+    await expect(page.locator('.sticky-actions button')).toHaveCount(1)
+    await page.evaluate(() => window.scrollTo(0, 3000))
+    await expect(page.locator('.sticky-actions__up')).toHaveClass(/is-visible/)
   })
 })
 

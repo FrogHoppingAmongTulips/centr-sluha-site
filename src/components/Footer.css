@@ -1,14 +1,14 @@
 .ftr {
   background: var(--teal-900); color: rgba(255, 255, 255, 0.78);
-  padding-top: 72px;
+  padding-top: 48px;
 }
 .ftr__grid {
-  display: grid; grid-template-columns: 1.45fr 0.8fr 0.95fr 1.55fr 1fr; gap: 32px;
-  padding-bottom: 56px;
+  display: grid; grid-template-columns: 1.4fr 0.8fr 0.95fr 1.5fr 1fr; gap: 28px;
+  padding-bottom: 36px;
 }
 .ftr__brand .logo__mark--light { background: #fff; }
-.ftr__about { margin: 22px 0 20px; max-width: 40ch; font-size: 1rem; line-height: 1.75; color: rgba(255, 255, 255, 0.82); }
-.ftr__col { display: flex; flex-direction: column; gap: 14px; }
+.ftr__about { margin: 18px 0 16px; max-width: 40ch; font-size: 1rem; line-height: 1.75; color: rgba(255, 255, 255, 0.82); }
+.ftr__col { display: flex; flex-direction: column; gap: 10px; }
 .ftr__col h4 { color: #fff; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
 .ftr__col > a, .ftr__col > span { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.82); font-size: 1rem; transition: color 0.2s; }
 .ftr__mail { align-items: center; }
@@ -29,7 +29,7 @@
 .ftr__chat svg { color: var(--sky); }
 
 .ftr__extra {
-  display: flex; flex-wrap: wrap; gap: 12px 26px; padding: 22px 24px;
+  display: flex; flex-wrap: wrap; gap: 10px 24px; padding: 16px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.9rem;
 }
 .ftr__extra a, .ftr__extra button {

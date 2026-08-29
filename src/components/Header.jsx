@@ -4,7 +4,6 @@ import { NAV, CATALOG_MENU, CERT_LINK } from '../data/site'
 import { useContent } from './ContentContext'
 import Icon from './Icon'
 import Logo from './Logo'
-import Mail from './Mail'
 import { useRequestForm } from './RequestModal'
 import { useCart } from './CartContext'
 import './Header.css'
@@ -34,7 +33,6 @@ export default function Header() {
         <div className="container hdr__top-inner">
           <Link to="/locations" className="hdr__city"><Icon name="pin" size={15} /> {SITE.city} <Icon name="arrow" size={13} /></Link>
           <span><Icon name="clock" size={15} /> {SITE.hours}</span>
-          <span className="hdr__mail"><Icon name="mail" size={15} /> <Mail address={SITE.email} /></span>
           <a href={SITE.phoneHref} className="hdr__top-phone"><Icon name="phone" size={15} /> {SITE.phone}</a>
         </div>
       </div>

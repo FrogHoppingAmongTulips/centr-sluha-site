@@ -191,7 +191,7 @@ export default function Catalog() {
             {items.length > 0 ? (
               <div className="grid grid-3 catalog__grid">
                 {shown.map((item, i) => (
-                  <Reveal key={item.slug} delay={(i % 3) * 60}><ProductCard item={item} /></Reveal>
+                  <Reveal key={item.slug} delay={(i % 3) * 60}><ProductCard item={item} compact /></Reveal>
                 ))}
               </div>
             ) : (

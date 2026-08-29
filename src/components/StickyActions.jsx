@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import Icon from './Icon'
-import { useRequestForm } from './RequestModal'
 import './StickyActions.css'
 
-/* Липкие кнопки у правого края: запись, обратный звонок, вопрос и «наверх».
-   Кнопка «наверх» присутствует всегда — иначе её появление сдвигало бы остальные. */
+/* У правого края осталась одна кнопка — «наверх».
+   Запись и звонок и так есть в шапке, в подвале и в нижней панели на телефоне. */
 export default function StickyActions() {
-  const openForm = useRequestForm()
   const [up, setUp] = useState(false)
 
   useEffect(() => {
@@ -18,9 +16,6 @@ export default function StickyActions() {
 
   return (
     <div className="sticky-actions">
-      <button onClick={() => openForm('visit')} aria-label="Записаться на приём"><Icon name="calendar" size={20} /></button>
-      <button onClick={() => openForm('call')} aria-label="Заказать звонок"><Icon name="phone" size={20} /></button>
-      <button onClick={() => openForm('ask')} aria-label="Задать вопрос"><Icon name="chat" size={20} /></button>
       <button
         className={`sticky-actions__up ${up ? 'is-visible' : ''}`}
         onClick={() => {

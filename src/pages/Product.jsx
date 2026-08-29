@@ -23,7 +23,6 @@ export default function Product() {
   const { CATALOG, SITE } = useContent()
   const { slug } = useParams()
   const [tab, setTab] = useState('desc')
-  const [shot, setShot] = useState(0)
   const openForm = useRequestForm()
 
   const item = CATALOG.find((i) => i.slug === slug)
@@ -43,15 +42,10 @@ export default function Product() {
 
           <div className="prod__top">
             {/* Фото */}
+            {/* Снимок один — миниатюры не показываем, чтобы не изображать
+                разнообразие, которого нет */}
             <div className="prod__gallery">
-              <Ph ratio="4 / 3" className="prod__shot" key={shot} src={item.img} alt={item.title} />
-              <div className="prod__thumbs">
-                {[0, 1, 2, 3].map((i) => (
-                  <button key={i} className={`prod__thumb ${shot === i ? 'is-active' : ''}`} onClick={() => setShot(i)} aria-label={`Фото ${i + 1}`}>
-                    <Ph ratio="1 / 1" src={item.img} alt="" />
-                  </button>
-                ))}
-              </div>
+              <Ph ratio="4 / 3" className="prod__shot" src={item.img} alt={item.title} />
             </div>
 
             {/* Цена и условия */}
@@ -177,7 +171,7 @@ export default function Product() {
             <Link to="/catalog" className="link-more">Весь каталог <Icon name="arrow" size={18} /></Link>
           </div>
           <div className="grid grid-4">
-            {related.map((r, i) => <Reveal key={r.slug} delay={i * 60}><ProductCard item={r} /></Reveal>)}
+            {related.map((r, i) => <Reveal key={r.slug} delay={i * 60}><ProductCard item={r} compact /></Reveal>)}
           </div>
         </div>
       </section>
