@@ -22,7 +22,6 @@ export default function Contacts() {
     { icon: 'phone', label: 'Единый телефон', value: SITE.phone, href: SITE.phoneHref },
     { icon: 'mail', label: 'Почта', value: SITE.email, mail: true },
     { icon: 'pin', label: 'Главный центр', value: SITE.address },
-    { icon: 'clock', label: 'Часы работы', value: SITE.hours },
   ]
 
   const openForm = useRequestForm()
@@ -40,7 +39,7 @@ export default function Contacts() {
 
       {/* Контакты */}
       <section className="section section--tight" style={{ paddingTop: 'clamp(32px, 4vw, 52px)' }}>
-        <div className="container grid grid-4">
+        <div className="container grid grid-3">
           {LINES.map((l, i) => (
             <Reveal className="cline" key={i} delay={i * 60}>
               <span className="cline__ic"><Icon name={l.icon} size={20} /></span>

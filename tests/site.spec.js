@@ -8,24 +8,23 @@ test.describe('Главная', () => {
   test('открывается сверху и показывает первый экран', async ({ page }) => {
     await page.goto('/')
     expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0)
-    await expect(page.locator('.hero__text h1')).toBeVisible()
+    await expect(page.locator('.hero h1')).toBeVisible()
   })
 
-  test('первый экран статичный: одна фотография рядом с текстом, без слайдера', async ({ page }) => {
+  test('первый экран статичный: только текст, без картинки и слайдера', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('.hero__arrow')).toHaveCount(0)
     await expect(page.locator('.hero__dots')).toHaveCount(0)
-    // фотография стоит рядом с текстом, а не фоном под ним
-    await expect(page.locator('.hero__media img')).toHaveCount(1)
-    const title = await page.locator('.hero__text h1').textContent()
+    await expect(page.locator('.hero img')).toHaveCount(0)
+    const title = await page.locator('.hero h1').textContent()
     await page.waitForTimeout(2000)
-    await expect(page.locator('.hero__text h1')).toHaveText(title)
+    await expect(page.locator('.hero h1')).toHaveText(title)
   })
 
   test('на главной кто мы и запись', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hero__text h1')).toContainText('Слышать')
-    await expect(page.locator('.hero__text .btn-primary')).toBeVisible()
+    await expect(page.locator('.hero h1')).toContainText('Слышать')
+    await expect(page.locator('.hero .btn-primary')).toBeVisible()
     // адрес и телефон живут в подвале, а не на первом экране
     await expect(page.locator('.hero__where')).toHaveCount(0)
     await expect(page.locator('.ftr__col')).toHaveCount(4)

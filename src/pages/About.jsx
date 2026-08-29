@@ -132,7 +132,7 @@ export default function About() {
           <div className="band">
             <div>
               <h2>Приходите на тест слуха</h2>
-              <p className="lead">{main.address} · {main.hours}. Записаться можно по телефону {SITE.phone}.</p>
+              <p className="lead">{main.address}. Записаться можно по телефону {SITE.phone}.</p>
             </div>
             <button className="btn btn-primary" onClick={() => openForm('visit')}>Записаться <Icon name="arrow" size={18} /></button>
           </div>
