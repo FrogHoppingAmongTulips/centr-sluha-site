@@ -1,0 +1,38 @@
+/* Выбор даты барабаном — оболочка вокруг общих барабанов */
+
+.datepick { position: relative; }
+
+.datepick__field {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
+  padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--sand); font-family: inherit; font-size: max(1rem, 16px); color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.datepick__field:hover { border-color: #c6d2e6; }
+.datepick__field.is-open { background: #fff; border-color: var(--teal-600); box-shadow: 0 0 0 4px var(--teal-50); }
+.datepick__field svg { color: var(--muted); flex-shrink: 0; }
+.datepick__placeholder { color: #9aa3b5; }
+
+.datepick__drop {
+  position: absolute; z-index: 30; left: 0; right: auto; top: calc(100% + 8px);
+  min-width: max(100%, 288px);
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 12px 12px 10px;
+  animation: datepick-in 0.18s var(--ease);
+}
+@keyframes datepick-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* Барабаны даты: подсвеченная полоса по центру, как в мобильных выборках */
+.datepick__wheels { position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.datepick__band {
+  position: absolute; left: 6px; right: 6px; top: 50%; height: 42px; transform: translateY(-50%);
+  background: var(--teal-50); border-radius: 10px; pointer-events: none;
+}
+
+.datepick__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.8rem; white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) { .datepick__drop { animation: none; } }

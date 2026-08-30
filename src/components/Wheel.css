@@ -1,0 +1,14 @@
+/* Барабан выбора: общий для времени и даты */
+.wheel {
+  position: relative; overflow-y: auto; scroll-snap-type: y mandatory;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column; align-items: stretch; min-width: 76px;
+}
+.wheel::-webkit-scrollbar { display: none; }
+.wheel__item {
+  scroll-snap-align: center; flex: 0 0 42px; height: 42px;
+  font-family: inherit; font-size: 1.05rem; font-weight: 600; color: var(--muted);
+  border-radius: 10px; transition: color 0.15s, transform 0.15s;
+}
+.wheel__item:hover { color: var(--ink); }
+.wheel__item.is-active { color: var(--teal-700); font-size: 1.2rem; font-weight: 800; }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from './Icon'
+import Wheel from './Wheel'
 import './TimeInput.css'
 
 /* Выбор времени барабаном, как на телефоне: два столбца — часы и минуты.
@@ -7,61 +8,6 @@ import './TimeInput.css'
 
 const HOURS = Array.from({ length: 12 }, (_, i) => String(9 + i).padStart(2, '0')) // 09…20
 const MINUTES = ['00', '15', '30', '45']
-
-const ITEM = 42       // высота строки
-const VISIBLE = 5     // сколько строк видно: выбранная и по две сверху и снизу
-
-/* Барабан: выбранное — то, что оказалось в подсвеченной полосе по центру.
-   Работает и прокруткой (как на телефоне), и обычным нажатием на строку. */
-function Wheel({ values, value, onChange, label }) {
-  const box = useRef(null)
-  const timer = useRef(null)
-  // пока крутят этот барабан, чужие перерисовки не должны сбивать его прокрутку
-  const busy = useRef(false)
-
-  useEffect(() => {
-    const el = box.current
-    if (!el || busy.current) return
-    const index = Math.max(0, values.indexOf(value))
-    if (Math.abs(el.scrollTop - index * ITEM) > 2) el.scrollTop = index * ITEM
-  }, [value, values])
-
-  const onScroll = () => {
-    busy.current = true
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => {
-      const el = box.current
-      busy.current = false
-      if (!el) return
-      const index = Math.min(values.length - 1, Math.max(0, Math.round(el.scrollTop / ITEM)))
-      if (values[index] !== value) onChange(values[index])
-    }, 90)
-  }
-
-  return (
-    <div
-      className="wheel"
-      role="listbox"
-      aria-label={label}
-      ref={box}
-      onScroll={onScroll}
-      style={{ height: ITEM * VISIBLE, paddingBlock: ITEM * ((VISIBLE - 1) / 2) }}
-    >
-      {values.map((v) => (
-        <button
-          type="button"
-          key={v}
-          role="option"
-          aria-selected={v === value}
-          className={`wheel__item ${v === value ? 'is-active' : ''}`}
-          onClick={() => onChange(v)}
-        >
-          {v}
-        </button>
-      ))}
-    </div>
-  )
-}
 
 export default function TimeInput({ name = 'time', required = false, id }) {
   const [open, setOpen] = useState(false)
