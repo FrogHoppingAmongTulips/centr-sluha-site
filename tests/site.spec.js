@@ -8,23 +8,36 @@ test.describe('Главная', () => {
   test('открывается сверху и показывает первый экран', async ({ page }) => {
     await page.goto('/')
     expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0)
-    await expect(page.locator('.hero h1')).toBeVisible()
+    await expect(page.locator('.hslider h1')).toBeVisible()
   })
 
-  test('первый экран статичный: только текст, без картинки и слайдера', async ({ page }) => {
+  test('слайдер листается вручную и сам не перелистывается', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hero__arrow')).toHaveCount(0)
-    await expect(page.locator('.hero__dots')).toHaveCount(0)
-    await expect(page.locator('.hero img')).toHaveCount(0)
-    const title = await page.locator('.hero h1').textContent()
-    await page.waitForTimeout(2000)
-    await expect(page.locator('.hero h1')).toHaveText(title)
+    await expect(page.locator('.hslider__dots button')).toHaveCount(3)
+
+    // сам по себе слайд не меняется: человек читает столько, сколько нужно
+    const title = await page.locator('.hslider h1').textContent()
+    await page.waitForTimeout(2500)
+    await expect(page.locator('.hslider h1')).toHaveText(title)
+
+    // стрелка и точки переключают
+    await page.locator('.hslider__arrow--next').click()
+    await expect(page.locator('.hslider h1')).not.toHaveText(title)
+    await page.locator('.hslider__dots button').first().click()
+    await expect(page.locator('.hslider h1')).toHaveText(title)
+  })
+
+  test('под слайдером плитки быстрых ссылок', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('.tile')).toHaveCount(4)
+    await page.locator('.tile', { hasText: 'Выезд на дом' }).click()
+    await expect(page).toHaveURL(/promo\/vyezd-na-dom/)
   })
 
   test('на главной кто мы и запись', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hero h1')).toContainText('Слышать')
-    await expect(page.locator('.hero .btn-primary')).toBeVisible()
+    await expect(page.locator('.hslider h1')).toContainText('Слышать')
+    await expect(page.locator('.hslider .btn')).toBeVisible()
     // адрес и телефон живут в подвале, а не на первом экране
     await expect(page.locator('.hero__where')).toHaveCount(0)
     await expect(page.locator('.ftr__col')).toHaveCount(4)

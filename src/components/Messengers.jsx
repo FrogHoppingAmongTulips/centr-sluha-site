@@ -4,19 +4,13 @@ import './Messengers.css'
 
 const NAMES = {
   max: 'MAX',
-  telegram: 'Telegram',
-  viber: 'Viber',
-  vk: 'ВКонтакте',
   mail: 'Почта',
 }
 
-/* links — набор из панели: { max, telegram, vk, viber }, mail — почта центра */
+/* links — набор из панели: { max }, mail — почта центра */
 export default function Messengers({ links, mail, size = 'normal' }) {
   const items = [
     ['max', links?.max],
-    ['telegram', links?.telegram],
-    ['viber', links?.viber],
-    ['vk', links?.vk],
     ['mail', mail ? `mailto:${mail}` : null],
   ].filter(([, href]) => href)
 

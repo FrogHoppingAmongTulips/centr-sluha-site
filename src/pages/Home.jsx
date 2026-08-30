@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
-import Hero from '../components/Hero'
+import HeroSlider from '../components/HeroSlider'
 import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import ProductCard from '../components/ProductCard'
@@ -28,7 +28,7 @@ export default function Home() {
     <>
       <Seo description="Центр слуха в Краснодаре: тест слуха бесплатно, подбор и настройка слуховых аппаратов, выезд на дом." />
 
-      <Hero />
+      <HeroSlider />
 
       {/* С ЧЕГО НАЧАТЬ — для тех, кто пришёл без понимания, что делать */}
       <section className="section section--tight">
