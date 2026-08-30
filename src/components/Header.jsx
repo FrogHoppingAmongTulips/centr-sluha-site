@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { NAV, CATALOG_MENU, CERT_LINK } from '../data/site'
+import { NAV, CATALOG_MENU, CATALOG_EXTRA, CERT_LINK } from '../data/site'
 import { useContent } from './ContentContext'
 import Icon from './Icon'
 import Logo from './Logo'
@@ -71,6 +71,10 @@ export default function Header() {
                   </div>
                 ))}
               </div>
+              <div className="megamenu__more">
+                {CATALOG_EXTRA.map((i) => <Link key={i.label} to={i.to}>{i.label}</Link>)}
+              </div>
+
               <div className="megamenu__foot">
                 <Link to={CERT_LINK.to} className="megamenu__cert">
                   <Icon name="doc" size={17} /> {CERT_LINK.label}

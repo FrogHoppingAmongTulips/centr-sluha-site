@@ -236,16 +236,14 @@ export const CATALOG_MENU = [
       { label: 'Премиум', to: '/catalog?price=premium' },
     ],
   },
-  {
-    title: 'Другие разделы',
-    items: [
-      { label: 'Ушные вкладыши', to: '/catalog?cat=earmolds' },
-      { label: 'Реабилитационная техника', to: '/catalog?cat=rehab' },
-      { label: 'Средства по уходу', to: '/catalog?cat=care' },
-      { label: 'Беруши', to: '/catalog?cat=earplugs' },
-      { label: 'Услуги центра', to: '/catalog?cat=services' },
-    ],
-  },
+]
+
+/* Разделы, которые центр просил вынести отдельно, ниже колонок меню */
+export const CATALOG_EXTRA = [
+  { label: 'Ушные вкладыши', to: '/catalog?cat=earmolds' },
+  { label: 'Реабилитационная техника', to: '/catalog?cat=rehab' },
+  { label: 'Средства по уходу', to: '/catalog?cat=care' },
+  { label: 'Беруши', to: '/catalog?cat=earplugs' },
 ]
 
 export const CERT_LINK = { label: 'Покупка по электронному сертификату', to: '/promo/elektronnyy-sertifikat' }
