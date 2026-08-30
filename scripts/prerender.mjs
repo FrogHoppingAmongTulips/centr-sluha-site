@@ -8,24 +8,26 @@ import { chromium } from '@playwright/test'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
-const { CATALOG, NEWS, CENTERS } = await import('../src/data/site.js')
+const { CATALOG, NEWS, CENTERS, PROMOS } = await import('../src/data/site.js')
 
 const routes = [
   '/', '/catalog', '/about', '/promo', '/locations',
   '/news', '/contacts', '/cart', '/privacy', '/consent',
+  ...PROMOS.map((p) => `/promo/${p.slug}`),
   ...CATALOG.map((p) => `/catalog/${p.slug}`),
   ...NEWS.map((n) => `/news/${n.slug}`),
   ...CENTERS.map((c) => `/locations/${c.slug}`),
 ]
 
 const server = await preview({ preview: { port: 4179, strictPort: true } })
-const base = server.config.base
+// адрес уже содержит подпапку сайта (при публикации это /centr-sluha-site/),
+// поэтому путь страницы просто дописываем к нему
 const origin = server.resolvedUrls.local[0].replace(/\/$/, '')
 const browser = await chromium.launch()
 const page = await browser.newPage()
 
 for (const route of routes) {
-  const url = origin + (base + route.replace(/^\//, '')).replace(/\/\//g, '/')
+  const url = origin + route
   await page.goto(url, { waitUntil: 'networkidle' })
   await page.waitForSelector('#main h1, #main h2', { timeout: 10000 })
   // блоки проявляются при прокрутке — проматываем страницу, иначе в сохранённом
