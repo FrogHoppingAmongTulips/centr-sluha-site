@@ -36,7 +36,7 @@ export default function Product() {
 
   return (
     <>
-      <Seo title={item.title} description={`${item.short} Цена ${item.price}. Подбор и настройка в центре слуха, Томск.`} path={`/catalog/${item.slug}`} />
+      <Seo title={item.title} description={`${item.short} Цена ${item.price}. Подбор и настройка в центре слуха, Краснодар.`} path={`/catalog/${item.slug}`} />
 
       <section className="prod">
         <div className="container">

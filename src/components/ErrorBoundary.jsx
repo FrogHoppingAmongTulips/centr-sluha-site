@@ -21,7 +21,7 @@ export default class ErrorBoundary extends Component {
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn btn-primary" onClick={() => window.location.reload()}>Обновить</button>
-            <a className="btn btn-ghost" href="tel:+79138217347">+7 (913) 821-73-47</a>
+            <a className="btn btn-ghost" href="tel:+79318595324">+7 (931) 859-53-24</a>
           </div>
         </div>
       </section>

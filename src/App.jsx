@@ -16,6 +16,7 @@ const About = lazy(() => import('./pages/About'))
 const Catalog = lazy(() => import('./pages/Catalog'))
 const Product = lazy(() => import('./pages/Product'))
 const Promo = lazy(() => import('./pages/Promo'))
+const PromoItem = lazy(() => import('./pages/PromoItem'))
 const Locations = lazy(() => import('./pages/Locations'))
 const Center = lazy(() => import('./pages/Center'))
 const News = lazy(() => import('./pages/News'))
@@ -56,6 +57,7 @@ export default function App() {
                   <Route path="/catalog/:slug" element={<Product />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/promo" element={<Promo />} />
+                  <Route path="/promo/:slug" element={<PromoItem />} />
                   <Route path="/locations" element={<Locations />} />
                   <Route path="/locations/:slug" element={<Center />} />
                   <Route path="/news" element={<News />} />

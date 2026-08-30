@@ -20,7 +20,8 @@ const BUILTIN = {
   CENTERS: builtin.CENTERS,
   SITE: builtin.SITE,
   // мессенджеры: пока панель не ответила, показываем номер из настроек сайта
-  LINKS: { whatsapp: `https://wa.me/${builtin.SITE.phoneHref.replace(/\D/g, '')}`, telegram: null, vk: null, viber: null, phone: builtin.SITE.phone },
+  // ссылки на мессенджеры центр укажет в панели; пока стоит только MAX по номеру
+  LINKS: { max: `https://max.ru/${builtin.SITE.phoneHref.replace(/\D/g, '')}`, telegram: null, vk: null, viber: null, phone: builtin.SITE.phone },
   fromPanel: false,
 }
 

@@ -3,17 +3,17 @@ import './Messengers.css'
 /* Кнопки мессенджеров: подпись на фирменном цвете, без значков. */
 
 const NAMES = {
-  whatsapp: 'WhatsApp',
+  max: 'MAX',
   telegram: 'Telegram',
   viber: 'Viber',
   vk: 'ВКонтакте',
   mail: 'Почта',
 }
 
-/* links — набор из панели: { whatsapp, telegram, vk, viber }, mail — почта центра */
+/* links — набор из панели: { max, telegram, vk, viber }, mail — почта центра */
 export default function Messengers({ links, mail, size = 'normal' }) {
   const items = [
-    ['whatsapp', links?.whatsapp],
+    ['max', links?.max],
     ['telegram', links?.telegram],
     ['viber', links?.viber],
     ['vk', links?.vk],

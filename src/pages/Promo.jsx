@@ -1,27 +1,27 @@
+import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import Icon from '../components/Icon'
 import Ph from '../components/Ph'
 import Reveal from '../components/Reveal'
 import RequestForm from '../components/RequestForm'
 import { useRequestForm } from '../components/RequestModal'
-import { TILES } from '../data/site'
 import { useContent } from '../components/ContentContext'
 import './Pages.css'
 import './Sections.css'
 import Seo from '../components/Seo'
 
-/* Акции и спецпредложения — отдельный раздел, как у референсов */
+/* Акции и специальные предложения. У каждой — своя страница с подробностями. */
 export default function Promo() {
   const { PROMOS } = useContent()
   const openForm = useRequestForm()
 
   return (
     <>
-      <Seo title={"Акции и рассрочка"} description={"Рассрочка 0%, скидка на второй аппарат, батарейки в подарок. Действующие предложения центра слуха в Томске."} path={"/promo"} />
+      <Seo title={"Акции"} description={"Покупка по электронному сертификату СФР, бесплатный выезд на дом, бесплатный тест слуха. Предложения центра слуха в Краснодаре."} path={"/promo"} />
       <PageHero
         crumbs={[{ label: 'Акции' }]}
         eyebrow="Выгода"
-        title="Акции и рассрочка"
+        title="Акции и специальные предложения"
         text="Действующие предложения центра. Условия можно совмещать — уточните на приёме."
       />
 
@@ -29,7 +29,7 @@ export default function Promo() {
         <div className="container">
           <div className="grid grid-3">
             {PROMOS.map((p, i) => (
-              <Reveal key={i} delay={i * 60}>
+              <Reveal key={p.slug || i} delay={i * 60}>
                 <article className="promo">
                   <div className="promo__media">
                     <Ph ratio="16 / 9" src={p.cover} alt={p.title} fit="cover" />
@@ -39,22 +39,14 @@ export default function Promo() {
                     <h3>{p.title}</h3>
                     <p>{p.text}</p>
                     <div className="promo__foot">
-                      <span><Icon name="calendar" size={16} /> до {p.until}</span>
-                      <button className="link-more" onClick={() => openForm('visit')}>Записаться <Icon name="arrow" size={16} /></button>
+                      {p.slug
+                        ? <Link to={`/promo/${p.slug}`} className="link-more">Подробнее <Icon name="arrow" size={16} /></Link>
+                        : <span><Icon name="calendar" size={16} /> до {p.until}</span>}
+                      <button className="btn btn-primary btn-sm" onClick={() => openForm('visit')}>Записаться</button>
                     </div>
                   </div>
                 </article>
               </Reveal>
-            ))}
-          </div>
-
-          <div className="tiles" style={{ marginTop: 32 }}>
-            {TILES.map((t, i) => (
-              <button key={i} className="tile" onClick={() => openForm('ask')}>
-                <span className="tile__ic"><Icon name={t.icon} size={22} /></span>
-                <span className="tile__label">{t.label}</span>
-                <Icon name="arrow" size={17} />
-              </button>
             ))}
           </div>
         </div>
@@ -63,13 +55,16 @@ export default function Promo() {
       <section className="section section--sand">
         <div className="container form-split">
           <Reveal>
-            <span className="eyebrow">Рассрочка</span>
-            <h2 style={{ margin: '14px 0 16px' }}>Как оформить рассрочку</h2>
-            <p className="lead">Оформляем прямо в центре: нужен только паспорт, решение приходит за несколько минут.</p>
+            <span className="eyebrow">Электронный сертификат</span>
+            <h2 style={{ margin: '14px 0 16px' }}>Аппарат по сертификату СФР</h2>
+            <p className="lead">
+              Сертификатом можно оплатить любой аппарат из каталога, разницу — своими средствами.
+              Помогаем разобраться с документами и оформить покупку.
+            </p>
             <ul className="form-split__list">
-              <li><Icon name="check" size={16} /> Без первого взноса и переплаты</li>
-              <li><Icon name="check" size={16} /> Срок 3, 6 или 12 месяцев</li>
-              <li><Icon name="check" size={16} /> Аппарат забираете в день оформления</li>
+              <li><Icon name="check" size={16} /> Оплата картой «Мир» с привязанным сертификатом</li>
+              <li><Icon name="check" size={16} /> Гарантия производителя и обслуживание в центре</li>
+              <li><Icon name="check" size={16} /> Оформить можно и с выездом специалиста на дом</li>
             </ul>
           </Reveal>
           <Reveal className="form-card" delay={100}>

@@ -4,7 +4,9 @@ import Hero from '../components/Hero'
 import MapEmbed from '../components/MapEmbed'
 import Reveal from '../components/Reveal'
 import ProductCard from '../components/ProductCard'
+import Ph from '../components/Ph'
 import Messengers from '../components/Messengers'
+import RequestForm from '../components/RequestForm'
 import Seo from '../components/Seo'
 import { useRequestForm } from '../components/RequestModal'
 import Faq from '../components/Faq'
@@ -17,14 +19,14 @@ import './Sections.css'
    аппараты с ценами, услуги с ценами и адрес. Подробности о центре,
    акции и статьи живут на своих страницах. */
 export default function Home() {
-  const { SITE, LINKS, CATALOG, HOME_PRODUCTS, SERVICES, CENTERS } = useContent()
+  const { SITE, LINKS, CATALOG, HOME_PRODUCTS, SERVICES, CENTERS, PROMOS } = useContent()
   const openForm = useRequestForm()
   const main = CENTERS[0]
   const products = (HOME_PRODUCTS.length ? HOME_PRODUCTS : CATALOG).slice(0, 4)
 
   return (
     <>
-      <Seo description="Центр слуха в Томске: тест слуха бесплатно, подбор и настройка слуховых аппаратов. Иркутский тракт, 33." />
+      <Seo description="Центр слуха в Краснодаре: тест слуха бесплатно, подбор и настройка слуховых аппаратов, выезд на дом." />
 
       <Hero />
 
@@ -47,6 +49,41 @@ export default function Home() {
                 <p>{s.text}</p>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* АКЦИИ — три предложения в ряд, как просил центр */}
+      <section className="section">
+        <div className="container">
+          <Reveal className="head-row">
+            <div className="section-head" style={{ marginBottom: 0 }}>
+              <span className="eyebrow">Выгода</span>
+              <h2>Акции и специальные предложения</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-3 grid--swipe">
+            {PROMOS.slice(0, 3).map((p, i) => (
+              <Reveal key={p.slug || i} delay={i * 60}>
+                <article className="promo">
+                  <div className="promo__media">
+                    <Ph ratio="16 / 9" src={p.cover} alt={p.title} fit="cover" />
+                    <span className="promo__badge">{p.note}</span>
+                  </div>
+                  <div className="promo__body">
+                    <h3>{p.title}</h3>
+                    <p>{p.text}</p>
+                    <div className="promo__foot">
+                      <Link to={`/promo/${p.slug}`} className="link-more">Подробнее <Icon name="arrow" size={16} /></Link>
+                      <button className="btn btn-primary btn-sm" onClick={() => openForm('visit')}>Записаться</button>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <div style={{ marginTop: 28 }}>
+            <Link to="/promo" className="btn btn-ghost">Показать все акции <Icon name="arrow" size={18} /></Link>
           </div>
         </div>
       </section>
@@ -92,6 +129,32 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ЗАПИСЬ — форма прямо на главной, как просил центр */}
+      <section className="section section--sand">
+        <div className="container form-split">
+          <Reveal>
+            <span className="eyebrow">Запись</span>
+            <h2 style={{ margin: '14px 0 16px' }}>Записаться на приём</h2>
+            <p className="lead">
+              Оставьте заявку — перезвоним в рабочее время, ответим на вопросы и согласуем день.
+              Или позвоните сами: {SITE.phone}.
+            </p>
+            <ul className="form-split__list">
+              <li><Icon name="check" size={16} /> Тест слуха и подбор — бесплатно</li>
+              <li><Icon name="check" size={16} /> Выезд специалиста на дом по краю и Адыгее</li>
+              <li><Icon name="check" size={16} /> Оплата электронным сертификатом СФР</li>
+            </ul>
+          </Reveal>
+          <Reveal className="form-card" delay={100}>
+            <div className="form-card__head">
+              <h3>Заявка на приём</h3>
+              <p>После заявки дождитесь подтверждения по телефону.</p>
+            </div>
+            <RequestForm variant="visit" />
+          </Reveal>
         </div>
       </section>
 

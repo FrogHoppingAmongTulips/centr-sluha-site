@@ -32,9 +32,9 @@ test.describe('Главная', () => {
 
   test('из шапки можно уйти в разделы', async ({ page }) => {
     await page.goto('/')
-    await page.locator('.nav__link', { hasText: 'О центре' }).click()
-    await expect(page).toHaveURL(/about/)
-    await expect(page.locator('h1')).toContainText('Центр слуха')
+    await page.locator('.nav__link', { hasText: 'Акции' }).click()
+    await expect(page).toHaveURL(/promo/)
+    await expect(page.locator('h1')).toContainText('Акции')
   })
 
   test('кнопка «наверх» поднимает страницу до конца', async ({ page }) => {
@@ -115,7 +115,7 @@ test.describe('Формы', () => {
     await expect(page.locator('.rform--done h3')).toHaveText(/Заявка (принята|готова)/)
   })
 
-  test('без панели заявку можно отправить сообщением или письмом', async ({ page }) => {
+  test('без панели заявку можно отправить письмом или позвонить', async ({ page }) => {
     // обрываем связь с панелью — проверяем запасной путь
     await page.route('**/items/zayavki', (route) => route.abort())
     await page.goto('/contacts')
@@ -124,90 +124,57 @@ test.describe('Формы', () => {
     await page.locator('.form-card input[name="phone"]').type('9138217347')
     await page.locator('.form-card input[type="checkbox"]').check()
     await page.locator('.form-card button[type="submit"]').click()
-    await expect(page.locator('.rform__send a').first()).toHaveAttribute('href', /wa\.me/)
+    await expect(page.locator('.rform__send a').first()).toHaveAttribute('href', /^tel:/)
+    await expect(page.locator('.rform__send a').nth(1)).toHaveAttribute('href', /^mailto:/)
     await expect(page.locator('.rform__preview')).toContainText('Пётр')
   })
 
-  test('дата выбирается календарём: назад нельзя, воскресенья закрыты', async ({ page }) => {
-    await page.goto('/contacts')
-    await page.locator('.datepick__field').click()
-    await expect(page.locator('.datepick__drop')).toBeVisible()
+})
 
-    // в текущем месяце стрелка назад не работает: прошедших дней в записи нет
-    await expect(page.locator('.cal__nav').first()).toBeDisabled()
-    // прошедшие дни закрыты
-    expect(await page.locator('.cal__day.is-off').count()).toBeGreaterThan(0)
-
-    // следующий месяц: все воскресенья закрыты, будни открыты
-    await page.locator('.cal__nav--next').click()
-    const closed = await page.locator('.cal__grid').evaluate((grid) => {
-      const cells = [...grid.children].filter((c) => c.textContent.trim())
-      return cells.map((c) => ({ day: Number(c.textContent), off: c.classList.contains('is-off') }))
-    })
-    const monday = closed.find((c) => !c.off)
-    expect(monday).toBeTruthy()
-
-    // выбираем день — он попадает в поле, календарь закрывается
-    await page.locator('.cal__day:not(.is-off)').nth(3).click()
-    await expect(page.locator('.datepick__drop')).toHaveCount(0)
-    const value = await page.locator('input[name="date"]').inputValue()
-    expect(value).toMatch(/^\d{2}\.\d{2}\.\d{4}$/)
-    const [d, m, y] = value.split('.').map(Number)
-    const picked = new Date(y, m - 1, d)
-    const now = new Date()
-    expect(picked.getDay(), 'воскресенье выбрать нельзя').not.toBe(0)
-    expect(picked >= new Date(now.getFullYear(), now.getMonth(), now.getDate())).toBe(true)
-
-    // год выбирается списком до 2100-го, дальше не листается
-    await page.locator('.datepick__field').click()
-    const years = await page.locator('.cal__year option').allTextContents()
-    expect(Number(years[0])).toBe(now.getFullYear())
-    expect(Number(years.at(-1))).toBe(2100)
-    await page.locator('.cal__year').selectOption('2100')
-    for (let i = 0; i < 12; i++) {
-      if (await page.locator('.cal__nav--next').isDisabled()) break
-      await page.locator('.cal__nav--next').click()
-    }
-    await expect(page.locator('.cal__nav--next')).toBeDisabled()
-    await expect(page.locator('.cal__title')).toHaveText('декабрь')
+test.describe('Акции', () => {
+  test('на главной три предложения и переход в раздел', async ({ page }) => {
+    await page.goto('/')
+    const cards = page.locator('.promo')
+    await expect(cards).toHaveCount(3)
+    await page.getByRole('link', { name: /Показать все акции/ }).click()
+    await expect(page).toHaveURL(/promo/)
+    await expect(page.locator('.promo')).toHaveCount(3)
   })
 
-  test('время крутится по кругу: часы 00–23, минуты 00–59', async ({ page }) => {
+  test('у акции своя страница с текстом и формой записи', async ({ page }) => {
+    await page.goto('/promo/elektronnyy-sertifikat')
+    await expect(page.locator('h1')).toContainText('электронному сертификату')
+    await expect(page.locator('.prose')).toContainText('ИПРА')
+    await expect(page.locator('.prose__list li').first()).toBeVisible()
+    await expect(page.locator('.form-card .rform')).toBeVisible()
+  })
+
+  test('у выезда на дом есть сноска с условиями', async ({ page }) => {
+    await page.goto('/promo/vyezd-na-dom')
+    await expect(page.locator('.prose__note')).toContainText('25 000')
+  })
+})
+
+test.describe('Форма записи', () => {
+  test('спрашивает ФИО, телефон и цель визита — без даты и времени', async ({ page }) => {
     await page.goto('/contacts')
-    await page.locator('.timepick__field').click()
-    await expect(page.locator('.timepick__drop')).toBeVisible()
+    await expect(page.locator('.form-card .rform__field')).toHaveCount(4)
+    await expect(page.locator('.form-card input[name="date"]')).toHaveCount(0)
+    await expect(page.locator('.form-card input[name="time"]')).toHaveCount(0)
+    await expect(page.locator('.form-card .rform__field span').first()).toHaveText('ФИО')
 
-    const wheels = page.locator('.timepick__wheels .wheel')
-    const hours = wheels.nth(0)
-    const minutes = wheels.nth(1)
-
-    // барабаны бесконечные: строк больше, чем часов в сутках и минут в часе
-    expect(await hours.locator('.wheel__item').count()).toBeGreaterThan(24)
-    expect(await minutes.locator('.wheel__item').count()).toBeGreaterThan(60)
-
-    // после 23 идёт 00, после 59 идёт 00 — круг замыкается
-    const hourList = (await hours.locator('.wheel__item').allTextContents()).slice(0, 26)
-    expect(hourList.slice(0, 24)).toEqual(Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')))
-    expect(hourList[24]).toBe('00')
-    const minuteList = (await minutes.locator('.wheel__item').allTextContents()).slice(0, 61)
-    expect(minuteList[59]).toBe('59')
-    expect(minuteList[60]).toBe('00')
-
-    // выбираем 14:30 нажатием
-    await hours.locator('.wheel__item', { hasText: /^14$/ }).nth(10).click()
-    await page.waitForTimeout(600)
-    await minutes.locator('.wheel__item', { hasText: /^30$/ }).nth(10).click()
-    await page.waitForTimeout(600)
-    await expect(page.locator('input[name="time"]')).toHaveValue('14:30')
-
-    // нерабочие часы бледные, и про них написано
-    expect(await hours.locator('.wheel__item.is-off').count()).toBeGreaterThan(0)
-    await hours.locator('.wheel__item', { hasText: /^23$/ }).nth(10).click()
-    await page.waitForTimeout(600)
-    await expect(page.locator('.timepick__foot span')).toHaveText('центр в это время закрыт')
-
-    await page.locator('.timepick__foot .btn').click()
-    await expect(page.locator('.timepick__drop')).toHaveCount(0)
+    // цели визита — список от центра, без цен и без примерки моделей
+    const goals = await page.locator('.form-card select[name="subject"] option').allTextContents()
+    expect(goals).toEqual([
+      'Консультация и тест слуха',
+      'Выезд на дом',
+      'Покупка по электронному сертификату СФР',
+      'Индивидуальные вкладыши',
+      'Настройка аппарата',
+      'Чистка и профилактика',
+      'Другое',
+    ])
+    await expect(page.locator('.rform__after')).toContainText('дождитесь подтверждения по телефону')
   })
 })
 
@@ -240,10 +207,16 @@ test.describe('Поиск и подбор', () => {
 })
 
 test.describe('Информация', () => {
-  test('листание работает и ведёт на вторую страницу', async ({ page }) => {
+  test('листание появляется, когда материалов больше страницы', async ({ page }) => {
     await page.goto('/news')
     const first = await page.locator('.ncard h3, .nlead h2').allTextContents()
-    await page.locator('.pager__btn', { hasText: '2' }).click()
+    const next = page.locator('.pager__btn', { hasText: '2' })
+    // материалы центр добавляет сам: пока их на одну страницу, листалки нет
+    if (!(await next.count())) {
+      expect(first.length).toBeGreaterThan(0)
+      return
+    }
+    await next.click()
     await expect(page).toHaveURL(/page=2/)
     const second = await page.locator('.ncard h3, .nlead h2').allTextContents()
     expect(second.length).toBeGreaterThan(0)
@@ -255,7 +228,7 @@ test.describe('Карта и адреса', () => {
   test('карта подключается с координатами центра', async ({ page }) => {
     await page.goto('/contacts')
     await page.locator('.ymap').scrollIntoViewIfNeeded()
-    await expect(page.locator('.ymap iframe')).toHaveAttribute('src', /85\.011626/)
+    await expect(page.locator('.ymap iframe')).toHaveAttribute('src', /38\.975313/)
     await expect(page.locator('.ymap__hit')).toHaveAttribute('href', /yandex\.ru\/maps/)
   })
 
@@ -275,7 +248,7 @@ test.describe('Страницы и мета', () => {
     ['/catalog', 'Слуховые аппараты'],
     ['/catalog/signia-motion-2px', 'Signia Motion 2px'],
     ['/promo', 'Акции'],
-    ['/locations', 'Адрес центра'],
+    ['/locations', 'Адреса центров'],
     ['/news', 'Новости'],
     ['/contacts', 'Контакты'],
     ['/about', 'О центре'],

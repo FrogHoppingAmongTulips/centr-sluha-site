@@ -43,14 +43,19 @@
 
 /* Меню каталога */
 .megamenu {
-  position: absolute; top: 100%; left: -24px; margin-top: 14px; width: 780px; padding: 26px 28px 20px;
+  position: absolute; top: 100%; left: -24px; margin-top: 14px; width: 940px; padding: 26px 28px 20px;
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: var(--shadow);
   opacity: 0; visibility: hidden; transform: translateY(8px);
   transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
 }
 .nav__item--drop:hover .megamenu { opacity: 1; visibility: visible; transform: none; }
-.megamenu__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.megamenu__title {
+  display: block; font-size: 1.05rem; font-weight: 800; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--line);
+}
+.megamenu__title:hover { color: var(--teal-700); }
+.megamenu__cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
 .megamenu__col { display: flex; flex-direction: column; gap: 8px; }
 .megamenu__col h4 {
   font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase;

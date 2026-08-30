@@ -171,7 +171,7 @@ export async function loadContent() {
     CENTERS: centry.map(toCenter),
     LINKS: svyaz
       ? {
-          whatsapp: svyaz.whatsapp ? `https://wa.me/${String(svyaz.whatsapp).replace(/\D/g, '')}` : null,
+          max: svyaz.max || (svyaz.whatsapp ? `https://max.ru/${String(svyaz.whatsapp).replace(/\D/g, '')}` : null),
           telegram: svyaz.telegram
             ? (String(svyaz.telegram).startsWith('http') ? svyaz.telegram : `https://t.me/${String(svyaz.telegram).replace(/^@/, '')}`)
             : null,

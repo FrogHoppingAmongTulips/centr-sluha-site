@@ -60,6 +60,9 @@ export default function Header() {
 
             {/* Меню каталога: бренд, тип корпуса, особенности, стоимость */}
             <div className="megamenu">
+              {/* понятно, что колонки ниже — про аппараты: остальные разделы каталога
+                  вынесены отдельным столбцом */}
+              <Link to="/catalog" className="megamenu__title">Слуховые аппараты</Link>
               <div className="megamenu__cols">
                 {CATALOG_MENU.map((col) => (
                   <div className="megamenu__col" key={col.title}>

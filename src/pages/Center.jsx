@@ -20,7 +20,7 @@ export default function Center() {
 
   return (
     <>
-      <Seo title={c.title} description={`${c.address}. ${c.hours}. Тест слуха, подбор аппаратов, мастерская.`} path={`/locations/${c.slug}`} />
+      <Seo title={c.title} description={`${c.address}. ${c.hours}. Тест слуха, подбор и настройка аппаратов, выезд на дом.`} path={`/locations/${c.slug}`} />
 
       <section className="section section--tight" style={{ paddingTop: 'clamp(28px, 4vw, 44px)' }}>
         <div className="container">

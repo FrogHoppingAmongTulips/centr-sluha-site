@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import PhoneInput from './PhoneInput'
-import DateInput from './DateInput'
-import TimeInput from './TimeInput'
 import { useContent } from './ContentContext'
+import { VISIT_GOALS } from '../data/site'
 import { panelEnabled, sendRequest } from '../lib/panel'
 import './RequestForm.css'
 
@@ -14,7 +13,7 @@ export const FORM_VARIANTS = {
     key: 'visit',
     tab: 'Запись на приём',
     title: 'Записаться на приём',
-    text: 'Выберите удобный день — перезвоним и подтвердим время',
+    text: 'Оставьте заявку — перезвоним и подтвердим время приёма',
     submit: 'Записаться',
   },
   ask: {
@@ -38,14 +37,14 @@ function Field({ label, children }) {
 }
 
 const LABELS = {
-  name: 'Имя', phone: 'Телефон', email: 'Почта', subject: 'Услуга',
-  date: 'Дата', time: 'Время', message: 'Комментарий',
+  name: 'ФИО', phone: 'Телефон', email: 'Почта', subject: 'Цель визита',
+  message: 'Комментарий',
 }
 
 const REQUEST_TYPE = { visit: 'zapis', ask: 'vopros', call: 'zvonok' }
 
 export default function RequestForm({ variant = 'visit', subject, id, items }) {
-  const { CATALOG, SERVICES, SITE } = useContent()
+  const { SITE } = useContent()
   const [sent, setSent] = useState(null)
   const [sending, setSending] = useState(false)
   const v = FORM_VARIANTS[variant] || FORM_VARIANTS.visit
@@ -73,7 +72,7 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
           name: values.name || '',
           phone: values.phone || '',
           email: values.email || '',
-          preferred: [values.date, values.time].filter(Boolean).join(' '),
+          preferred: '',   // дату и время центр согласовывает по телефону
           items: items || (values.subject ? `Услуга: ${values.subject}` : ''),
           comment: values.message || '',
           page: window.location.pathname,
@@ -88,7 +87,6 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
 
     setSent({
       text,
-      whatsapp: `https://wa.me/${SITE.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`,
       mail: `mailto:${SITE.email}?subject=${encodeURIComponent(lines[0])}&body=${encodeURIComponent(text)}`,
     })
   }
@@ -114,14 +112,11 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
         <h3>Заявка готова</h3>
         <p>Отправьте её удобным способом — ответим в рабочее время. Или просто позвоните.</p>
         <div className="rform__send">
-          <a className="btn btn-primary" href={sent.whatsapp} target="_blank" rel="noreferrer">
-            <Icon name="chat" size={18} /> Отправить сообщением
+          <a className="btn btn-primary" href={SITE.phoneHref}>
+            <Icon name="phone" size={18} /> Позвонить: {SITE.phone}
           </a>
           <a className="btn btn-ghost" href={sent.mail}>
-            <Icon name="mail" size={18} /> Письмом
-          </a>
-          <a className="btn btn-ghost" href={SITE.phoneHref}>
-            <Icon name="phone" size={18} /> {SITE.phone}
+            <Icon name="mail" size={18} /> Отправить письмом
           </a>
         </div>
         <pre className="rform__preview">{sent.text}</pre>
@@ -133,7 +128,7 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
   return (
     <form className="rform" onSubmit={onSubmit} id={id}>
       <div className="rform__row">
-        <Field label="Имя"><input type="text" name="name" required /></Field>
+        <Field label="ФИО"><input type="text" name="name" required /></Field>
         <Field label="Телефон"><PhoneInput name="phone" required /></Field>
       </div>
 
@@ -141,23 +136,14 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
         <Field label="Почта, если удобнее письмом"><input type="email" name="email" placeholder="you@mail.ru" /></Field>
       )}
 
+      {/* Дату и время не спрашиваем: центр согласовывает их по телефону,
+          иначе человек ждёт подтверждения записи, которого нет. */}
       {variant === 'visit' && (
-        <>
-          <Field label="Цель визита">
-            <select name="subject" defaultValue={subject || 'checkup'}>
-              <option value="checkup">Тест слуха — бесплатно</option>
-              {SERVICES.slice(1).map((s) => <option key={s.title} value={s.title}>{s.title} — {s.price}</option>)}
-              {CATALOG.map((i) => <option key={i.slug} value={i.slug}>Примерка: {i.title}</option>)}
-            </select>
-          </Field>
-          <div className="rform__row">
-            <Field label="Дата"><DateInput name="date" /></Field>
-            {/* время приёма пока не выбирается — подтверждаем по телефону */}
-            <Field label="Время">
-              <TimeInput name="time" />
-            </Field>
-          </div>
-        </>
+        <Field label="Цель визита">
+          <select name="subject" defaultValue={subject || VISIT_GOALS[0]}>
+            {VISIT_GOALS.map((g) => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </Field>
       )}
 
       {variant !== 'call' && (
@@ -179,7 +165,7 @@ export default function RequestForm({ variant = 'visit', subject, id, items }) {
 
       {/* Человек должен понимать, что будет дальше: кто позвонит, когда и чем это его обязывает */}
       <p className="rform__after">
-        Перезвоним в рабочее время и подтвердим время визита.
+        После заявки дождитесь подтверждения по телефону — перезвоним в рабочее время.
         Запись ничего не стоит и ни к чему не обязывает.
       </p>
     </form>

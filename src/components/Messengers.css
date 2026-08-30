@@ -20,7 +20,7 @@
 .msgr__btn:hover { border-color: var(--brand); background: var(--sand); }
 
 /* фирменные цвета: тем же цветом закрашена внутренняя деталь значка */
-.msgr__btn--whatsapp { --brand: #25d366; }
+.msgr__btn--max { --brand: #1b7ced; }
 .msgr__btn--telegram { --brand: #229ed9; }
 .msgr__btn--viber { --brand: #7360f2; }
 .msgr__btn--vk { --brand: #0077ff; }
