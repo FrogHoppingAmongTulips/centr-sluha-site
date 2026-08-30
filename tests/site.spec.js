@@ -34,12 +34,17 @@ test.describe('Главная', () => {
     await expect(page).toHaveURL(/promo\/vyezd-na-dom/)
   })
 
-  test('на главной кто мы и запись', async ({ page }) => {
+  test('на главной первый экран, офферы и подбор', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('.hslider h1')).toContainText('Слышать')
+    await expect(page.locator('.hslider h1')).toContainText('Проверим слух')
     await expect(page.locator('.hslider .btn')).toBeVisible()
-    // адрес и телефон живут в подвале, а не на первом экране
-    await expect(page.locator('.hero__where')).toHaveCount(0)
+    // блоки, которые разметил центр: офферы строкой, подбор по разделам, «Как мы работаем»
+    await expect(page.locator('.offer')).toHaveCount(3)
+    await expect(page.locator('.picker .chip').first()).toBeVisible()
+    await expect(page.locator('.adv__item')).toHaveCount(4)
+    await expect(page.locator('.step')).toHaveCount(4)
+    await expect(page.locator('.brands__logo')).toHaveCount(6)
+    await expect(page.locator('.stats__item')).toHaveCount(3)
     await expect(page.locator('.ftr__col')).toHaveCount(4)
   })
 

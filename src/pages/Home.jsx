@@ -11,7 +11,7 @@ import Seo from '../components/Seo'
 import { useRequestForm } from '../components/RequestModal'
 import Faq from '../components/Faq'
 import { useContent } from '../components/ContentContext'
-import { STEPS, FAQ } from '../data/site'
+import { OFFERS, PICKER, CATEGORIES, BRANDS, ADVANTAGES, STEPS, STATS, FAQ } from '../data/site'
 import './Pages.css'
 import './Sections.css'
 
@@ -30,25 +30,37 @@ export default function Home() {
 
       <HeroSlider />
 
-      {/* С ЧЕГО НАЧАТЬ — для тех, кто пришёл без понимания, что делать */}
-      <section className="section section--tight">
-        <div className="container">
-          <Reveal className="section-head" style={{ marginBottom: 24 }}>
-            <span className="eyebrow">С чего начать</span>
-            <h2>Как проходит первый визит</h2>
-            <p className="lead">
-              Не нужно заранее знать, какой аппарат вам нужен, — это работа сурдолога.
-              От вас требуется только прийти.
-            </p>
-          </Reveal>
-          <div className="steps steps--flat">
-            {STEPS.map((s, i) => (
-              <Reveal className="step" key={i} delay={i * 60}>
-                <span className="step__n">{s.n}</span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </Reveal>
+      {/* КЛЮЧЕВЫЕ ОФФЕРЫ — строкой под слайдером */}
+      <section className="offers">
+        <div className="container offers__row">
+          {OFFERS.map((o, i) => (
+            <button className="offer" key={i} onClick={() => openForm('visit')}>
+              <span className="offer__ic"><Icon name={o.icon} size={22} /></span>
+              <span className="offer__text">
+                <strong>{o.title}</strong>
+                <small>{o.text}</small>
+              </span>
+              <span className="offer__note">{o.note}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* БЫСТРЫЙ ПОДБОР — разделы каталога одной строкой */}
+      <section className="section section--tight" style={{ paddingTop: 24, paddingBottom: 'clamp(32px, 4vw, 52px)' }}>
+        <div className="container picker">
+          <div>
+            <span className="eyebrow">Каталог</span>
+            <h2>С чего начнём подбор?</h2>
+          </div>
+          <div className="cat-chips">
+            {CATEGORIES.map((c) => (
+              <Link key={c.slug} to={`/catalog?cat=${c.slug}`} className="chip">{c.title} <small>{c.count}</small></Link>
             ))}
+            {PICKER.slice(0, 3).map((p, i) => (
+              <Link key={i} to={`/catalog?cat=${p.cat}`} className="chip">{p.label}</Link>
+            ))}
+            <Link to="/catalog" className="chip chip--all">Весь каталог <Icon name="arrow" size={15} /></Link>
           </div>
         </div>
       </section>
@@ -129,6 +141,59 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* БРЕНДЫ */}
+      <section className="section section--tight" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <Reveal className="brands">
+            {BRANDS.map((b) => <span key={b} className="brands__logo">{b}</span>)}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ЦИФРЫ */}
+      <section className="stats">
+        <div className="container stats__grid">
+          {STATS.map((s, i) => (
+            <Reveal className="stats__item" key={i}>
+              <div className="stats__value">{s.value}<span>{s.suffix}</span></div>
+              <div className="stats__label">{s.label}</div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* КАК МЫ РАБОТАЕМ — преимущества и этапы приёма */}
+      <section className="section">
+        <div className="container">
+          <Reveal className="head-row">
+            <div className="section-head" style={{ marginBottom: 0 }}>
+              <span className="eyebrow">Почему к нам</span>
+              <h2>Как мы работаем</h2>
+            </div>
+            <button className="link-more" onClick={() => openForm('ask')}>Задать вопрос <Icon name="arrow" size={18} /></button>
+          </Reveal>
+          <div className="adv__grid">
+            {ADVANTAGES.map((a, i) => (
+              <Reveal className="adv__item" key={i} delay={i * 60}>
+                <span className="adv__ic"><Icon name={a.icon} size={22} /></span>
+                <h3>{a.title}</h3>
+                <p>{a.text}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        <div className="container steps">
+          {STEPS.map((s, i) => (
+            <Reveal className="step" key={i} delay={i * 60}>
+              <span className="step__n">{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </Reveal>
+          ))}
         </div>
       </section>
 
