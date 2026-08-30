@@ -38,6 +38,8 @@ test.describe('Главная', () => {
   })
 
   test('кнопка «наверх» поднимает страницу до конца', async ({ page }) => {
+    // без плавной прокрутки: проверяем результат, а не длительность анимации
+    await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/about')
     await page.evaluate(() => window.scrollTo(0, 4000))
     const up = page.locator('.sticky-actions__up')
@@ -162,6 +164,13 @@ test.describe('Формы', () => {
     await page.waitForTimeout(300)
     const [d2, m2, y2] = (await field.inputValue()).split('.').map(Number)
     expect(new Date(y2, m2 - 1, d2) >= new Date(now.getFullYear(), now.getMonth(), now.getDate())).toBe(true)
+
+    // нажатие по строке доводит барабан до неё и подсвечивает ровно одну строку
+    await days.locator('.wheel__item').nth(60).click()
+    await page.waitForTimeout(700)
+    expect(await days.locator('.wheel__item.is-active').count()).toBe(1)
+    const shown = (await days.locator('.wheel__item.is-active').textContent()).split(' ')[0]
+    expect(Number((await field.inputValue()).slice(0, 2))).toBe(Number(shown))
 
     await page.locator('.datepick__foot .btn').click()
     await expect(page.locator('.datepick__drop')).toHaveCount(0)

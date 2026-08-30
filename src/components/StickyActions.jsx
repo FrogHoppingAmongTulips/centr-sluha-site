@@ -19,8 +19,10 @@ export default function StickyActions() {
       <button
         className={`sticky-actions__up ${up ? 'is-visible' : ''}`}
         onClick={() => {
-          // плавно и до упора: у части браузеров scrollTo на sticky-шапке останавливается раньше
-          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+          // плавно и до упора: у части браузеров scrollTo на sticky-шапке останавливается раньше.
+          // Если человек отключил анимации в системе — поднимаем сразу, без прокрутки.
+          const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+          window.scrollTo({ top: 0, left: 0, behavior: still ? 'auto' : 'smooth' })
           window.setTimeout(() => {
             document.documentElement.scrollTop = 0
             document.body.scrollTop = 0

@@ -29,6 +29,7 @@
   background: var(--teal-50); border-radius: 10px; pointer-events: none;
 }
 
+.datepick__note { color: var(--coral); }
 .datepick__foot {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);

@@ -40,6 +40,8 @@ export default function DateInput({ name = 'date', required = false, id }) {
   const [open, setOpen] = useState(false)
   const [picked, setPicked] = useState(false)
   const [date, setDate] = useState(start)
+  // почему барабан не встал туда, куда его крутили
+  const [note, setNote] = useState('')
 
   const year = date.getFullYear()
   const month = date.getMonth()
@@ -60,10 +62,17 @@ export default function DateInput({ name = 'date', required = false, id }) {
   /* Собираем дату из того, что выбрали в барабанах. Если такой даты нет
      (31 апреля) или на неё нельзя записаться — берём ближайшую подходящую. */
   const move = (y, m, d) => {
-    const year = Math.min(Math.max(y, start.getFullYear()), LAST_YEAR)
-    const wanted = new Date(year, m, Math.min(d, daysInMonth(year, m)))
-    setDate(wanted < start ? start : firstWorkday(wanted))
+    const yy = Math.min(Math.max(y, start.getFullYear()), LAST_YEAR)
+    const wanted = new Date(yy, m, Math.min(d, daysInMonth(yy, m)))
+    const next = wanted < start ? start : firstWorkday(wanted)
+    // каждый раз новый объект: иначе при возврате к той же дате барабан
+    // не перерисуется и останется стоять на недоступном дне
+    setDate(new Date(+next))
     setPicked(true)
+    // объясняем перескок, иначе выглядит как будто барабан не слушается
+    if (+next === +wanted) setNote('')
+    else if (wanted < start) setNote('этот день уже прошёл')
+    else setNote('воскресенье — выходной')
   }
 
   // клик мимо и Escape закрывают барабан
@@ -130,7 +139,9 @@ export default function DateInput({ name = 'date', required = false, id }) {
             />
           </div>
           <div className="datepick__foot">
-            <span>{isToday ? 'сегодня' : `${WEEKDAYS[date.getDay()]}, ${day} ${MONTHS_OF[month]}`}</span>
+            <span className={note ? 'datepick__note' : ''}>
+              {note || (isToday ? 'сегодня' : `${WEEKDAYS[date.getDay()]}, ${day} ${MONTHS_OF[month]}`)}
+            </span>
             <button type="button" className="btn btn-primary btn-sm" onClick={() => { setPicked(true); setOpen(false) }}>
               Готово
             </button>
