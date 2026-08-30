@@ -4,10 +4,16 @@ import Wheel from './Wheel'
 import './TimeInput.css'
 
 /* Выбор времени барабаном, как на телефоне: два столбца — часы и минуты.
-   Показываем только часы приёма, чтобы человек не выбрал время, когда центр закрыт. */
+   Оба крутятся по кругу: после 23 снова 00, после 59 снова 00.
 
-const HOURS = Array.from({ length: 12 }, (_, i) => String(9 + i).padStart(2, '0')) // 09…20
-const MINUTES = ['00', '15', '30', '45']
+   Часы вне приёма показаны бледным — записаться на них можно, но администратор
+   при звонке предложит другое время, и человек об этом предупреждён. */
+
+const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))    // 00…23
+const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'))  // 00…59
+const OPEN_FROM = 9
+const OPEN_TO = 20
+const START = '09'   // с чего открывается барабан, если время ещё не выбрали
 
 export default function TimeInput({ name = 'time', required = false, id }) {
   const [open, setOpen] = useState(false)
@@ -32,12 +38,15 @@ export default function TimeInput({ name = 'time', required = false, id }) {
 
   /* выбрали часы — минуты сами встают на «00», и наоборот: время всегда полное */
   const pickHour = (h) => { setHour(h); if (!minute) setMinute(MINUTES[0]) }
-  const pickMinute = (m) => { setMinute(m); if (!hour) setHour(HOURS[0]) }
+  const pickMinute = (m) => { setMinute(m); if (!hour) setHour(START) }
   const confirm = () => {
-    if (!hour) setHour(HOURS[0])
+    if (!hour) setHour(START)
     if (!minute) setMinute(MINUTES[0])
     setOpen(false)
   }
+
+  const closed = (h) => Number(h) < OPEN_FROM || Number(h) >= OPEN_TO
+  const outside = hour && closed(hour)
 
   return (
     <div className="timepick" ref={root}>
@@ -58,12 +67,14 @@ export default function TimeInput({ name = 'time', required = false, id }) {
         <div className="timepick__drop">
           <div className="timepick__wheels">
             <span className="timepick__band" aria-hidden="true" />
-            <Wheel values={HOURS} value={hour || HOURS[0]} onChange={pickHour} label="Часы" />
+            <Wheel loop values={HOURS} value={hour || START} onChange={pickHour} isOff={closed} label="Часы" />
             <span className="timepick__colon">:</span>
-            <Wheel values={MINUTES} value={minute || MINUTES[0]} onChange={pickMinute} label="Минуты" />
+            <Wheel loop values={MINUTES} value={minute || MINUTES[0]} onChange={pickMinute} label="Минуты" />
           </div>
           <div className="timepick__foot">
-            <span>с 9:00 до 20:00</span>
+            <span className={outside ? 'timepick__warn' : ''}>
+              {outside ? 'центр в это время закрыт' : 'приём с 9:00 до 20:00'}
+            </span>
             <button type="button" className="btn btn-primary btn-sm" onClick={confirm}>
               Готово
             </button>

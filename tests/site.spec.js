@@ -172,15 +172,40 @@ test.describe('Формы', () => {
     await expect(page.locator('.cal__title')).toHaveText('декабрь')
   })
 
-  test('время выбирается барабаном', async ({ page }) => {
+  test('время крутится по кругу: часы 00–23, минуты 00–59', async ({ page }) => {
     await page.goto('/contacts')
     await page.locator('.timepick__field').click()
     await expect(page.locator('.timepick__drop')).toBeVisible()
-    // крутим барабаны по очереди, как это делает человек
-    await page.locator('.wheel').first().evaluate((el) => { el.scrollTop = 5 * 42 })
-    await expect.poll(() => page.locator('input[name="time"]').inputValue()).toBe('14:00')
-    await page.locator('.wheel').nth(1).evaluate((el) => { el.scrollTop = 2 * 42 })
-    await expect.poll(() => page.locator('input[name="time"]').inputValue()).toBe('14:30')
+
+    const wheels = page.locator('.timepick__wheels .wheel')
+    const hours = wheels.nth(0)
+    const minutes = wheels.nth(1)
+
+    // барабаны бесконечные: строк больше, чем часов в сутках и минут в часе
+    expect(await hours.locator('.wheel__item').count()).toBeGreaterThan(24)
+    expect(await minutes.locator('.wheel__item').count()).toBeGreaterThan(60)
+
+    // после 23 идёт 00, после 59 идёт 00 — круг замыкается
+    const hourList = (await hours.locator('.wheel__item').allTextContents()).slice(0, 26)
+    expect(hourList.slice(0, 24)).toEqual(Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')))
+    expect(hourList[24]).toBe('00')
+    const minuteList = (await minutes.locator('.wheel__item').allTextContents()).slice(0, 61)
+    expect(minuteList[59]).toBe('59')
+    expect(minuteList[60]).toBe('00')
+
+    // выбираем 14:30 нажатием
+    await hours.locator('.wheel__item', { hasText: /^14$/ }).nth(10).click()
+    await page.waitForTimeout(600)
+    await minutes.locator('.wheel__item', { hasText: /^30$/ }).nth(10).click()
+    await page.waitForTimeout(600)
+    await expect(page.locator('input[name="time"]')).toHaveValue('14:30')
+
+    // нерабочие часы бледные, и про них написано
+    expect(await hours.locator('.wheel__item.is-off').count()).toBeGreaterThan(0)
+    await hours.locator('.wheel__item', { hasText: /^23$/ }).nth(10).click()
+    await page.waitForTimeout(600)
+    await expect(page.locator('.timepick__foot span')).toHaveText('центр в это время закрыт')
+
     await page.locator('.timepick__foot .btn').click()
     await expect(page.locator('.timepick__drop')).toHaveCount(0)
   })

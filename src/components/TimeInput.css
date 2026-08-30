@@ -28,6 +28,7 @@
 }
 .timepick__colon { font-weight: 800; color: var(--muted); }
 
+.timepick__warn { color: var(--coral); }
 .timepick__foot {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);
