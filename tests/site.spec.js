@@ -126,35 +126,46 @@ test.describe('Формы', () => {
     await expect(page.locator('.rform__preview')).toContainText('Пётр')
   })
 
-  test('дата выбирается барабаном и назад не листается', async ({ page }) => {
+  test('дата крутится по кругу, но назад и на выходной не встаёт', async ({ page }) => {
     await page.goto('/contacts')
     await page.locator('.datepick__field').click()
     await expect(page.locator('.datepick__drop')).toBeVisible()
 
     const wheels = page.locator('.datepick__wheels .wheel')
     const [days, months, years] = [wheels.nth(0), wheels.nth(1), wheels.nth(2)]
-
-    // раньше сегодняшнего дня в барабанах ничего нет, дальше 2100 года — тоже
     const now = new Date()
-    const firstYear = await years.locator('.wheel__item').first().textContent()
-    const lastYear = await years.locator('.wheel__item').last().textContent()
-    expect(Number(firstYear)).toBe(now.getFullYear())
-    expect(Number(lastYear)).toBe(2100)
 
-    const firstMonth = await months.locator('.wheel__item').first().textContent()
-    const MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
-    expect(firstMonth).toBe(MONTHS[now.getMonth()])
+    // числа и месяцы идут по кругу: список длиннее одного месяца и одного года
+    expect(await days.locator('.wheel__item').count()).toBeGreaterThan(31)
+    expect(await months.locator('.wheel__item').count()).toBeGreaterThan(12)
 
-    const firstDay = Number((await days.locator('.wheel__item').first().textContent()).split(' ')[0])
-    expect(firstDay).toBeGreaterThanOrEqual(now.getDate())
+    // годы — обычный список от нынешнего до 2100-го
+    expect(Number(await years.locator('.wheel__item').first().textContent())).toBe(now.getFullYear())
+    expect(Number(await years.locator('.wheel__item').last().textContent())).toBe(2100)
 
-    // воскресений в списке нет: в этот день центр закрыт
-    const labels = await days.locator('.wheel__item').allTextContents()
-    expect(labels.some((t) => t.endsWith('вс'))).toBe(false)
+    // прошедшие дни и воскресенья показаны бледным
+    expect(await days.locator('.wheel__item.is-off').count()).toBeGreaterThan(0)
+
+    // крутим числа вперёд через край месяца — круг замыкается, дата остаётся рабочей
+    const field = page.locator('input[name="date"]')
+    for (let i = 0; i < 4; i++) {
+      await days.evaluate((el) => { el.scrollTop += 42 * 10 })
+      await page.waitForTimeout(220)
+      const [d, m, y] = (await field.inputValue()).split('.').map(Number)
+      const picked = new Date(y, m - 1, d)
+      expect(picked.getDay(), 'воскресенье выбрать нельзя').not.toBe(0)
+      expect(picked >= new Date(now.getFullYear(), now.getMonth(), now.getDate()), 'дата не в прошлом').toBe(true)
+    }
+
+    // отматываем месяцы назад — в прошлое не проваливаемся
+    await months.evaluate((el) => { el.scrollTop -= 42 * 6 })
+    await page.waitForTimeout(300)
+    const [d2, m2, y2] = (await field.inputValue()).split('.').map(Number)
+    expect(new Date(y2, m2 - 1, d2) >= new Date(now.getFullYear(), now.getMonth(), now.getDate())).toBe(true)
 
     await page.locator('.datepick__foot .btn').click()
     await expect(page.locator('.datepick__drop')).toHaveCount(0)
-    expect(await page.locator('input[name="date"]').inputValue()).toMatch(/^\d{2}\.\d{2}\.\d{4}$/)
+    expect(await field.inputValue()).toMatch(/^\d{2}\.\d{2}\.\d{4}$/)
   })
 
   test('время выбирается барабаном', async ({ page }) => {
