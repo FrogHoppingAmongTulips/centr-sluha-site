@@ -1,26 +1,25 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Icon from './Icon'
-import Wheel from './Wheel'
 import './DateInput.css'
 
-/* Выбор даты барабаном, как на телефоне: число, месяц, год.
+/* Выбор даты календарём, как на компьютере Apple: месяц таблицей, стрелки для
+   перехода по месяцам, год отдельным списком.
 
-   Числа и месяцы крутятся по кругу: после 31-го снова 1-е, после декабря —
-   январь. Но выбрать можно только рабочий день не раньше сегодняшнего:
-   прошедшие дни и воскресенья показаны бледным, и барабан на них не встаёт —
-   переходит к ближайшему подходящему дню. Годы идут списком до 2100-го. */
+   Записаться можно только на рабочий день не раньше сегодняшнего: прошедшие
+   дни и воскресенья показаны бледным и не нажимаются. Дальше 2100 года
+   календарь не листается. */
 
 const MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
   'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь']
 const MONTHS_OF = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
   'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
-const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб']
+const WEEK = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const LAST_YEAR = 2100
 const DAY = 86400000
 
-const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
-const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => from + i)
+const daysInMonth = (y, m) => new Date(y, m + 1, 0).getDate()
 const pad = (n) => String(n).padStart(2, '0')
+const same = (a, b) => Boolean(a && b) && +a === +b
 
 export function formatDate(y, m, d) {
   return `${pad(d)}.${pad(m + 1)}.${y}`
@@ -34,48 +33,15 @@ function firstWorkday(from) {
 }
 
 export default function DateInput({ name = 'date', required = false, id }) {
-  const today = useRef(new Date()).current
-  const start = useRef(firstWorkday(today)).current
-
+  const [start] = useState(() => firstWorkday(new Date()))
   const [open, setOpen] = useState(false)
-  const [picked, setPicked] = useState(false)
-  const [date, setDate] = useState(start)
-  // почему барабан не встал туда, куда его крутили
-  const [note, setNote] = useState('')
+  const [picked, setPicked] = useState(null)
+  // какой месяц сейчас открыт в календаре
+  const [view, setView] = useState({ year: start.getFullYear(), month: start.getMonth() })
 
-  const year = date.getFullYear()
-  const month = date.getMonth()
-  const day = date.getDate()
-  const value = picked ? formatDate(year, month, day) : ''
+  const value = picked ? formatDate(picked.getFullYear(), picked.getMonth(), picked.getDate()) : ''
 
-  const days = range(1, daysInMonth(year, month))
-  const months = range(0, 11)
-  const years = range(start.getFullYear(), LAST_YEAR)
-
-  // день недоступен, если он уже прошёл или это воскресенье
-  const offDay = (d) => {
-    const test = new Date(year, month, d)
-    return test < start || test.getDay() === 0
-  }
-  const offMonth = (m) => new Date(year, m, daysInMonth(year, m)) < start
-
-  /* Собираем дату из того, что выбрали в барабанах. Если такой даты нет
-     (31 апреля) или на неё нельзя записаться — берём ближайшую подходящую. */
-  const move = (y, m, d) => {
-    const yy = Math.min(Math.max(y, start.getFullYear()), LAST_YEAR)
-    const wanted = new Date(yy, m, Math.min(d, daysInMonth(yy, m)))
-    const next = wanted < start ? start : firstWorkday(wanted)
-    // каждый раз новый объект: иначе при возврате к той же дате барабан
-    // не перерисуется и останется стоять на недоступном дне
-    setDate(new Date(+next))
-    setPicked(true)
-    // объясняем перескок, иначе выглядит как будто барабан не слушается
-    if (+next === +wanted) setNote('')
-    else if (wanted < start) setNote('этот день уже прошёл')
-    else setNote('воскресенье — выходной')
-  }
-
-  // клик мимо и Escape закрывают барабан
+  // клик мимо и Escape закрывают календарь
   useEffect(() => {
     if (!open) return
     const onDown = (e) => { if (!e.target.closest?.('.datepick')) setOpen(false) }
@@ -88,7 +54,38 @@ export default function DateInput({ name = 'date', required = false, id }) {
     }
   }, [open])
 
-  const isToday = +date === +firstWorkday(today) && date.getDate() === today.getDate()
+  const { year, month } = view
+  const offset = (new Date(year, month, 1).getDay() + 6) % 7   // неделя начинается с понедельника
+  const total = daysInMonth(year, month)
+  const cells = Array.from({ length: 42 }, (_, i) => {
+    const d = i - offset + 1
+    return d >= 1 && d <= total ? d : null
+  })
+  // шестая строка нужна не каждому месяцу — лишнюю не рисуем
+  const rows = cells.slice(35).some(Boolean) ? 6 : 5
+
+  const closed = (d) => {
+    const date = new Date(year, month, d)
+    return date < start || date.getDay() === 0
+  }
+
+  const prevOk = year > start.getFullYear() || month > start.getMonth()
+  const nextOk = year < LAST_YEAR || month < 11
+  const step = (n) => {
+    const m = month + n
+    setView({ year: year + Math.floor(m / 12), month: ((m % 12) + 12) % 12 })
+  }
+
+  const choose = (d) => {
+    setPicked(new Date(year, month, d))
+    setOpen(false)
+  }
+
+  const toStart = () => {
+    setView({ year: start.getFullYear(), month: start.getMonth() })
+    setPicked(new Date(+start))
+    setOpen(false)
+  }
 
   return (
     <div className="datepick">
@@ -107,43 +104,58 @@ export default function DateInput({ name = 'date', required = false, id }) {
 
       {open && (
         <div className="datepick__drop">
-          <div className="datepick__wheels">
-            <span className="datepick__band" aria-hidden="true" />
-            <Wheel
-              loop
-              values={days}
-              value={day}
-              onChange={(d) => move(year, month, d)}
-              isOff={offDay}
-              label="Число"
-              minWidth={86}
-              render={(d) => `${d} ${WEEKDAYS[new Date(year, month, d).getDay()]}`}
-            />
-            <Wheel
-              loop
-              values={months}
-              value={month}
-              /* прокрутили месяцы дальше декабря — год сам переходит на следующий */
-              onChange={(m, cycles) => move(year + cycles, m, day)}
-              isOff={offMonth}
-              label="Месяц"
-              minWidth={112}
-              render={(m) => MONTHS[m]}
-            />
-            <Wheel
-              values={years}
+          <div className="cal__head">
+            <button type="button" className="cal__nav" onClick={() => step(-1)} disabled={!prevOk} aria-label="Предыдущий месяц">
+              <Icon name="arrow" size={18} />
+            </button>
+            <strong className="cal__title">{MONTHS[month]}</strong>
+            <select
+              className="cal__year"
+              aria-label="Год"
               value={year}
-              onChange={(y) => move(y, month, day)}
-              label="Год"
-              minWidth={72}
-            />
+              onChange={(e) => {
+                const y = Number(e.target.value)
+                setView({ year: y, month: y === start.getFullYear() ? Math.max(month, start.getMonth()) : month })
+              }}
+            >
+              {Array.from({ length: LAST_YEAR - start.getFullYear() + 1 }, (_, i) => start.getFullYear() + i)
+                .map((y) => <option key={y} value={y}>{y}</option>)}
+            </select>
+            <button type="button" className="cal__nav cal__nav--next" onClick={() => step(1)} disabled={!nextOk} aria-label="Следующий месяц">
+              <Icon name="arrow" size={18} />
+            </button>
           </div>
+
+          <div className="cal__week">
+            {WEEK.map((d) => <span key={d}>{d}</span>)}
+          </div>
+
+          <div className="cal__grid">
+            {cells.slice(0, rows * 7).map((d, i) => (
+              d === null
+                ? <span key={i} className="cal__day cal__day--empty" />
+                : (
+                  <button
+                    type="button"
+                    key={i}
+                    className={`cal__day ${closed(d) ? 'is-off' : ''} ${same(picked, new Date(year, month, d)) ? 'is-active' : ''} ${same(start, new Date(year, month, d)) ? 'is-start' : ''}`}
+                    disabled={closed(d)}
+                    onClick={() => choose(d)}
+                  >
+                    {d}
+                  </button>
+                )
+            ))}
+          </div>
+
           <div className="datepick__foot">
-            <span className={note ? 'datepick__note' : ''}>
-              {note || (isToday ? 'сегодня' : `${WEEKDAYS[date.getDay()]}, ${day} ${MONTHS_OF[month]}`)}
+            <span>
+              {picked
+                ? `${picked.getDate()} ${MONTHS_OF[picked.getMonth()]} ${picked.getFullYear()}`
+                : 'вс — выходной'}
             </span>
-            <button type="button" className="btn btn-primary btn-sm" onClick={() => { setPicked(true); setOpen(false) }}>
-              Готово
+            <button type="button" className="btn btn-ghost btn-sm" onClick={toStart}>
+              Ближайший день
             </button>
           </div>
         </div>

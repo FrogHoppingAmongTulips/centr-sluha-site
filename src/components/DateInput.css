@@ -1,4 +1,4 @@
-/* Выбор даты барабаном — оболочка вокруг общих барабанов */
+/* Выбор даты календарём: поле, выпадающая таблица месяца */
 
 .datepick { position: relative; }
 
@@ -14,26 +14,70 @@
 .datepick__placeholder { color: #9aa3b5; }
 
 .datepick__drop {
-  position: absolute; z-index: 30; left: 0; right: auto; top: calc(100% + 8px);
-  min-width: max(100%, 288px);
+  position: absolute; z-index: 30; left: 0; top: calc(100% + 8px);
+  width: max(100%, 306px);
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
-  box-shadow: var(--shadow); padding: 12px 12px 10px;
+  box-shadow: var(--shadow); padding: 14px 16px 12px;
   animation: datepick-in 0.18s var(--ease);
 }
 @keyframes datepick-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
-/* Барабаны даты: подсвеченная полоса по центру, как в мобильных выборках */
-.datepick__wheels { position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.datepick__band {
-  position: absolute; left: 6px; right: 6px; top: 50%; height: 42px; transform: translateY(-50%);
-  background: var(--teal-50); border-radius: 10px; pointer-events: none;
+/* Шапка: месяц, год и стрелки */
+.cal__head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.cal__title { font-size: 1.02rem; font-weight: 800; text-transform: capitalize; }
+/* год списком, но выглядит как часть заголовка, а не как поле формы
+   (перебиваем общие стили полей в форме заявки) */
+.datepick .cal__year {
+  appearance: none; -webkit-appearance: none;
+  font-family: inherit; font-size: 1.02rem; font-weight: 800; color: var(--ink);
+  border: none; background: none; box-shadow: none; min-height: 0;
+  padding: 2px 18px 2px 4px; border-radius: 8px; cursor: pointer; width: auto;
+  font-variant-numeric: tabular-nums;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+                    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: right 7px center, right 2px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
+.datepick .cal__year:hover { background-color: var(--sand); }
+.datepick .cal__year:focus { outline: none; background-color: var(--teal-50); }
+.datepick .cal__year:focus-visible { outline: 3px solid var(--teal-600); }
+.cal__nav {
+  width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 10px; color: var(--teal-700); transition: background 0.2s, color 0.2s;
+}
+.cal__nav:hover:not(:disabled) { background: var(--teal-50); }
+.cal__nav:disabled { color: #cbd4e2; cursor: default; }
+.cal__nav svg { transform: rotate(180deg); }        /* стрелка влево */
+.cal__nav--next { margin-left: auto; }
+.cal__nav--next svg { transform: none; }
 
-.datepick__note { color: var(--coral); }
-.datepick__foot {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line);
-  color: var(--muted); font-size: 0.8rem; white-space: nowrap;
+/* Дни недели и сетка месяца */
+.cal__week, .cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal__week {
+  margin-bottom: 4px; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); text-align: center;
 }
+.cal__day {
+  height: 38px; display: grid; place-items: center; border-radius: 10px;
+  font-family: inherit; font-size: 0.98rem; font-weight: 600; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: background 0.15s, color 0.15s;
+}
+.cal__day:hover:not(:disabled) { background: var(--teal-50); color: var(--teal-700); }
+.cal__day--empty { pointer-events: none; }
+/* день, на который записаться нельзя: прошедший или выходной */
+.cal__day.is-off { color: #c3ccdb; cursor: default; }
+.cal__day.is-off:hover { background: none; color: #c3ccdb; }
+/* ближайший рабочий день — обведён, выбранный — залит */
+.cal__day.is-start { box-shadow: inset 0 0 0 1.5px var(--teal-600); }
+.cal__day.is-active, .cal__day.is-active:hover { background: var(--teal-700); color: #fff; }
+
+.datepick__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; white-space: nowrap;
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.8rem;
+}
+.datepick__foot .btn { padding: 8px 14px; font-size: 0.84rem; }
 
 @media (prefers-reduced-motion: reduce) { .datepick__drop { animation: none; } }

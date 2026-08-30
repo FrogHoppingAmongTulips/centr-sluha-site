@@ -128,53 +128,48 @@ test.describe('Формы', () => {
     await expect(page.locator('.rform__preview')).toContainText('Пётр')
   })
 
-  test('дата крутится по кругу, но назад и на выходной не встаёт', async ({ page }) => {
+  test('дата выбирается календарём: назад нельзя, воскресенья закрыты', async ({ page }) => {
     await page.goto('/contacts')
     await page.locator('.datepick__field').click()
     await expect(page.locator('.datepick__drop')).toBeVisible()
 
-    const wheels = page.locator('.datepick__wheels .wheel')
-    const [days, months, years] = [wheels.nth(0), wheels.nth(1), wheels.nth(2)]
-    const now = new Date()
+    // в текущем месяце стрелка назад не работает: прошедших дней в записи нет
+    await expect(page.locator('.cal__nav').first()).toBeDisabled()
+    // прошедшие дни закрыты
+    expect(await page.locator('.cal__day.is-off').count()).toBeGreaterThan(0)
 
-    // числа и месяцы идут по кругу: список длиннее одного месяца и одного года
-    expect(await days.locator('.wheel__item').count()).toBeGreaterThan(31)
-    expect(await months.locator('.wheel__item').count()).toBeGreaterThan(12)
+    // следующий месяц: все воскресенья закрыты, будни открыты
+    await page.locator('.cal__nav--next').click()
+    const closed = await page.locator('.cal__grid').evaluate((grid) => {
+      const cells = [...grid.children].filter((c) => c.textContent.trim())
+      return cells.map((c) => ({ day: Number(c.textContent), off: c.classList.contains('is-off') }))
+    })
+    const monday = closed.find((c) => !c.off)
+    expect(monday).toBeTruthy()
 
-    // годы — обычный список от нынешнего до 2100-го
-    expect(Number(await years.locator('.wheel__item').first().textContent())).toBe(now.getFullYear())
-    expect(Number(await years.locator('.wheel__item').last().textContent())).toBe(2100)
-
-    // прошедшие дни и воскресенья показаны бледным
-    expect(await days.locator('.wheel__item.is-off').count()).toBeGreaterThan(0)
-
-    // крутим числа вперёд через край месяца — круг замыкается, дата остаётся рабочей
-    const field = page.locator('input[name="date"]')
-    for (let i = 0; i < 4; i++) {
-      await days.evaluate((el) => { el.scrollTop += 42 * 10 })
-      await page.waitForTimeout(220)
-      const [d, m, y] = (await field.inputValue()).split('.').map(Number)
-      const picked = new Date(y, m - 1, d)
-      expect(picked.getDay(), 'воскресенье выбрать нельзя').not.toBe(0)
-      expect(picked >= new Date(now.getFullYear(), now.getMonth(), now.getDate()), 'дата не в прошлом').toBe(true)
-    }
-
-    // отматываем месяцы назад — в прошлое не проваливаемся
-    await months.evaluate((el) => { el.scrollTop -= 42 * 6 })
-    await page.waitForTimeout(300)
-    const [d2, m2, y2] = (await field.inputValue()).split('.').map(Number)
-    expect(new Date(y2, m2 - 1, d2) >= new Date(now.getFullYear(), now.getMonth(), now.getDate())).toBe(true)
-
-    // нажатие по строке доводит барабан до неё и подсвечивает ровно одну строку
-    await days.locator('.wheel__item').nth(60).click()
-    await page.waitForTimeout(700)
-    expect(await days.locator('.wheel__item.is-active').count()).toBe(1)
-    const shown = (await days.locator('.wheel__item.is-active').textContent()).split(' ')[0]
-    expect(Number((await field.inputValue()).slice(0, 2))).toBe(Number(shown))
-
-    await page.locator('.datepick__foot .btn').click()
+    // выбираем день — он попадает в поле, календарь закрывается
+    await page.locator('.cal__day:not(.is-off)').nth(3).click()
     await expect(page.locator('.datepick__drop')).toHaveCount(0)
-    expect(await field.inputValue()).toMatch(/^\d{2}\.\d{2}\.\d{4}$/)
+    const value = await page.locator('input[name="date"]').inputValue()
+    expect(value).toMatch(/^\d{2}\.\d{2}\.\d{4}$/)
+    const [d, m, y] = value.split('.').map(Number)
+    const picked = new Date(y, m - 1, d)
+    const now = new Date()
+    expect(picked.getDay(), 'воскресенье выбрать нельзя').not.toBe(0)
+    expect(picked >= new Date(now.getFullYear(), now.getMonth(), now.getDate())).toBe(true)
+
+    // год выбирается списком до 2100-го, дальше не листается
+    await page.locator('.datepick__field').click()
+    const years = await page.locator('.cal__year option').allTextContents()
+    expect(Number(years[0])).toBe(now.getFullYear())
+    expect(Number(years.at(-1))).toBe(2100)
+    await page.locator('.cal__year').selectOption('2100')
+    for (let i = 0; i < 12; i++) {
+      if (await page.locator('.cal__nav--next').isDisabled()) break
+      await page.locator('.cal__nav--next').click()
+    }
+    await expect(page.locator('.cal__nav--next')).toBeDisabled()
+    await expect(page.locator('.cal__title')).toHaveText('декабрь')
   })
 
   test('время выбирается барабаном', async ({ page }) => {
