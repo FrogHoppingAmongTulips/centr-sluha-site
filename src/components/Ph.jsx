@@ -13,7 +13,7 @@ export default function Ph({ ratio = '4 / 3', h, className = '', style, onDark =
 
   if (src && !failed) {
     return (
-      <div className={`ph ph--img ${className}`} style={box}>
+      <div className={`ph ph--img ${fit === 'cover' ? 'ph--cover' : ''} ${className}`} style={box}>
         <img src={withBase(src)} alt={alt} loading="lazy" style={{ objectFit: fit }} onError={() => setFailed(true)} />
       </div>
     )

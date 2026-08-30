@@ -43,7 +43,8 @@ export const SLIDES = [
     text2: 'Точную модель подбирает сурдолог после теста слуха: смотрим на степень снижения слуха, образ жизни и бюджет.',
     note: 'от 7 890 ₽',
     cta: 'Смотреть каталог',
-    cover: '/photo/ear.webp',
+    cover: '/img/Signia-Motion-2px.webp',
+    fit: 'contain',   // снимок аппарата показываем целиком, а не куском
   },
   {
     eyebrow: 'Выезд на дом',
@@ -738,7 +739,7 @@ export const NEWS = [
   },
   {
     slug: 'uhod-za-apparatom',
-    cover: '/photo/workshop.webp',
+    cover: '/photo/reception.webp',
     type: 'article',
     tag: 'Уход',
     date: '9 июля 2026',

@@ -167,8 +167,13 @@ h3 { font-size: 1.25rem; }
   display: block; width: 100%; background: #000;
   border-radius: var(--radius-sm); overflow: hidden;
 }
-.ph--img { background: #fff; display: grid; place-items: center; padding: 8px; }
+/* обычный блок, а не grid: так снимок честно занимает всю высоту плитки
+   и вписывается в неё целиком, а не обрезается */
+.ph--img { background: #fff; display: block; padding: 8px; }
 .ph--img img { width: 100%; height: 100%; object-fit: contain; }
+/* снимок на всю плитку: без белой рамки и с такими же скруглениями, как у плитки */
+.ph--cover { padding: 0; }
+.ph--cover img { border-radius: inherit; }
 .ph--on-dark { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25); }
 .ph--flat { border-radius: 0; }
 
