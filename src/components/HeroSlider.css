@@ -5,7 +5,7 @@
 .hslider__box {
   position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center;
   gap: clamp(24px, 4vw, 56px);
-  background: #17417f;
+  background: var(--teal-900);
   border-radius: 24px; padding: clamp(28px, 4vw, 56px); color: #fff; overflow: hidden;
   /* высота задана жёстко: иначе слайды с разной длиной текста дёргают страницу */
   height: clamp(340px, 32vw, 440px);
@@ -51,10 +51,10 @@
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
 .tile {
   display: flex; align-items: center; gap: 12px;
-  background: var(--teal-50); border: 1px solid #d9e5fa; border-radius: var(--radius-sm);
+  background: var(--teal-50); border: 1px solid var(--line); border-radius: var(--radius-sm);
   padding: 18px 20px; font-weight: 700; transition: background 0.25s, transform 0.25s var(--ease);
 }
-.tile:hover { background: #e0ebfd; transform: translateY(-2px); }
+.tile:hover { background: var(--teal-50); transform: translateY(-2px); }
 .tile__ic { width: 40px; height: 40px; border-radius: 11px; background: #fff; color: var(--teal-700); display: grid; place-items: center; flex-shrink: 0; }
 .tile__label { flex-grow: 1; font-size: 0.98rem; }
 .tile svg:last-child { color: var(--teal-700); flex-shrink: 0; }
