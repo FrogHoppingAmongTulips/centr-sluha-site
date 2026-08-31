@@ -1,0 +1,61 @@
+name: Публикация сайта
+
+# Сайт публикуется сам после каждой отправки изменений в main:
+# GitHub собирает проект и выкладывает результат. Отдельный репозиторий
+# с готовыми файлами больше не нужен.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# одновременно идёт только одна публикация, лишние ожидают
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # страницы раскладываются заранее через настоящий браузер
+      - name: Установить браузер
+        run: npx playwright install --with-deps chromium
+
+      - name: Сборка
+        run: npm run build
+        env:
+          # сайт живёт в подпапке с именем репозитория
+          BASE_PATH: /${{ github.event.repository.name }}/
+          # панель работает в локальной сети — опубликованная версия
+          # показывает содержимое, зашитое в сайт
+          VITE_PANEL_URL: ''
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - id: pages
+        uses: actions/deploy-pages@v4
