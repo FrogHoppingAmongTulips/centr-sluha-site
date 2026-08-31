@@ -1,32 +1,33 @@
+/* Фирменные цвета центра: синий 697fec, голубой 9cb7ec, оранжевый fe862f,
+   светло-серый f4f4f4. Тёмных тонов в палитре нет — крупные плашки (шапка,
+   слайдер, подвал) залиты фирменным синим. */
 :root {
-  /* Палитра по макету клиента: индиго и оранжевый на светло-сером.
-     Меняются только эти значения — весь сайт красится из них. */
-  --teal-900: #1b1f4d;  /* глубокий индиго: подвал, верхняя полоса, заголовки */
-  --teal-700: #4f5fd8;  /* основной: кнопки и ссылки (чуть темнее макета — чтобы текст читался) */
-  --teal-600: #6b7aec;  /* светлее, для наведения */
-  --teal-300: #4f5fd8;
-  --teal-50:  #eef0fd;  /* очень светлая подложка */
-  --sand:     #f3f3f6;  /* нейтральный светло-серый фон секций */
-  --ink:      #1b1f4d;  /* основной текст */
-  --muted:    #575c7e;  /* вторичный текст */
-  --line:     #e3e5f0;
+  --teal-900: #4f64da;  /* синий потемнее: текст и ссылки на белом */
+  --teal-700: #697fec;  /* фирменный синий: кнопки и заливки */
+  --teal-600: #7b8ef0;  /* светлее, для наведения */
+  --teal-300: #9cb7ec;
+  --teal-50:  #eaf0fd;  /* очень светлая подложка */
+  --sand:     #f4f4f4;  /* светло-серый фон секций */
+  --ink:      #1f2430;  /* основной текст */
+  --muted:    #5c6270;  /* вторичный текст */
+  --line:     #e4e6ee;
   --white:    #ffffff;
-  --gold:     #4f5fd8;
-  --gold-50:  #eef0fd;
-  --coral:      #f5822b;  /* оранжевый акцент: плашки скидок */
-  --coral-ink:  #b35408;  /* тот же акцент для текста: на белом читается */
-  --coral-50:   #fdefe1;
-  --sky:      #a8b4f5;  /* акцент на тёмном фоне */
+  --gold:     #697fec;
+  --gold-50:  #eaf0fd;
+  --coral:      #fe862f;  /* фирменный оранжевый: акции и скидки */
+  --coral-ink:  #b35408;  /* тот же оранжевый для текста: на белом читается */
+  --coral-50:   #fff0e2;
+  --sky:      #9cb7ec;  /* фирменный голубой: акцент на синем фоне */
 
   /* Содержимое стоит по центру страницы, как было изначально */
   --maxw: 1280px;
   --gutter: clamp(20px, 3vw, 64px); /* боковые поля: одно значение на весь сайт */
   --radius: 20px;
   --radius-sm: 14px;
-  --shadow: 0 18px 50px -24px rgba(27, 31, 77, 0.32);
-  --shadow-sm: 0 8px 24px -16px rgba(27, 31, 77, 0.4);
-  --font-sans: 'Golos Text', system-ui, -apple-system, sans-serif;
-  --font-display: 'Golos Text', system-ui, sans-serif; /* заголовки тем же шрифтом */
+  --shadow: 0 18px 50px -24px rgba(31, 36, 48, 0.28);
+  --shadow-sm: 0 8px 24px -16px rgba(31, 36, 48, 0.34);
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-display: 'Montserrat', system-ui, sans-serif; /* заголовки тем же шрифтом */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -88,7 +89,7 @@ h3 { font-size: 1.25rem; }
 
 .section { padding: clamp(40px, 5.5vw, 72px) 0; }
 .section--sand { background: var(--sand); }
-.section--dark { background: var(--teal-900); color: #fff; }
+.section--dark { background: var(--teal-700); color: #fff; }
 .section--tight { padding-top: 0; }
 
 .eyebrow {
@@ -96,7 +97,7 @@ h3 { font-size: 1.25rem; }
   font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--muted);
 }
-.eyebrow--light { color: var(--sky); }
+.eyebrow--light { color: #fff; }   /* на фирменном синем читается только белый */
 
 .lead { color: var(--muted); font-size: 1.18rem; line-height: 1.7; max-width: 56ch; }
 

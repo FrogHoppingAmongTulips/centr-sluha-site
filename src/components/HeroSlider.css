@@ -5,7 +5,7 @@
 .hslider__box {
   position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center;
   gap: clamp(24px, 4vw, 56px);
-  background: var(--teal-900);
+  background: var(--teal-700);
   border-radius: 24px; padding: clamp(28px, 4vw, 56px); color: #fff; overflow: hidden;
   /* высота задана жёстко: иначе слайды с разной длиной текста дёргают страницу */
   height: clamp(340px, 32vw, 440px);

@@ -385,7 +385,7 @@ test.describe('Скорость и выдача', () => {
     expect(outside).toEqual([])
     // шрифт приезжает со своего сервера
     const fonts = await page.evaluate(() =>
-      performance.getEntriesByType('resource').filter((r) => r.name.includes('golos')).map((r) => r.name))
+      performance.getEntriesByType('resource').filter((r) => r.name.includes('montserrat')).map((r) => r.name))
     expect(fonts.length).toBeGreaterThan(0)
     expect(fonts.every((u) => u.includes('localhost'))).toBe(true)
   })
