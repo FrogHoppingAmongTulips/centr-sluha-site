@@ -59,7 +59,9 @@ test.describe('Главная', () => {
     // без плавной прокрутки: проверяем результат, а не длительность анимации
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/about')
-    await page.evaluate(() => window.scrollTo(0, 4000))
+    // прокручиваем к концу страницы: на медленной машине она может быть короче 4000 px
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+    await expect.poll(() => page.evaluate(() => Math.round(window.scrollY))).toBeGreaterThan(600)
     const up = page.locator('.sticky-actions__up')
     await expect(up).toBeVisible()
     await up.click()
